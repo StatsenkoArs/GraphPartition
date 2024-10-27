@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35327.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphPartitionAlgorithm", "GraphPartitionAlgorithm\GraphPartitionAlgorithm.csproj", "{D2372B93-B624-45E8-AE92-676F8A9D5287}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphPartitionAccurate", "GraphPartitionAccurate\GraphPartitionAccurate.csproj", "{907C25E1-19C7-4176-9ADC-69D43616AD11}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphOptimisation", "GraphOptimisation\GraphOptimisation.csproj", "{A7D1C3FE-7F66-4634-96F1-155511E6BE9C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphReduction", "GraphReduction\GraphReduction.csproj", "{B02548C0-B51F-4306-8870-6E10FEB91DFA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestsForAlgorithm", "TestsForAlgorithm\TestsForAlgorithm.csproj", "{0AFB1BB1-08EC-4A6E-B2AC-3680F91FBF43}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleGenerator", "ExampleGenerator\ExampleGenerator.csproj", "{485F1F7F-81FF-46DE-9025-B91BB32C7C54}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D2372B93-B624-45E8-AE92-676F8A9D5287}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2372B93-B624-45E8-AE92-676F8A9D5287}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2372B93-B624-45E8-AE92-676F8A9D5287}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2372B93-B624-45E8-AE92-676F8A9D5287}.Release|Any CPU.Build.0 = Release|Any CPU
+		{907C25E1-19C7-4176-9ADC-69D43616AD11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{907C25E1-19C7-4176-9ADC-69D43616AD11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{907C25E1-19C7-4176-9ADC-69D43616AD11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{907C25E1-19C7-4176-9ADC-69D43616AD11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7D1C3FE-7F66-4634-96F1-155511E6BE9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7D1C3FE-7F66-4634-96F1-155511E6BE9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7D1C3FE-7F66-4634-96F1-155511E6BE9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7D1C3FE-7F66-4634-96F1-155511E6BE9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B02548C0-B51F-4306-8870-6E10FEB91DFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B02548C0-B51F-4306-8870-6E10FEB91DFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B02548C0-B51F-4306-8870-6E10FEB91DFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B02548C0-B51F-4306-8870-6E10FEB91DFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0AFB1BB1-08EC-4A6E-B2AC-3680F91FBF43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AFB1BB1-08EC-4A6E-B2AC-3680F91FBF43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AFB1BB1-08EC-4A6E-B2AC-3680F91FBF43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AFB1BB1-08EC-4A6E-B2AC-3680F91FBF43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{485F1F7F-81FF-46DE-9025-B91BB32C7C54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{485F1F7F-81FF-46DE-9025-B91BB32C7C54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{485F1F7F-81FF-46DE-9025-B91BB32C7C54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{485F1F7F-81FF-46DE-9025-B91BB32C7C54}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2A21D728-55FC-4046-9A06-5A28C4CE01A8}
+	EndGlobalSection
+EndGlobal
