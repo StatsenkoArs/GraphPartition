@@ -14,8 +14,7 @@
             _edges = edges; // подмассивы ДОЛЖНЫ БЫТЬ ОТСОТИРОВАНЫ по возрастанию
             _allEdges = AllEdges;
             _x = new int[_n];
-            for (int i = 0; i < _n / 2; i++) _x[i] = 1;
-            _q = CalculateQ(_x);
+            _q = _allEdges;
             this.FindSolution(new int[_n], _n, 0, 0, 0, 0, _allEdges);
         }
 
@@ -24,6 +23,7 @@
             return Tuple.Create(_x, _q);
         }
 
+        // complexity O(n)
         private int AllEdges
         {
             get
@@ -37,19 +37,7 @@
             }
         }
 
-        private int CalculateQ(int[] x)
-        {
-            int q = 0;
-            for (int i = 0; i < _n; i++)
-            {
-                for (int j = 0; j < _edges[i].Length; j++)
-                {
-                    q += x[i] * (1 - x[_edges[i][j]]);
-                }
-            }
-            return q;
-        }
-
+        // complexity O(m) (m - max edges of vertex in graph)
         private int EdgesChange(int[] x, int step)
         {
             int koef = x[step] == 0 ? 1 : 0;
