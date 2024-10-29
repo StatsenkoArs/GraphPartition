@@ -6,10 +6,12 @@
         private int _n;
         private int _edges;
         private int _q;
+        private int _dif;
         private Random _random;
 
-        public Generator(int n, int edges, int q)
+        public Generator(int n, int edges, int q, int dif = 0)
         {
+            if (edges > Enumerable.Range(0, n / 2 - dif).Sum() / 2)
             _n = n;
             _edges = edges;
             _q = q;
@@ -23,9 +25,8 @@
 
         public int[][] Generate()
         {
-            int dif = _random.Next(-_n / 20, _n / 20);
-            int edgesInLeft = Convert.ToInt32(Math.Ceiling((_edges - _q) / 2.0)) - dif;
-            int edgesInRight = Convert.ToInt32(Math.Floor((_edges - _q) / 2.0)) + dif;
+            int edgesInLeft = Convert.ToInt32(Math.Ceiling((_edges - _q) / 2.0)) - _dif;
+            int edgesInRight = Convert.ToInt32(Math.Floor((_edges - _q) / 2.0)) + _dif;
             
             List<int> leftNumbers = new List<int>();
             List<int> rightNumbers = new List<int>();
@@ -38,41 +39,50 @@
             }
             foreach (int num in numbers) rightNumbers.Add(num);
 
-            GenerateForVertexes(leftNumbers, edgesInLeft, _graph);
-            GenerateForVertexes(rightNumbers, edgesInRight, _graph);
+            GenerateForVertexes(leftNumbers, edgesInLeft, ref _graph);
+            GenerateForVertexes(rightNumbers, edgesInRight, ref _graph);
 
-            SortAnswer(_graph);
+            for (int i = 0; i < _q; i++)
+            {
+                AddEdge(leftNumbers, rightNumbers, ref _graph);
+            }
+
+            SortAnswer(ref _graph);
 
             return ParseArrayOfLists(_graph);
         }
 
-        private List<int>[] GenerateForVertexes(List<int> numVertexes, int quantity, List<int>[] graph)
+        private void AddEdge(List<int> leftVertexNums, List<int> rightVertexNums, ref List<int>[] graph)
+        {
+            Random rand = new Random();
+            bool hasGenerated = false;
+            while (!hasGenerated)
+            {
+                int leftVertex = leftVertexNums[rand.Next(0, leftVertexNums.Count)];
+                int rightVertex = rightVertexNums[rand.Next(0, rightVertexNums.Count)];
+                if (leftVertex != rightVertex && !graph[leftVertex].Contains(rightVertex))
+                {
+                    graph[leftVertex].Add(rightVertex);
+                    graph[rightVertex].Add(leftVertex);
+                    hasGenerated = true;
+                }
+            }
+        }
+
+        private void GenerateForVertexes(List<int> numVertexes, int quantity, ref List<int>[] graph)
         {
             for (int i = 0; i < quantity; i++)
             {
-                bool hasGenerated = false;
-                while (!hasGenerated)
-                {
-                    int left = numVertexes[_random.Next(0, numVertexes.Count)];
-                    int right = numVertexes[_random.Next(0, numVertexes.Count)];
-                    if (left != right && !graph[left].Contains(right))
-                    {
-                        graph[left].Add(right);
-                        graph[right].Add(left);
-                        hasGenerated = true;
-                    }
-                }
+                AddEdge(numVertexes, numVertexes, ref graph);
             }
-            return graph;
         }
 
-        private List<int>[] SortAnswer(List<int>[] array)
+        private void SortAnswer(ref List<int>[] array)
         {
             for(int i = 0; i < array.Length; i++)
             {
                 array[i].Sort();
             }
-            return array;
         }
 
         private int[][] ParseArrayOfLists(List<int>[] list)
