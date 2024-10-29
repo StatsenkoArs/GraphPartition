@@ -39,27 +39,26 @@
             }
             foreach (int num in numbers) rightNumbers.Add(num);
 
-            GenerateForVertexes(leftNumbers, edgesInLeft, ref _graph);
-            GenerateForVertexes(rightNumbers, edgesInRight, ref _graph);
+            GenerateForVertexes(leftNumbers, edgesInLeft, _graph);
+            GenerateForVertexes(rightNumbers, edgesInRight, _graph);
 
             for (int i = 0; i < _q; i++)
             {
-                AddEdge(leftNumbers, rightNumbers, ref _graph);
+                AddEdge(leftNumbers, rightNumbers, _graph);
             }
 
-            SortAnswer(ref _graph);
+            SortAnswer(_graph);
 
             return ParseArrayOfLists(_graph);
         }
 
-        private void AddEdge(List<int> leftVertexNums, List<int> rightVertexNums, ref List<int>[] graph)
+        private void AddEdge(List<int> leftVertexNums, List<int> rightVertexNums, List<int>[] graph)
         {
-            Random rand = new Random();
             bool hasGenerated = false;
             while (!hasGenerated)
             {
-                int leftVertex = leftVertexNums[rand.Next(0, leftVertexNums.Count)];
-                int rightVertex = rightVertexNums[rand.Next(0, rightVertexNums.Count)];
+                int leftVertex = leftVertexNums[_random.Next(0, leftVertexNums.Count)];
+                int rightVertex = rightVertexNums[_random.Next(0, rightVertexNums.Count)];
                 if (leftVertex != rightVertex && !graph[leftVertex].Contains(rightVertex))
                 {
                     graph[leftVertex].Add(rightVertex);
@@ -69,7 +68,7 @@
             }
         }
 
-        private void GenerateForVertexes(List<int> numVertexes, int quantity, ref List<int>[] graph)
+        private void GenerateForVertexes(List<int> numVertexes, int quantity, List<int>[] graph)
         {
             for (int i = 0; i < quantity; i++)
             {
@@ -77,7 +76,7 @@
             }
         }
 
-        private void SortAnswer(ref List<int>[] array)
+        private void SortAnswer(List<int>[] array)
         {
             for(int i = 0; i < array.Length; i++)
             {
