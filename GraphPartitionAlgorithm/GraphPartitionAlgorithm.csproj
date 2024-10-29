@@ -8,9 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ExampleGenerator\ExampleGenerator.csproj" />
     <ProjectReference Include="..\GraphOptimisation\GraphOptimisation.csproj" />
     <ProjectReference Include="..\GraphPartitionAccurate\GraphPartitionAccurate.csproj" />
     <ProjectReference Include="..\GraphReduction\GraphReduction.csproj" />
+    <ProjectReference Include="..\TestsForAlgorithm\TestsForAlgorithm.csproj" />
   </ItemGroup>
 
 </Project>
