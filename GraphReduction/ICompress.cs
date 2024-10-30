@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GraphReduction
 {
-    internal interface ICompress   //Создаёт сжимающее отображение
+    public interface ICompress   //Создаёт сжимающее отображение
     {
         public void Compress(in List<int>[] graph);
         public int[] GetCipher();

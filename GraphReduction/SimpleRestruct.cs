@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GraphReduction
 {
-    internal class SimpleRestruct : IRestruct
+    public class SimpleRestruct : IRestruct
     {
         private List<int>[] new_graph;
 
@@ -14,7 +14,7 @@ namespace GraphReduction
         {
             new_graph = Array.Empty<List<int>>();
         }
-        public List<int>[] GetNewGraph()
+        public List<int>[] GetGraph()
         {
             if (new_graph.Length != 0) return new_graph;
             else throw new Exception("GraphIsEmptyException");

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GraphReduction
 {
-    internal class GraphReductAlg      //Основной класс
+    public class GraphReductAlg      //Основной класс
     {
         private List<int[]> decoder;
         private ICompress compress;
@@ -16,7 +16,7 @@ namespace GraphReduction
             this.compress = comp;
             this.restruct = restruct;
         }
-        public void Reduct(ref List<int>[] graph, int n)
+        public void Reduct(ref List<int>[] graph, int n)   //Добавить что-то вместо 
         {
             //decoder = new int[n][];
             decoder = new List<int[]>();
@@ -30,7 +30,7 @@ namespace GraphReduction
                 decoder.Add(local_cipher);
                 group = compress.GetNumOfGroup();
                 restruct.Restruct(ref graph, in local_cipher, group);
-                graph = restruct.GetNewGraph();
+                graph = restruct.GetGraph();
                 k++;
             }
         }

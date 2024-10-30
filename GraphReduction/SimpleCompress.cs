@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GraphReduction
 {
-    internal class SimpleCompress : ICompress
+    public class SimpleCompress : ICompress
     {
         private int[] vertex_mapping;
         private bool[] graph_vertex_used;  //Убрать? Учитывать это по заполненности шифра?
