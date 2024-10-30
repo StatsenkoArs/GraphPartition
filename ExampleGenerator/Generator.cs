@@ -39,12 +39,12 @@
             }
             foreach (int num in numbers) rightNumbers.Add(num);
 
-            GenerateForVertexes(leftNumbers, edgesInLeft, _graph);
-            GenerateForVertexes(rightNumbers, edgesInRight, _graph);
+            GenerateForVertexes(leftNumbers, edgesInLeft);
+            GenerateForVertexes(rightNumbers, edgesInRight);
 
             for (int i = 0; i < _q; i++)
             {
-                AddEdge(leftNumbers, rightNumbers, _graph);
+                AddEdge(leftNumbers, rightNumbers);
             }
 
             SortAnswer(_graph);
@@ -52,27 +52,27 @@
             return ParseArrayOfLists(_graph);
         }
 
-        private void AddEdge(List<int> leftVertexNums, List<int> rightVertexNums, List<int>[] graph)
+        private void AddEdge(List<int> leftVertexNums, List<int> rightVertexNums)
         {
             bool hasGenerated = false;
             while (!hasGenerated)
             {
                 int leftVertex = leftVertexNums[_random.Next(0, leftVertexNums.Count)];
                 int rightVertex = rightVertexNums[_random.Next(0, rightVertexNums.Count)];
-                if (leftVertex != rightVertex && !graph[leftVertex].Contains(rightVertex))
+                if (leftVertex != rightVertex && !_graph[leftVertex].Contains(rightVertex))
                 {
-                    graph[leftVertex].Add(rightVertex);
-                    graph[rightVertex].Add(leftVertex);
+                    _graph[leftVertex].Add(rightVertex);
+                    _graph[rightVertex].Add(leftVertex);
                     hasGenerated = true;
                 }
             }
         }
 
-        private void GenerateForVertexes(List<int> numVertexes, int quantity, List<int>[] graph)
+        private void GenerateForVertexes(List<int> numVertexes, int quantity)
         {
             for (int i = 0; i < quantity; i++)
             {
-                AddEdge(numVertexes, numVertexes, ref graph);
+                AddEdge(numVertexes, numVertexes);
             }
         }
 
