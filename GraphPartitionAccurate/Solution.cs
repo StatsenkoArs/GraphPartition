@@ -15,7 +15,12 @@
             _allEdges = AllEdges;
             _x = new int[_n];
             _q = _allEdges;
+        }
+
+        public Tuple<int[], int> Solve()
+        {
             this.FindSolution(new int[_n], _n, 0, 0, 0, 0, _allEdges);
+            return Tuple.Create(_x, _q);
         }
 
         public Tuple<int[], int> GetSolution()
