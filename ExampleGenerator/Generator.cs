@@ -11,7 +11,7 @@
 
         public Generator(int n, int edges, int q, int dif = 0)
         {
-            if (edges > Enumerable.Range(0, n / 2 - dif).Sum() / 2)
+            if (edges > Enumerable.Range(0, n / 2 - dif).Sum() / 2) throw new Exception("Too many edges in graph generation");
             _n = n;
             _edges = edges;
             _q = q;
