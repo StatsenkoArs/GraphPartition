@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace GraphReduction
 {
-    public class GraphReductAlg      //Основной класс
+    /// <summary>
+    /// Основной класс для редукции графа
+    /// </summary>
+    public class GraphReductAlg
     {
         private List<int[]> decoder;
         private ICompress compress;
@@ -15,24 +18,25 @@ namespace GraphReduction
         {
             this.compress = comp;
             this.restruct = restruct;
-        }
-        public void Reduct(ref List<int>[] graph, int n)   //Добавить что-то вместо 
-        {
-            //decoder = new int[n][];
             decoder = new List<int[]>();
-            int[] local_cipher;
-            int k = 0;
-            int group = -1;
-            while (graph.Length > n)
+        }
+        public List<int>[] Reduct(in List<int>[] graph, int n)   //Добавить что-то вместо 
+        {
+            List<int>[] new_graph = new List<int>[graph.Length];
+            graph.CopyTo(new_graph,0);
+            int[] tmp_mapping;
+            int group, k = 0;
+            while (new_graph.Length > n)
             {
-                compress.Compress(graph);
-                local_cipher = compress.GetCipher();
-                decoder.Add(local_cipher);
+                compress.Compress(new_graph);
+                tmp_mapping = compress.GetMapping();
+                decoder.Add(tmp_mapping);
                 group = compress.GetNumOfGroup();
-                restruct.Restruct(ref graph, in local_cipher, group);
-                graph = restruct.GetGraph();
+                restruct.Restruct(new_graph, in tmp_mapping, group);
+                new_graph = restruct.GetGraph();
                 k++;
             }
+            return new_graph;
         }
         public int[] GetSolution(int[] partition)    //Очень страшно и ужасно, но работает, заменить как можно скорее!
                                                      //По распределению на малом графе выстраивает распределение для большого.

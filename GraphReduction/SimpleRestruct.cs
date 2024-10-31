@@ -20,7 +20,7 @@ namespace GraphReduction
             else throw new Exception("GraphIsEmptyException");
         }
 
-        public void Restruct(ref List<int>[] graph, in int[] vertex_mapping, int group)
+        public List<int>[] Restruct(List<int>[] graph, in int[] vertex_mapping, int group)
         {
             new_graph = new List<int>[group];
             for (int i = 0; i < group; i++)
@@ -42,6 +42,7 @@ namespace GraphReduction
                     }
                 }
             }
+            return new_graph;
         }
         private int[,] GetTransitionMatrix(in List<int>[] graph, in int[] vertex_mapping, int group)
         {

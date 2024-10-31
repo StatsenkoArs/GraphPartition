@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 
 namespace GraphReduction
 {
-    public interface ICompress   //Создаёт сжимающее отображение
+    /// <summary>
+    /// Интерфейс для создания сжмающих отображений
+    /// </summary>
+    public interface ICompress
     {
         public void Compress(in List<int>[] graph);
-        public int[] GetCipher();
+        public int[] GetMapping();
         public int GetNumOfGroup();
     }
 }
