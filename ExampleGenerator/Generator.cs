@@ -9,7 +9,15 @@
         { 
             _graph = Array.Empty<List<int>>(); 
         }
-
+        /// <summary>
+        /// метод, генерирующий граф
+        /// </summary>
+        /// <param name="n">число вершин графа</param>
+        /// <param name="edges">число ребер графа</param>
+        /// <param name="q">критерий задачи разбиения</param>
+        /// <param name="dif">разница между числом ребер в правом и левом подграфах</param>
+        /// <returns>сгенерированный граф</returns>
+        /// <exception cref="Exception">число ребер больше чем число возможных ребер для данного графа</exception>
         public int[][] Generate(int n, int edges, int q, int dif = 0)
         {
 
@@ -47,7 +55,9 @@
 
             return ParseArrayOfLists(_graph);
         }
-
+        /// <summary>
+        /// возвращает уже сгенерированный граф
+        /// </summary>
         public int[][] Graph
         {
             get
@@ -55,7 +65,11 @@
                 return ParseArrayOfLists(_graph);
             }
         }
-
+        /// <summary>
+        /// добавление ребра в граф
+        /// </summary>
+        /// <param name="leftVertexNums">номера начала ребра</param>
+        /// <param name="rightVertexNums">номера конца ребра</param>
         private void AddEdge(List<int> leftVertexNums, List<int> rightVertexNums)
         {
             bool hasGenerated = false;
@@ -71,7 +85,11 @@
                 }
             }
         }
-
+        /// <summary>
+        /// добавление ребер для множества номеров вершин
+        /// </summary>
+        /// <param name="numVertexes">номера вершин</param>
+        /// <param name="quantity">количество ребер</param>
         private void GenerateForVertexes(List<int> numVertexes, int quantity)
         {
             for (int i = 0; i < quantity; i++)
@@ -79,7 +97,10 @@
                 AddEdge(numVertexes, numVertexes);
             }
         }
-
+        /// <summary>
+        /// сортирует подмассивы списка смежности
+        /// </summary>
+        /// <param name="array">неотсортированный список смежности</param>
         private void SortAnswer(List<int>[] array)
         {
             for(int i = 0; i < array.Length; i++)
@@ -87,7 +108,11 @@
                 array[i].Sort();
             }
         }
-
+        /// <summary>
+        /// Парсит массив листов в массив массивов
+        /// </summary>
+        /// <param name="list">массив листов</param>
+        /// <returns>массив массивов</returns>
         private int[][] ParseArrayOfLists(List<int>[] list)
         {
             int[][] result = new int[list.Length][];
