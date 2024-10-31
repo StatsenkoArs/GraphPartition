@@ -11,6 +11,7 @@
         public Solution()
         {
         }
+
         /// <summary>
         /// Запускает решение точным алгоритмом
         /// </summary>
@@ -23,7 +24,9 @@
             _n = n;
             _allEdges = AllEdges;
             _q = _allEdges;
+
             this.FindSolution(new int[n], n, 0, 0, 0, 0, _allEdges);
+           
             return Tuple.Create(_x, _q);
         }
         /// <summary>
@@ -34,6 +37,7 @@
         {
             return Tuple.Create(_x, _q);
         }
+
         /// <summary>
         /// Считает общее число ребер в графе
         /// complexity O(n)
@@ -50,6 +54,7 @@
                 return sum / 2;
             }
         }
+
         /// <summary>
         /// Считает изменение внутренней связности графа, при помещенее туда вершины под номером step
         /// complexity O(m) (m - max edges of vertex in graph)
@@ -68,6 +73,7 @@
             }
             return Math.Abs(result);
         }
+
         /// <summary>
         /// Рекурсивный перебор всех возможных бинарных векторов-решений
         /// </summary>
@@ -80,15 +86,6 @@
         /// <param name="edgesLeft">ребра, смежные с нераспределенными вершинами</param>
         private void FindSolution(int[] x, int n, int step, int sum, int edgesFirst, int edgesSecond, int edgesLeft)
         {
-            if (step > n / 2)
-                if (n % 2 == 0)
-                {
-                    if (sum > n / 2 || step - sum > n / 2) return;
-                }
-                else if (sum > n / 2 + 1 || step - sum > n / 2 + 1) return;
-
-            if (_allEdges - edgesFirst - edgesSecond - edgesLeft > _q) return;
-
             if (step == n)
             {
                 if (_allEdges - edgesFirst - edgesSecond < _q)
@@ -98,6 +95,16 @@
                 }
                 return;
             }
+
+            if (step > n / 2)
+                if (n % 2 == 0)
+                {
+                    if (sum > n / 2 || step - sum > n / 2) return;
+                }
+                else if (sum > n / 2 + 1 || step - sum > n / 2 + 1) return;
+
+            if (_allEdges - edgesFirst - edgesSecond - edgesLeft > _q) return;
+            
             x[step] = 0;
             int dif = EdgesChange(x, step);
             this.FindSolution(x, n, step + 1, sum, edgesFirst + dif, edgesSecond, edgesLeft - dif);
