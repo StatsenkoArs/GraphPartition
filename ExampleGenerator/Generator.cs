@@ -1,4 +1,7 @@
-﻿namespace ExampleGenerator
+﻿using System.Text;
+using System.Text.Json;
+
+namespace ExampleGenerator
 {
     public class Generator
     {
@@ -7,8 +10,9 @@
 
         public Generator() 
         { 
-            _graph = Array.Empty<List<int>>(); 
+            _graph = Array.Empty<List<int>>();
         }
+
         /// <summary>
         /// метод, генерирующий граф
         /// </summary>
@@ -55,6 +59,7 @@
 
             return ParseArrayOfLists(_graph);
         }
+
         /// <summary>
         /// возвращает уже сгенерированный граф
         /// </summary>
@@ -65,6 +70,54 @@
                 return ParseArrayOfLists(_graph);
             }
         }
+
+        /// <summary>
+        /// Генерация графа в json и txt
+        /// useful info:
+        /// n * (n - 2) / 16 - нормальная завсисимость чсила ребер от числа вершин
+        /// </summary>
+        /// <param name="numVertexes">число вершин</param>
+        /// <param name="numEdges">число ребер</param>
+        /// <param name="q">критерий</param>
+        /// <param name="numGraphs">число генерируемых графов</param>
+        /// <param name="folderPath">папка для результатов</param>
+        /// <param name="genJson">создавать Json или нет</param>
+        /// <param name="genTxt">создавать Txt или нет</param>
+        public void GenDataBase(int numVertexes, int numEdges, int q, int numGraphs, string folderPath, bool genJson = true, bool genTxt = true) 
+        {
+            if (genJson) System.IO.Directory.CreateDirectory(folderPath + @"\Json");
+            if (genTxt) System.IO.Directory.CreateDirectory(folderPath + @"\Txt");
+            for (int i = 1; i <= numGraphs; i++)
+            {
+                var t = this.Generate(numVertexes, numEdges, q);
+                if (genJson)
+                {
+                    using (FileStream fs = new FileStream(folderPath + @$"\Json\{numVertexes}.{i}.json", FileMode.OpenOrCreate))
+                    {
+                        JsonSerializer.Serialize<int[][]>(fs, t);
+                    }
+                }
+                if (genTxt)
+                {
+                    using (FileStream fs = new FileStream(folderPath + @$"\Txt\{numVertexes}.{i}.txt", FileMode.OpenOrCreate))
+                    {
+                        string txt = "";
+                        for (int j = 0; j < t.Length; j++)
+                        {
+                            txt += j.ToString() + ": ";
+                            for (int u = 0; u < t[j].Length; u++)
+                            {
+                                txt += t[j][u].ToString() + " ";
+                            }
+                            txt += "\n";
+                        }
+                        byte[] buffer = Encoding.Default.GetBytes(txt);
+                        fs.Write(buffer, 0, buffer.Length);
+                    }
+                }
+            }
+        }
+
         /// <summary>
         /// добавление ребра в граф
         /// </summary>
@@ -85,6 +138,7 @@
                 }
             }
         }
+
         /// <summary>
         /// добавление ребер для множества номеров вершин
         /// </summary>
@@ -97,6 +151,7 @@
                 AddEdge(numVertexes, numVertexes);
             }
         }
+
         /// <summary>
         /// сортирует подмассивы списка смежности
         /// </summary>
@@ -108,6 +163,7 @@
                 array[i].Sort();
             }
         }
+
         /// <summary>
         /// Парсит массив листов в массив массивов
         /// </summary>
