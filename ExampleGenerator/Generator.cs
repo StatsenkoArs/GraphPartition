@@ -3,35 +3,31 @@
     public class Generator
     {
         private List<int>[] _graph;
-        private int _n;
-        private int _edges;
-        private int _q;
-        private int _dif;
-        private Random _random;
+        private Random _random = new Random();
 
-        public Generator(int n, int edges, int q, int dif = 0)
+        public Generator() 
+        { 
+            _graph = Array.Empty<List<int>>(); 
+        }
+
+        public int[][] Generate(int n, int edges, int q, int dif = 0)
         {
-            if (edges > Enumerable.Range(0, n / 2 - dif).Sum() / 2) throw new Exception("Too many edges in graph generation");
-            _n = n;
-            _edges = edges;
-            _q = q;
-            _graph = new List<int>[_n];
-            for (int i = 0; i < _n; i++)
+
+            if (edges > Enumerable.Range(1, n / 2 - dif).Sum() / 2) throw new Exception("Too many edges in graph generation");
+
+            _graph = new List<int>[n];
+            for (int i = 0; i < n; i++)
             {
                 _graph[i] = new List<int>();
             }
-            _random = new Random();
-        }
 
-        public int[][] Generate()
-        {
-            int edgesInLeft = Convert.ToInt32(Math.Ceiling((_edges - _q) / 2.0)) - _dif;
-            int edgesInRight = Convert.ToInt32(Math.Floor((_edges - _q) / 2.0)) + _dif;
+            int edgesInLeft = Convert.ToInt32(Math.Ceiling((edges - q) / 2.0)) - dif;
+            int edgesInRight = Convert.ToInt32(Math.Floor((edges - q) / 2.0)) + dif;
             
             List<int> leftNumbers = new List<int>();
             List<int> rightNumbers = new List<int>();
-            List<int> numbers = Enumerable.Range(0, _n).ToList();
-            while (numbers.Count > _n / 2)
+            List<int> numbers = Enumerable.Range(0, n).ToList();
+            while (numbers.Count > n / 2)
             {
                 int toLeft = _random.Next(0, numbers.Count);
                 leftNumbers.Add(numbers[toLeft]);
@@ -42,7 +38,7 @@
             GenerateForVertexes(leftNumbers, edgesInLeft);
             GenerateForVertexes(rightNumbers, edgesInRight);
 
-            for (int i = 0; i < _q; i++)
+            for (int i = 0; i < q; i++)
             {
                 AddEdge(leftNumbers, rightNumbers);
             }
@@ -50,6 +46,14 @@
             SortAnswer(_graph);
 
             return ParseArrayOfLists(_graph);
+        }
+
+        public int[][] Graph
+        {
+            get
+            {
+                return ParseArrayOfLists(_graph);
+            }
         }
 
         private void AddEdge(List<int> leftVertexNums, List<int> rightVertexNums)
