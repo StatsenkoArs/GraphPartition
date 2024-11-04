@@ -24,6 +24,7 @@
             _n = n;
             _allEdges = AllEdges;
             _q = _allEdges;
+            _x = new int[n];
 
             this.FindSolution(new int[n], n, 0, 0, 0, 0, _allEdges);
            
