@@ -14,32 +14,36 @@ namespace GraphReduction
         private List<int[]> decoder;
         private ICompress compress;
         private IRestruct restruct;
+        //private int count_decoder;
         public GraphReductAlg(ICompress comp, IRestruct restruct)
         {
             this.compress = comp;
             this.restruct = restruct;
             decoder = new List<int[]>();
+
         }
-        public List<int>[] Reduct(in List<int>[] graph, int n)   //Добавить что-то вместо 
+        /// <summary>
+        /// Осуществляет один шаг сжатия графа
+        /// </summary>
+        /// <param name="graph">Изначальный граф</param>
+        /// <returns>Новый граф</returns>
+        public List<int>[] Reduct(in List<int>[] graph)
         {
             List<int>[] new_graph = new List<int>[graph.Length];
-            graph.CopyTo(new_graph,0);
             int[] tmp_mapping;
-            int group, k = 0;
-            while (new_graph.Length > n)
-            {
-                compress.Compress(new_graph);
-                tmp_mapping = compress.GetMapping();
-                decoder.Add(tmp_mapping);
-                group = compress.GetNumOfGroup();
-                restruct.Restruct(new_graph, in tmp_mapping, group);
-                new_graph = restruct.GetGraph();
-                k++;
-            }
+            int group;
+            tmp_mapping = compress.Compress(graph);
+            group = compress.GetNumOfGroup();
+            new_graph = restruct.Restruct(graph, in tmp_mapping, group);
+            decoder.Add(tmp_mapping);
             return new_graph;
         }
+        /// <summary>
+        /// По распределению на малом графе выстраивает распределение для большого.
+        /// </summary>
+        /// <param name="partition">Разбиение графа</param>
+        /// <returns>Разбиение для всего большого графа</returns>
         public int[] GetSolution(int[] partition)    //Очень страшно и ужасно, но работает, заменить как можно скорее!
-                                                     //По распределению на малом графе выстраивает распределение для большого.
         {
             int[] tmp = Array.Empty<int>();
             for (int i = decoder.Count() - 1; i >= 0; i--)
@@ -57,6 +61,29 @@ namespace GraphReduction
                 }
                 partition = tmp;
             }
+            return tmp;
+        }
+        /// <summary>
+        /// Один шаг экстраполяции разбиения графа
+        /// </summary>
+        /// <param name="partition">Разбиение графа нужной размерности</param>
+        /// <returns>Соедующее разбиение графа</returns>
+        public int[] UnmappingStep(int[] partition)
+        {
+            int[] tmp = Array.Empty<int>();
+            int count = decoder.Count() - 1;
+            tmp = new int[decoder[count].Count()];
+            for (int j = 0; j < decoder[count].Count(); j++)
+            {
+                for (int t = 0; t < partition.Length; t++)
+                {
+                    if (decoder[count][j] == t)
+                    {
+                        tmp[j] = partition[t];
+                    }
+                }
+            }
+            partition = tmp;
             return tmp;
         }
     }
