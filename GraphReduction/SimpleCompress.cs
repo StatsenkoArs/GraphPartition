@@ -16,7 +16,7 @@ namespace GraphReduction
             vertex_mapping = Array.Empty<int>();
             graph_vertex_used = Array.Empty<bool>();
         }
-        public void Compress(in List<int>[] graph)
+        public int[] Compress(in List<int>[] graph)
         {
             vertex_mapping = new int[graph.Length];
             graph_vertex_used = new bool[graph.Length];
@@ -51,6 +51,7 @@ namespace GraphReduction
                 }
             }
             _group = group;
+            return vertex_mapping;
         }
         public int[] GetMapping()
         {
