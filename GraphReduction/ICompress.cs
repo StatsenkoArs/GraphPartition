@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace GraphReduction
 {
     /// <summary>
-    /// Интерфейс для создания сжмающих отображений
+    /// Интерфейс для создания сжимающих отображений
     /// </summary>
     public interface ICompress
     {
@@ -16,7 +16,7 @@ namespace GraphReduction
         /// </summary>
         /// <param name="graph">Граф, по которому создаётся сжимающее отображение</param>
         /// <returns>Сжимающее отображение</returns>
-        public int[] Compress(in List<int>[] graph);
+        public int[] Compress(in int[][] graph);
         /// <summary>
         /// Метод, возвращающий последнее сжимающее отображение
         /// </summary>

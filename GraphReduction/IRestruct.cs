@@ -15,7 +15,7 @@ namespace GraphReduction
         /// Метод, возвращающий последний сжатый граф
         /// </summary>
         /// <returns>Последний сжатый граф</returns>
-        public List<int>[] GetGraph();
+        public int[][] GetGraph();
         /// <summary>
         /// По графу, сжиамющему отображению и кол-ву групп в отображении строит новый граф
         /// </summary>
@@ -23,6 +23,6 @@ namespace GraphReduction
         /// <param name="vertex_mapping">Сжиамющее отображение</param>
         /// <param name="group">Кол-во групп в сжимающем отображении</param>
         /// <returns>Новый граф</returns>
-        public List<int>[] Restruct(List<int>[] graph, in int[] vertex_mapping, int group);
+        public int[][] Restruct(int[][] graph, in int[] vertex_mapping, int group);
     }
 }

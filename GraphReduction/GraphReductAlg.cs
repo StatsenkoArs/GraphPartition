@@ -14,12 +14,14 @@ namespace GraphReduction
         private List<int[]> decoder;
         private ICompress compress;
         private IRestruct restruct;
+        private int count_decoder;
         //private int count_decoder;
         public GraphReductAlg(ICompress comp, IRestruct restruct)
         {
             this.compress = comp;
             this.restruct = restruct;
             decoder = new List<int[]>();
+            count_decoder = 0;
 
         }
         /// <summary>
@@ -27,15 +29,17 @@ namespace GraphReduction
         /// </summary>
         /// <param name="graph">Изначальный граф</param>
         /// <returns>Новый граф</returns>
-        public List<int>[] Reduct(in List<int>[] graph)
+        public int[][] Reduct(in int[][] graph)
         {
-            List<int>[] new_graph = new List<int>[graph.Length];
+            int[][] new_graph;
             int[] tmp_mapping;
             int group;
+
             tmp_mapping = compress.Compress(graph);
             group = compress.GetNumOfGroup();
             new_graph = restruct.Restruct(graph, in tmp_mapping, group);
             decoder.Add(tmp_mapping);
+            count_decoder++;
             return new_graph;
         }
         /// <summary>
@@ -67,23 +71,21 @@ namespace GraphReduction
         /// Один шаг экстраполяции разбиения графа
         /// </summary>
         /// <param name="partition">Разбиение графа нужной размерности</param>
-        /// <returns>Соедующее разбиение графа</returns>
+        /// <returns>Следующее разбиение графа</returns>
         public int[] UnmappingStep(int[] partition)
         {
-            int[] tmp = Array.Empty<int>();
-            int count = decoder.Count() - 1;
-            tmp = new int[decoder[count].Count()];
-            for (int j = 0; j < decoder[count].Count(); j++)
+            int[] tmp = new int[decoder[count_decoder - 1].Count()];
+            for (int j = 0; j < decoder[count_decoder - 1].Count(); j++)
             {
                 for (int t = 0; t < partition.Length; t++)
                 {
-                    if (decoder[count][j] == t)
+                    if (decoder[count_decoder - 1][j] == t)
                     {
                         tmp[j] = partition[t];
                     }
                 }
             }
-            partition = tmp;
+            count_decoder--;
             return tmp;
         }
     }
