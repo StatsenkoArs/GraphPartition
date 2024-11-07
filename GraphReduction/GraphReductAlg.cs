@@ -15,12 +15,14 @@ namespace GraphReduction
         private ICompress compress;
         private IRestruct restruct;
         private int count_decoder;
+        private List<int[][]> save_graphs;
         //private int count_decoder;
         public GraphReductAlg(ICompress comp, IRestruct restruct)
         {
             this.compress = comp;
             this.restruct = restruct;
             decoder = new List<int[]>();
+            save_graphs = new List<int[][]>();
             count_decoder = 0;
 
         }
@@ -35,6 +37,7 @@ namespace GraphReduction
             int[] tmp_mapping;
             int group;
 
+            save_graphs.Add(graph);
             tmp_mapping = compress.Compress(graph);
             group = compress.GetNumOfGroup();
             new_graph = restruct.Restruct(graph, in tmp_mapping, group);
@@ -72,8 +75,9 @@ namespace GraphReduction
         /// </summary>
         /// <param name="partition">Разбиение графа нужной размерности</param>
         /// <returns>Следующее разбиение графа</returns>
-        public int[] UnmappingStep(int[] partition)
+        public int[] UnmappingStep(int[] partition, out int[][] graph)
         {
+            graph = save_graphs[count_decoder - 1];
             int[] tmp = new int[decoder[count_decoder - 1].Count()];
             for (int j = 0; j < decoder[count_decoder - 1].Count(); j++)
             {
