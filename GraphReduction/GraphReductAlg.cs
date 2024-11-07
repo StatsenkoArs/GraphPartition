@@ -74,6 +74,7 @@ namespace GraphReduction
         /// Один шаг экстраполяции разбиения графа
         /// </summary>
         /// <param name="partition">Разбиение графа нужной размерности</param>
+        /// <param name="graph">Выходной граф</param>
         /// <returns>Следующее разбиение графа</returns>
         public int[] UnmappingStep(int[] partition, out int[][] graph)
         {
@@ -92,5 +93,6 @@ namespace GraphReduction
             count_decoder--;
             return tmp;
         }
+
     }
 }
