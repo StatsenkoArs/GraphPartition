@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,28 +9,26 @@ namespace GraphReduction
 {
     public class SimpleRestruct : IRestruct
     {
-        private List<int>[] new_graph;
+        private int[][] new_graph;
 
         public SimpleRestruct()
         {
-            new_graph = Array.Empty<List<int>>();
+            new_graph = Array.Empty<int[]>();
         }
-        public List<int>[] GetGraph()
+        public int[][] GetGraph()
         {
             if (new_graph.Length != 0) return new_graph;
             else throw new Exception("GraphIsEmptyException");
         }
 
-        public List<int>[] Restruct(List<int>[] graph, in int[] vertex_mapping, int group)
+        public int[][] Restruct(int[][] graph, in int[] vertex_mapping, int group)
         {
-            new_graph = new List<int>[group];
-            for (int i = 0; i < group; i++)
-            {
-                new_graph[i] = new List<int>();
-            }
+            List<int> tmp_row_graph = new List<int>();
+            new_graph = new int[group][];
             int[,] new_graph_matrix = GetTransitionMatrix(in graph, in vertex_mapping, group);
             for (int i = 0; i < new_graph_matrix.GetLength(0); i++)
             {
+                tmp_row_graph.Clear();
                 for (int j = 0; j < new_graph_matrix.GetLength(1); j++)
                 {
                     if (i == j)
@@ -38,13 +37,14 @@ namespace GraphReduction
                     }
                     else if (new_graph_matrix[i, j] != 0)
                     {
-                        new_graph[i].Add(j);
+                        tmp_row_graph.Add(j);
                     }
+                    new_graph[i] = tmp_row_graph.ToArray();
                 }
             }
             return new_graph;
         }
-        private int[,] GetTransitionMatrix(in List<int>[] graph, in int[] vertex_mapping, int group)
+        private int[,] GetTransitionMatrix(in int[][] graph, in int[] vertex_mapping, int group)
         {
             int[,] new_graph_matrix = new int[group, group];
             for (int i = 0; i < graph.Length; i++)

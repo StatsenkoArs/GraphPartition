@@ -14,12 +14,16 @@ namespace GraphReduction
         private List<int[]> decoder;
         private ICompress compress;
         private IRestruct restruct;
+        private int count_decoder;
+        private List<int[][]> save_graphs;
         //private int count_decoder;
         public GraphReductAlg(ICompress comp, IRestruct restruct)
         {
             this.compress = comp;
             this.restruct = restruct;
             decoder = new List<int[]>();
+            save_graphs = new List<int[][]>();
+            count_decoder = 0;
 
         }
         /// <summary>
@@ -27,15 +31,18 @@ namespace GraphReduction
         /// </summary>
         /// <param name="graph">Изначальный граф</param>
         /// <returns>Новый граф</returns>
-        public List<int>[] Reduct(in List<int>[] graph)
+        public int[][] Reduct(in int[][] graph)
         {
-            List<int>[] new_graph = new List<int>[graph.Length];
+            int[][] new_graph;
             int[] tmp_mapping;
             int group;
+
+            save_graphs.Add(graph);
             tmp_mapping = compress.Compress(graph);
             group = compress.GetNumOfGroup();
             new_graph = restruct.Restruct(graph, in tmp_mapping, group);
             decoder.Add(tmp_mapping);
+            count_decoder++;
             return new_graph;
         }
         /// <summary>
@@ -67,24 +74,25 @@ namespace GraphReduction
         /// Один шаг экстраполяции разбиения графа
         /// </summary>
         /// <param name="partition">Разбиение графа нужной размерности</param>
-        /// <returns>Соедующее разбиение графа</returns>
-        public int[] UnmappingStep(int[] partition)
+        /// <param name="graph">Выходной граф</param>
+        /// <returns>Следующее разбиение графа</returns>
+        public int[] UnmappingStep(int[] partition, out int[][] graph)
         {
-            int[] tmp = Array.Empty<int>();
-            int count = decoder.Count() - 1;
-            tmp = new int[decoder[count].Count()];
-            for (int j = 0; j < decoder[count].Count(); j++)
+            graph = save_graphs[count_decoder - 1];
+            int[] tmp = new int[decoder[count_decoder - 1].Count()];
+            for (int j = 0; j < decoder[count_decoder - 1].Count(); j++)
             {
                 for (int t = 0; t < partition.Length; t++)
                 {
-                    if (decoder[count][j] == t)
+                    if (decoder[count_decoder - 1][j] == t)
                     {
                         tmp[j] = partition[t];
                     }
                 }
             }
-            partition = tmp;
+            count_decoder--;
             return tmp;
         }
+
     }
 }
