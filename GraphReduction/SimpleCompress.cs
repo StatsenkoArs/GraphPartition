@@ -53,11 +53,6 @@ namespace GraphReduction
             _group = group;
             return vertex_mapping;
         }
-        public int[] GetMapping()
-        {
-            if (vertex_mapping.Length != 0) return vertex_mapping;
-            else throw new Exception("CipherIsEmptyException");
-        }
 
         public int GetNumOfGroup()
         {
