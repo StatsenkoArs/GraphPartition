@@ -18,15 +18,15 @@
         /// <param name="n">число вершин графа</param>
         /// <param name="edges">список смености графа</param>
         /// <returns>бинарный вектор-решение/критерий</returns>
-        public Tuple<int[], int> Solve(int n, int[][] edges) // подмассивы ДОЛЖНЫ БЫТЬ ОТСОТИРОВАНЫ по возрастанию
+        public Tuple<int[], int> Solve(int[][] edges) // подмассивы ДОЛЖНЫ БЫТЬ ОТСОТИРОВАНЫ по возрастанию
         {
             _edges = edges;
-            _n = n;
+            _n = edges.Length;
             _allEdges = AllEdges;
             _q = _allEdges;
-            _x = new int[n];
+            _x = new int[_n];
 
-            this.FindSolution(new int[n], n, 0, 0, 0, 0, _allEdges);
+            this.FindSolution(new int[_n], _n, 0, 0, 0, 0, _allEdges);
            
             return Tuple.Create(_x, _q);
         }
@@ -61,7 +61,7 @@
         /// complexity O(m) (m - max edges of vertex in graph)
         /// </summary>
         /// <param name="x">текущее решение</param>
-        /// <param name="step">текущий шаг (вершина) алгоритма</param>
+        /// <param name="step"> (вершина) текущий шаг алгоритма</param>
         /// <returns></returns>
         private int EdgesChange(int[] x, int step)
         {
