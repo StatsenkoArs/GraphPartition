@@ -18,25 +18,31 @@
         /// <param name="n">число вершин графа</param>
         /// <param name="edges">список смености графа</param>
         /// <returns>бинарный вектор-решение/критерий</returns>
-        public Tuple<int[], int> Solve(int[][] edges) // подмассивы ДОЛЖНЫ БЫТЬ ОТСОТИРОВАНЫ по возрастанию
+        public (int[], int) Solve(int[][] edges) // подмассивы ДОЛЖНЫ БЫТЬ ОТСОТИРОВАНЫ по возрастанию
+        {
+            Init(edges);
+
+            FindSolution(new int[_n], _n, 0, 0, 0, 0, _allEdges);
+
+            return (_x, _q);
+        }
+
+        private void Init(int[][] edges)
         {
             _edges = edges;
             _n = edges.Length;
             _allEdges = AllEdges;
             _q = _allEdges;
             _x = new int[_n];
-
-            this.FindSolution(new int[_n], _n, 0, 0, 0, 0, _allEdges);
-           
-            return Tuple.Create(_x, _q);
         }
+
         /// <summary>
         /// Возвращает уже вычсиленное решение
         /// </summary>
         /// <returns>бинарный вектор-решение/критерий</returns>
-        public Tuple<int[], int> GetSolution()
+        public (int[], int) GetSolution()
         {
-            return Tuple.Create(_x, _q);
+            return (_x, _q);
         }
 
         /// <summary>
@@ -108,10 +114,10 @@
             
             x[step] = 0;
             int dif = EdgesChange(x, step);
-            this.FindSolution(x, n, step + 1, sum, edgesFirst + dif, edgesSecond, edgesLeft - dif);
+            FindSolution(x, n, step + 1, sum, edgesFirst + dif, edgesSecond, edgesLeft - dif);
             x[step] = 1;
             dif = EdgesChange(x, step);
-            this.FindSolution(x, n, step + 1, sum + 1, edgesFirst, edgesSecond + dif, edgesLeft - dif);
+            FindSolution(x, n, step + 1, sum + 1, edgesFirst, edgesSecond + dif, edgesLeft - dif);
         }
     }
 }
