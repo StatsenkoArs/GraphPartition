@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GraphPartitionAccurate
 {
-    internal interface IAccuratePartition
+    public interface IAccuratePartition
     {
         int[] GetPartition(IGraph graph);
     }

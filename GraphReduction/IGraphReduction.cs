@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GraphReduction
 {
-    internal interface IGraphReduction
+    public interface IGraphReduction
     {
         IGraph Reduct(IGraph graph);
     }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GraphReduction
 {
-    internal interface IGraphRestoration
+    public interface IGraphRestoration
     {
         (IGraph, int[]) Restore(IGraph graph, int[] partition);
     }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GraphOptimisation
 {
-    internal interface IPartitionOptimisation
+    public interface IPartitionOptimisation
     {
         int[] OptimisePartition(IGraph graph, int[] partition)
     }

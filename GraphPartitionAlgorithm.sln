@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleGenerator", "Example
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphRepresentation", "GraphRepresentation\GraphRepresentation.csproj", "{73CD4A7D-55A7-459B-B243-8FFCCACB4E8A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphPartitionClass", "GraphPartitionClass\GraphPartitionClass.csproj", "{F66017A7-1A76-49C2-B5C6-962D5DAF95DC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{73CD4A7D-55A7-459B-B243-8FFCCACB4E8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73CD4A7D-55A7-459B-B243-8FFCCACB4E8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{73CD4A7D-55A7-459B-B243-8FFCCACB4E8A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F66017A7-1A76-49C2-B5C6-962D5DAF95DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F66017A7-1A76-49C2-B5C6-962D5DAF95DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F66017A7-1A76-49C2-B5C6-962D5DAF95DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F66017A7-1A76-49C2-B5C6-962D5DAF95DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
