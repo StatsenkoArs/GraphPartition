@@ -18,25 +18,31 @@
         /// <param name="n">число вершин графа</param>
         /// <param name="edges">список смености графа</param>
         /// <returns>бинарный вектор-решение/критерий</returns>
-        public Tuple<int[], int> Solve(int n, int[][] edges) // подмассивы ДОЛЖНЫ БЫТЬ ОТСОТИРОВАНЫ по возрастанию
+        public (int[], int) Solve(int[][] edges) // подмассивы ДОЛЖНЫ БЫТЬ ОТСОТИРОВАНЫ по возрастанию
+        {
+            Init(edges);
+
+            FindSolution(new int[_n], _n, 0, 0, 0, 0, _allEdges);
+
+            return (_x, _q);
+        }
+
+        private void Init(int[][] edges)
         {
             _edges = edges;
-            _n = n;
+            _n = edges.Length;
             _allEdges = AllEdges;
             _q = _allEdges;
-            _x = new int[n];
-
-            this.FindSolution(new int[n], n, 0, 0, 0, 0, _allEdges);
-           
-            return Tuple.Create(_x, _q);
+            _x = new int[_n];
         }
+
         /// <summary>
         /// Возвращает уже вычсиленное решение
         /// </summary>
         /// <returns>бинарный вектор-решение/критерий</returns>
-        public Tuple<int[], int> GetSolution()
+        public (int[], int) GetSolution()
         {
-            return Tuple.Create(_x, _q);
+            return (_x, _q);
         }
 
         /// <summary>
@@ -61,7 +67,7 @@
         /// complexity O(m) (m - max edges of vertex in graph)
         /// </summary>
         /// <param name="x">текущее решение</param>
-        /// <param name="step">текущий шаг (вершина) алгоритма</param>
+        /// <param name="step"> (вершина) текущий шаг алгоритма</param>
         /// <returns></returns>
         private int EdgesChange(int[] x, int step)
         {
@@ -108,10 +114,10 @@
             
             x[step] = 0;
             int dif = EdgesChange(x, step);
-            this.FindSolution(x, n, step + 1, sum, edgesFirst + dif, edgesSecond, edgesLeft - dif);
+            FindSolution(x, n, step + 1, sum, edgesFirst + dif, edgesSecond, edgesLeft - dif);
             x[step] = 1;
             dif = EdgesChange(x, step);
-            this.FindSolution(x, n, step + 1, sum + 1, edgesFirst, edgesSecond + dif, edgesLeft - dif);
+            FindSolution(x, n, step + 1, sum + 1, edgesFirst, edgesSecond + dif, edgesLeft - dif);
         }
     }
 }
