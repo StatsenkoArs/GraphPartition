@@ -16,8 +16,14 @@ namespace GraphReduction
             _FM_method = fm_method;
             _graphRestoration = graphRestoration;
         }
-        public int[][] GraphRestoration(List<int[][]> graphs, List<int[]> mappings, int[] strar_partition)
+        public int[][] GraphRestoration(List<int[][]> graphs, List<int[]> mappings, int[] start_partition)
         {
+            int[] tmp_partition = start_partition;
+            for (int i = 0; i < mappings.Count; i++)
+            {
+                tmp_partition = _graphRestoration.UnmappingStep(tmp_partition, mappings[i]);
+                _FM_method.FeduchiMatteus(graphs[i], tmp_partition, 2);
+            }
 
         }
 
