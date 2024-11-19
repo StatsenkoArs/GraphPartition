@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GraphReduction
 {
-    public class SimpleGraphRestoration : IGraphRestoration
+    public class SimpleStepGraphRestoration : IGraphRestoration
 
     {
         public int[] UnmappingStep(int[] partition, int[] mapping)
