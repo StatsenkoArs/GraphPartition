@@ -1,37 +1,35 @@
-﻿namespace GraphPartitionAccurate
+﻿using GraphRepresentation;
+
+namespace GraphPartitionAccurate
 {
-    public class Solution
+    public class BranchAndBoundsAlgorithm: IAccuratePartition
     {
         private int[] _x = Array.Empty<int>();
         private int _q = 0;
-        private int[][] _edges = Array.Empty<int[]>();
+        private IGraph _graph;
         private int _n = 0;
         private int _allEdges = 0;
-
-        public Solution()
-        {
-        }
 
         /// <summary>
         /// Запускает решение точным алгоритмом
         /// </summary>
         /// <param name="n">число вершин графа</param>
-        /// <param name="edges">список смености графа</param>
+        /// <param name="graph">список смености графа</param>
         /// <returns>бинарный вектор-решение/критерий</returns>
-        public (int[], int) Solve(int[][] edges) // подмассивы ДОЛЖНЫ БЫТЬ ОТСОТИРОВАНЫ по возрастанию
+        public int[] GetPartition(IGraph graph)
         {
-            Init(edges);
+            Init(graph);
 
             FindSolution(new int[_n], _n, 0, 0, 0, 0, _allEdges);
 
-            return (_x, _q);
+            return _x;
         }
 
-        private void Init(int[][] edges)
+        private void Init(IGraph graph)
         {
-            _edges = edges;
-            _n = edges.Length;
-            _allEdges = AllEdges;
+            _graph = graph;
+            _n = graph.CountVertecies;
+            _allEdges = graph.CountEdges;
             _q = _allEdges;
             _x = new int[_n];
         }
@@ -46,23 +44,6 @@
         }
 
         /// <summary>
-        /// Считает общее число ребер в графе
-        /// complexity O(n)
-        /// </summary>
-        private int AllEdges
-        {
-            get
-            {
-                int sum = 0;
-                for (int i = 0; i < _n; i++)
-                {
-                    sum += _edges[i].Length;
-                }
-                return sum / 2;
-            }
-        }
-
-        /// <summary>
         /// Считает изменение внутренней связности графа, при помещенее туда вершины под номером step
         /// complexity O(m) (m - max edges of vertex in graph)
         /// </summary>
@@ -73,10 +54,10 @@
         {
             int koef = x[step] == 0 ? 1 : 0;
             int result = 0;
-            for (int i = 0; i < _edges[step].Length; i++)
+            for (int i = 0; i < _graph.GetVertexDegree(step); i++)
             {
-                if (_edges[step][i] > step) break;
-                result += (x[step] - koef) * (x[_edges[step][i]] - koef);
+                if (_graph[step, i] > step) continue;
+                result += (x[step] - koef) * (x[_graph[step, i]] - koef);
             }
             return Math.Abs(result);
         }
