@@ -1,273 +1,265 @@
 ﻿namespace GraphOptimisation
 {
-    public class GrafFeduchiMatteus
+public class FiducciaMattheysesMethod
 {
-    private int grafV = 0; // Кол-во вершин графа
-    private int grafE = 0; // Количество ребер графа
-    private int Q = 0; // Критерий, кол-во ребер между двумя подграфами
-    private int minQ = 0;  // Лучший критерий
-    private int B = 0; //Дисбаланс разделения
-    private int minB = 0; //Минимальный дисбаланс
-    private int[] E; // Количество разрезанных связей для каждой вершины
-    private int[] I; //Количество неразрезанных связей для каждой вершины
+    private int[][] graph; //Граф
+    private int countVertex = 0; // Кол-во вершин графа
+    private int[] E_CountTornEdge; // Количество разрезанных связей для каждой вершины
+    private int[] I_CountWholeEdge; //Количество неразрезанных связей для каждой вершины
     private int[] D; // D = E - I;
-    private int[] T; //Вектор кол-ва итераций, когда вершину двигать нельзя
-    private int[] tCheck; //Была ли тронута вершина
-    private int numberPodgrafNow = 0; //Номер текущего подграфа
-    private int[] rightRazdelenie; //Лучшее разделение
-    
+    private int countBlockingIteration; //Кол-во итераций, когда вершину двигать нельзя. 
+    private int[] T_CountBlockingIterations; //Вектор кол-ва итераций для каждой вершины, когда вершину двигать нельзя
+    private int[] isVertexMoved; //Была ли тронута вершина
+    private int numberPartition = 0; //Номер текущего подграфа
+    private int[] rightPartition; //Лучшее разделение
+    private int[] currentPartition; //Текущее разделение
+    private int rightCriterion; //Лучший минимальный критерий
+    private int currentCriterion; //Текущий критерий
+    private int iteration = 0;
+    private int indexMovedVertex; //Номер перемещённой вершины
+
     /// <summary>
-    /// Конструктор. Считает критерий Q, высчитывает кол-во ребер и вершин графа
+    /// Конструктор, инициализирует граф, вектор разделения, вектор итогового разделения, вектор-табу и вектор проверки на сдвиг вершин
     /// </summary>
-    /// <param name="graf"> Изначальный граф</param>
-    /// <param name="razdelenie"> Изначальное разделение </param>
-    public GrafFeduchiMatteus(int[][] graf, int[] razdelenie)
+    /// <param name="graph">Граф</param>
+    /// <param name="currentPartition">Вектор разделения на подграфы</param>
+    public FiducciaMattheysesMethod(int[][] graph, int[] currentPartition)
     {
-        // Инициализирует кол-во ребер и вершин графа, считает текущий Критерий Q
-        for (int i = 0; i < graf.Length; i++)
-        {
-            grafV++;
-            for (int j = 0; j < graf[i].Length; j++)
-            {
-                if (razdelenie[i] != razdelenie[graf[i][j] - 1])
-                    Q++;
-                grafE++;
-            }
-        }
-        grafE /= 2;
-        Q /= 2;
+        this.graph = graph;
+        this.currentPartition = currentPartition;
+        rightPartition = new int[currentPartition.Length];
+        T_CountBlockingIterations = new int[graph.Length];
+        isVertexMoved = new int[graph.Length];
     }
 
     /// <summary>
-    /// Основной метод перераспределения пографов
+    /// Метод Федуччи-Маттеуса
     /// </summary>
-    /// <param name="graf">Изначальный граф</param>
-    /// <param name="razdelenie"> Изначальное разделение </param>
-    /// <param name="t">Изначальное кол-во итераций, на которое вершина блокируется для перемещения между подграфами</param>
-    /// <returns>Критерий Q</returns>
-    public int FeduchiMatteus(int[][] graf, ref int[] razdelenie, int t)
+    /// <param name="countBlockingIteration">Пользовательское кол-во итераций, когда вершину двигать нельзя</param>
+    /// <returns>Вектор разделения на подграфы</returns>
+    public int[] FiducciaMattheyses(int countBlockingIteration)
     {
-        T = new int[graf.Length];
-        tCheck = new int[graf.Length];
-        rightRazdelenie = new int[razdelenie.Length];
-        int iteracia = 0;
-        minQ = grafE;
-
-        while (!IsFull())
+        this.countBlockingIteration = countBlockingIteration;
+        
+        while (IsVertexMoved())
         {
-            //Console.WriteLine("---------------------" + iteracia);
-            //Print("razdelenie old", razdelenie);
-
-            EandICheck(graf, razdelenie);
-            DCheck();
-            int index;
-            int max;
-            if (iteracia == 0)
+            UpdateData();
+            int maxInD; //Максимальное число их вектора Д
+            //Находим элменет, который будет перемещён в другой подграф
+            if (iteration == 0)
             {
-                max = D[0];
-                index = 0;
+                maxInD = D[0];
+                indexMovedVertex = 0;
                 for (int i = 1; i < D.Length; i++)
                 {
-                    if (D[i] > max)
+                    if (D[i] > maxInD)
                     {
-                        max = D[i];
-                        index = i;
+                        maxInD = D[i];
+                        indexMovedVertex = i;
                     }
                 }
-                numberPodgrafNow = razdelenie[index];
+                numberPartition = currentPartition[indexMovedVertex];
             }
             else
             {
                 bool flag = false;
-                max = 0;
-                index = -1;
+                maxInD = 0;
+                indexMovedVertex = -1;
                 for (int i = 0; i < D.Length; i++)
                 {
-                    if (!flag && razdelenie[i] == numberPodgrafNow && T[i] == 0) //Находит первый элемент из нужного подграфа
+                    if (!flag && currentPartition[i] == numberPartition && T_CountBlockingIterations[i] == 0) //Находит первый элемент из нужного подграфа
                     {
-                        max = D[i];
-                        index = i;
+                        maxInD = D[i];
+                        indexMovedVertex = i;
                         flag = true;
                     }
 
-                    if (D[i] > max && razdelenie[i] == numberPodgrafNow && T[i] == 0) //Ищет максимум
+                    if (D[i] > maxInD && currentPartition[i] == numberPartition && T_CountBlockingIterations[i] == 0) //Ищет максимум
                     {
-                        max = D[i];
-                        index = i;
+                        maxInD = D[i];
+                        indexMovedVertex = i;
                     }
                 }
             }
-            //Console.WriteLine("======= Меняем класс у элемента под номером " + (index + 1));
-            //Console.WriteLine("Подграф: " + numberPodgrafNow);
-            if (razdelenie[index] == 1)
+            //Меняем номер подграфа у выбранного элемента 
+            if (currentPartition[indexMovedVertex] == 1)
             {
-                razdelenie[index] = 0;
-                numberPodgrafNow = 0;
+                currentPartition[indexMovedVertex] = 0;
+                numberPartition = 0;
             }
             else
             {
-                razdelenie[index] = 1;
-                numberPodgrafNow = 1;
+                currentPartition[indexMovedVertex] = 1;
+                numberPartition = 1;
             }
 
+            MovedCheck();
+            CriterionCheck();
 
-
-            TCheck(ref t, index);
-
-
-            //Print("razdelenie new", razdelenie);
-            //Print("T", T);
-            //Print("TCheck", tCheck);
-
-            QCheck(graf, razdelenie);
-            BCheck(razdelenie);
-
-            //Сохранение лучшего разделения
-            if (minB > B) { minB = B; }
-            if (minQ > Q) { minQ = Q; }
-            if (minQ >= Q && minB >= B)
+            if (rightCriterion > currentCriterion)
             {
-                minB = B;
-                minQ = Q;
-                for (int i = 0; i < razdelenie.Length; i++)
+                rightCriterion = currentCriterion;
+                for (int i = 0; i < currentPartition.Length; i++)
                 {
-                    rightRazdelenie[i] = razdelenie[i];
+                    rightPartition[i] = currentPartition[i];
                 }
+
             }
-            //Console.WriteLine("Q = " + Q + "| min = " + minQ);
-            //Console.WriteLine("B = " + B + "| min = " + minB);
-
-            iteracia++;
+            iteration++;
         }
-        for (int i = 0; i < razdelenie.Length; i++)
-        {
-            razdelenie[i] = rightRazdelenie[i];
-        }
-        return minQ;
-    }
-    /// <summary>
-    /// Пересчитывает критерий Q
-    /// </summary>
-    /// <param name="graf">Изначальный граф</param>
-    /// <param name="razdelenie">Разделине на пографы</param>
-    private void QCheck(int[][] graf, int[] razdelenie)
-    {
-        //Считает критерий Q
-        Q = 0;
-        for (int i = 0; i < graf.Length; i++)
-        {
-            for (int j = 0; j < graf[i].Length; j++)
-            {
-                if (razdelenie[i] != razdelenie[graf[i][j] - 1])
-                    Q++;
-            }
-        }
-        //Console.WriteLine("QCheck = " + Q);
-        Q /= 2;
-    }
-    /// <summary>
-    /// Пересчитывает ветора Е и I
-    /// </summary>
-    /// <param name="graf">граф</param>
-    /// <param name="razdelenie">разделение на подграфы</param>
-    private void EandICheck(int[][] graf, int[] razdelenie)
-    {
-        //Считает вектора E и I
-        E = new int[graf.Length];
-        I = new int[graf.Length];
-        for (int i = 0; i < graf.Length; i++)
-        {
-            for (int j = 0; j < graf[i].Length; j++)
-            {
-                if (razdelenie[i] == razdelenie[graf[i][j] - 1])
-                {
-                    I[i]++;
-                }
-                else
-                {
-                    E[i]++;
-                }
-            }
-        }
-        //Print("E", E);
-        //Print("I", I);
-    }
-    /// <summary>
-    /// Пересчитывает вектор D
-    /// </summary>
-    private void DCheck()
-    {
-        // Считает D
-        D = new int[E.Length];
-        for (int i = 0; i < E.Length; i++)
-        {
-            D[i] = E[i] - I[i];
-        }
-
-        //Print("D", D);
-    }
-    /// <summary>
-    /// Пересчитывает параметр В
-    /// </summary>
-    /// <param name="razdelenie"> Текущее разделение </param>
-    private void BCheck(int[] razdelenie)
-    {
-        B = 0;
-        for (int i = 0; i < razdelenie.Length; i++)
-        {
-            if (razdelenie[i] == 1) B++;
-        }
-        B = Math.Abs(grafV / 2 - B);
+        return rightPartition;
     }
 
     /// <summary>
-    /// Проверяет, были ли задействованы все вершины графа
+    /// Помечает двинутую вершину и по необходимости изменяет кол-во итераций, которое вершина не может быть тронута
     /// </summary>
-    /// <returns></returns>
-    private bool IsFull()
+    private void MovedCheck()
     {
-        // Если все вершины тронуты, то верни Тру.
-        for (int i = 0; i < tCheck.Length; i++)
+        for (int i = 0; i < T_CountBlockingIterations.Length; i++)
         {
-            if (tCheck[i] == 0) return false;
-        }
-        return true;
-    }
-
-    /// <summary>
-    /// Переписывает вектор Т и меняет параметр t, когда вершина уже была задействована
-    /// </summary>
-    /// <param name="t">Изначальное кол-во итераций, на которое вершина блокируется для перемещения между подграфами</param>
-    /// <param name="index">Индекс текущего элемента</param>
-    private void TCheck(ref int t, int index)
-    {
-        for (int i = 0; i < T.Length; i++)
-        {
-            if (T[i] != 0) T[i]--;
+            if (T_CountBlockingIterations[i] != 0) T_CountBlockingIterations[i]--;
         }
 
-        if (tCheck[index] != 0)
+        if (isVertexMoved[indexMovedVertex] != 0)
         {
-            t++;
-            T[index] = t;
+            countBlockingIteration++;
+            T_CountBlockingIterations[indexMovedVertex] = countBlockingIteration;
         }
         else
         {
-            T[index] = t;
-            tCheck[index]++;
+            T_CountBlockingIterations[indexMovedVertex] = countBlockingIteration;
+            isVertexMoved[indexMovedVertex]++;
         }
+        
+    }
+    
+    /// <summary>
+    /// Пересчитывает критерий
+    /// </summary>
+    private void CriterionCheck()
+    {
+        if (iteration == 0)
+        {
+            currentCriterion = 0;
+           
+            for (int i = 0; i < graph.Length; i++)
+            {
+                for (int j = 0; j < graph[i].Length; j++)
+                {
+                    //Считаем критерий
+                    if (currentPartition[i] != currentPartition[graph[i][j]])
+                        currentCriterion++;
+                }
+            }
+            currentCriterion /= 2;
+            rightCriterion = currentCriterion;
+        }
+        else
+        {
+            for (int i = 0; i < graph[indexMovedVertex].Length; i++)
+            {
+                if (currentPartition[indexMovedVertex] == currentPartition[graph[indexMovedVertex][i]])
+                {
+                    currentCriterion--;
+                }
+                else
+                {
+                    currentCriterion++;
+                }  
+            }
+        }
+    }
+
+    /// <summary>
+    /// Считаем вектора I, E, D и кол-во вершин графа
+    /// </summary>
+    private void UpdateData()
+    {
+       //На первой итерии полный перебор графа
+        if (iteration == 0)
+        {
+            E_CountTornEdge = new int[graph.Length];
+            I_CountWholeEdge = new int[graph.Length];
+            D = new int[graph.Length];
+
+            for (int i = 0; i < graph.Length; i++)
+            {
+                for (int j = 0; j < graph[i].Length; j++)
+                {
+                    //Считаем вектора I и E
+                    if (currentPartition[i] == currentPartition[graph[i][j]])
+                    {
+                        I_CountWholeEdge[i]++;
+                    }
+                    else
+                    {
+                        E_CountTornEdge[i]++;
+                    }    
+                }
+                //Считаем D
+                D[i] = E_CountTornEdge[i] - I_CountWholeEdge[i];
+                //Считаем кол-во вершин в графе
+                countVertex++;
+            }
+        }
+        else
+        {
+            //Изменяется только то, что было тронуто. Остальное остаётся прежним.
+            (E_CountTornEdge[indexMovedVertex], I_CountWholeEdge[indexMovedVertex]) = (I_CountWholeEdge[indexMovedVertex], E_CountTornEdge[indexMovedVertex]);
+            for (int i = 0; i < graph[indexMovedVertex].Length; i++)
+            {
+                //Считаем вектора I и E
+                if (currentPartition[indexMovedVertex] == currentPartition[graph[indexMovedVertex][i]])
+                {
+                    I_CountWholeEdge[graph[indexMovedVertex][i]]++;
+                    E_CountTornEdge[graph[indexMovedVertex][i]]--;
+                }
+                else
+                {
+                    E_CountTornEdge[graph[indexMovedVertex][i]]++;
+                    I_CountWholeEdge[graph[indexMovedVertex][i]]--;
+                }
+
+                //Считаем критерий
+            }
+
+            //Считаем Д
+            foreach (var elem in graph[indexMovedVertex])
+            {
+                D[elem] = E_CountTornEdge[elem] - I_CountWholeEdge[elem];
+            }
+            D[indexMovedVertex] = E_CountTornEdge[indexMovedVertex] - I_CountWholeEdge[indexMovedVertex];
+        }
+    }
+
+
+
+    /// <summary>
+    /// Проверка на то, возможно ли ещё взаимодействовать с вершинами графа
+    /// </summary>
+    /// <returns>Да, если ещё можно взаимодейстовать. Нет, иначе.</returns>
+    private bool IsVertexMoved()
+    {
+        for (int i = 0; i < isVertexMoved.Length; i++)
+        {
+            if (T_CountBlockingIterations[i] == 0 && currentPartition[i] == numberPartition)
+                return true;
+        }
+        return false;
     }
 
     /// <summary>
     /// Печать элементов вектора на консоль
     /// </summary>
     /// <param name="name">Имя вектора</param>
-    /// <param name="v">Вектор</param>
-    private void Print(string name, int[] v)
+    /// <param name="vector">Вектор</param>
+    private void Print(string name, int[] vector)
     {
         Console.Write(name + ": ");
-        foreach (int i in v) Console.Write(i + " ");
+        foreach (int i in vector) Console.Write(i + " ");
         Console.WriteLine();
     }
+
+
 }
 }
