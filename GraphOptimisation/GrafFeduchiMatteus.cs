@@ -1,5 +1,6 @@
 ﻿namespace GraphOptimisation
 {
+     
 public class FiducciaMattheysesMethod
 {
     private int[][] graph; //Граф
