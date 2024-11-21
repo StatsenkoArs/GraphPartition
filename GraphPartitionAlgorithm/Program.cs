@@ -3,6 +3,7 @@ using GraphOptimisation;
 using ExampleGenerator;
 using GraphReduction;
 using System.Runtime.CompilerServices;
+using GraphPartitionClass;
 
 class Program
 {
@@ -19,51 +20,10 @@ class Program
         }
         Console.WriteLine("----------------------------------");
 
-        GraphReductAlg gra = new GraphReductAlg(new SimpleCompress(), new SimpleRestruct());
+        IGraphPartition grp = new Graph2Partition(new SimpleReduction(), new BranchAndBoundsAlgorithm(), new SimpleRestoration(), new FiducciaMattheysesMethod());
 
-        bool enoughReduction = false;
-        int t = 0;
-        int count = 0;
-        while (!enoughReduction)
-        {
-            count++;
-            graph = gra.Reduct(graph);
-            t = graph.Count();
-            enoughReduction = t <= 20;
-        }
+        int[] answer = grp.GetPartition(graph);
 
-        Solution s = new Solution();
-        var result = s.Solve(graph);
-
-
-        for (int i = 0; i < graph.Length; i++)
-        {
-            Console.WriteLine(i + ": " + String.Join(" ", graph[i]));
-        }
-        Console.WriteLine("----------------------------------");
-        Console.WriteLine(String.Join(" ", result.Item1));
-        Console.WriteLine(result.Item2);
-        Console.WriteLine("----------------------------------");
-
-        int[] x = new int[result.Item1.Length];
-        result.Item1.CopyTo(x, 0);
-        int q = result.Item2;
-
-        for (int i = 0; i < count; i++)
-        {
-            x = gra.UnmappingStep(x, out graph);
-            FiducciaMattheysesMethod gfm = new FiducciaMattheysesMethod(graph, x);
-            x = gfm.FiducciaMattheyses(n);
-        }
-
-
-        for (int i = 0; i < graph.Length; i++)
-        {
-            Console.WriteLine(i + ": " + String.Join(" ", graph[i]));
-        }
-        Console.WriteLine("----------------------------------");
-        Console.WriteLine(String.Join(" ", x));
-        Console.WriteLine("----------------------------------");
-
+        Console.WriteLine(String.Join(" ", answer));
     }
 }

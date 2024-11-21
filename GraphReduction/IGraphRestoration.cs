@@ -9,6 +9,6 @@ namespace GraphReduction
 {
     public interface IGraphRestoration
     {
-        (IGraph, int[]) Restore(IGraph graph, int[] partition);
+        int[] Restore(int[] partition);
     }
 }

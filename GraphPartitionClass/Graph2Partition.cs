@@ -12,10 +12,6 @@ namespace GraphPartitionClass
         public IGraphRestoration RestorationAlgorithm { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public IPartitionOptimisation OptimisationAlgorithm { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        private IGraph graph;
-        private int[] partition;
-        private int q;
-
         public Graph2Partition(IGraphReduction reductionAlgoritm, IAccuratePartition accuratePartition, IGraphRestoration restorationAlgorithm, IPartitionOptimisation optimisationAlgorithm) 
         {
             ReductionAlgorithm = reductionAlgoritm;
@@ -26,7 +22,18 @@ namespace GraphPartitionClass
 
         public int[] GetPartition(int[][] graph)
         {
-            throw new NotImplementedException();
+            IGraph srcGraph = new GraphSRC(graph);
+            int n = srcGraph.CountVertecies;
+            while (srcGraph.CountVertecies > 30)
+            {
+                srcGraph = ReductionAlgorithm.Reduct(srcGraph);
+            }
+            int[] partition = AccuratePartition.GetPartition(srcGraph);
+            while (srcGraph.CountVertecies < n)
+            {
+                partition = RestorationAlgorithm.Restore(partition);
+            }
+            return partition;
         }
     }
 }
