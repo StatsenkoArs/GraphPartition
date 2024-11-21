@@ -29,6 +29,7 @@ public class FiducciaMattheysesMethod
         this.graph = graph;
         this.currentPartition = currentPartition;
         rightPartition = new int[currentPartition.Length];
+        rightPartition = currentPartition;
         T_CountBlockingIterations = new int[graph.Length];
         isVertexMoved = new int[graph.Length];
     }
