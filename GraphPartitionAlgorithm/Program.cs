@@ -33,7 +33,7 @@ class Program
         }
 
         Solution s = new Solution();
-        var result = s.Solve(graph.Length, graph);
+        var result = s.Solve(graph);
 
 
         for (int i = 0; i < graph.Length; i++)
@@ -52,29 +52,8 @@ class Program
         for (int i = 0; i < count; i++)
         {
             x = gra.UnmappingStep(x, out graph);
-
-            //TODO убрать как можно скорее
-            for (int j = 0; j < graph.Length; j++)
-            {
-                for (int k = 0; k < graph[j].Length; k++)
-                {
-                    graph[j][k]++;
-                }
-            }
-
-
-            GrafFeduchiMatteus gfm = new GrafFeduchiMatteus(graph, x);
-            q = gfm.FeduchiMatteus(graph, ref x, n);
-
-            //TODO убрать как можно скорее
-            for (int j = 0; j < graph.Length; j++)
-            {
-                for (int k = 0; k < graph[j].Length; k++)
-                {
-                    graph[j][k]--;
-                }
-            }
-
+            FiducciaMattheysesMethod gfm = new FiducciaMattheysesMethod(graph, x);
+            x = gfm.FiducciaMattheyses(n);
         }
 
 
@@ -84,7 +63,6 @@ class Program
         }
         Console.WriteLine("----------------------------------");
         Console.WriteLine(String.Join(" ", x));
-        Console.WriteLine(q);
         Console.WriteLine("----------------------------------");
 
     }
