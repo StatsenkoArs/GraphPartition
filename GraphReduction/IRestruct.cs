@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GraphRepresentation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,12 +13,12 @@ namespace GraphReduction
     public interface IRestruct
     {
         /// <summary>
-        /// По графу, сжимаещему отображению и кол-ву групп в отображении строит новый граф
+        /// Строит новый граф по старому графу, отображению вершин и кол-ву групп.
         /// </summary>
-        /// <param name="graph">Исходный граф</param>
-        /// <param name="vertex_mapping">Сжиамющее отображение</param>
-        /// <param name="group">Кол-во групп в сжимающем отображении</param>
+        /// <param name="graph">Старый граф</param>
+        /// <param name="vertex_mapping">Отображение вершин</param>
+        /// <param name="group">Кол-во групп отображения</param>
         /// <returns>Новый граф</returns>
-        public int[][] Restruct(int[][] graph, in int[] vertex_mapping, int group);
+        public IGraph Restruct(IGraph graph, in int[] vertex_mapping, int group);
     }
 }

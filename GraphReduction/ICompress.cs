@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GraphRepresentation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,7 +17,7 @@ namespace GraphReduction
         /// </summary>
         /// <param name="graph">Граф, по которому создаётся сжимающее отображение</param>
         /// <returns>Сжимающее отображение</returns>
-        public int[] Compress(in int[][] graph);
+        public int[] Compress(IGraph graph);
         /// <summary>
         /// Метод, возвращающий количество групп, распределенных в последнем сжимающем отображении
         /// </summary>

@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace GraphReduction
 {
-    public class SimpleStepGraphRestoration : IGraphRestoration
-
+    public class SimpleGraphRestoration : IGraphRestoration
     {
-        public int[] UnmappingStep(int[] partition, int[] mapping)
+        public int[] Restore(int[] partition, int[] mapping) //Как избавиться тут от второго массива int
         {
             int[] tmp = new int[mapping.Length];
             for (int i = 0; i < mapping.Length; i++)

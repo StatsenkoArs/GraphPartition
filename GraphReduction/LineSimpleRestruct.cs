@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace GraphReduction
 {
-    public class StringSimpleRestruct: IRestruct
+    public class LineSimpleRestruct: IRestruct
     {
         private int[][] new_graph;
 
-        public StringSimpleRestruct()
+        public LineSimpleRestruct()
         {
             new_graph = Array.Empty<int[]>();
         }

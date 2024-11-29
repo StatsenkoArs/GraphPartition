@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GraphRepresentation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,17 +17,17 @@ namespace GraphReduction
             vertex_mapping = Array.Empty<int>();
             graph_vertex_used = Array.Empty<bool>();
         }
-        public int[] Compress(in int[][] graph)
+        public int[] Compress(IGraph graph)
         {
-            vertex_mapping = new int[graph.Length];
-            graph_vertex_used = new bool[graph.Length];
-            for (int i = 0; i < graph.Length; i++)
+            vertex_mapping = new int[graph.CountEdges];
+            graph_vertex_used = new bool[graph.CountEdges];
+            for (int i = 0; i < graph.CountEdges; i++)
             {
                 graph_vertex_used[i] = false;
             }
             int group = 0;
             bool flag = true;
-            for (int i = 0; i < graph.Count(); i++)
+            for (int i = 0; i < graph.CountEdges; i++)
             {
                 if (flag == false)
                 {
@@ -38,18 +39,17 @@ namespace GraphReduction
                     vertex_mapping[i] = group;
                     graph_vertex_used[i] = true;
                     flag = false;
-                    for (int j = 0; j < graph[i].Count(); j++)
-                    {а
-                        if (graph_vertex_used[graph[i][j]] == false)
+                    for (int j = 0; j < graph.GetVertexDegree(i); j++)
+                    {
+                        if (graph_vertex_used[graph[i,j]] == false)
                         {
-                            vertex_mapping[graph[i][j]] = group;
-                            graph_vertex_used[graph[i][j]] = true;
+                            vertex_mapping[graph[i, j]] = group;
+                            graph_vertex_used[graph[i, j]] = true;
                             group++;
                             flag = true;
                             break;
                         }
                     }
-
                 }
             }
             _group = group;
