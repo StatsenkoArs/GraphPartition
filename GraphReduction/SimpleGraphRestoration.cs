@@ -8,8 +8,19 @@ namespace GraphReduction
 {
     public class SimpleGraphRestoration : IGraphRestoration
     {
-        public int[] Restore(int[] partition, int[] mapping) //Как избавиться тут от второго массива int
+        private Stack<int[]> mappings;
+        public SimpleGraphRestoration()
         {
+            mappings = new Stack<int[]>();
+        }
+
+        public int[] Restore(int[] partition)
+        {
+            if (mappings.Count == 0)
+            {
+                return partition;
+            }
+            int[] mapping = mappings.Pop();
             int[] tmp = new int[mapping.Length];
             for (int i = 0; i < mapping.Length; i++)
             {
@@ -22,6 +33,10 @@ namespace GraphReduction
                 }
             }
             return tmp;
+        }
+        public void SetMappingStorage(Stack<int[]> mappings)
+        {
+            this.mappings = mappings;
         }
     }
 }

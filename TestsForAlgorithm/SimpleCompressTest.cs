@@ -1,4 +1,5 @@
 ﻿using GraphReduction;
+using GraphRepresentation;
 
 namespace TestsForAlgorithm
 {
@@ -18,7 +19,7 @@ namespace TestsForAlgorithm
                     [3]
                 ];
             ICompress compress = new SimpleCompress();
-            int[] result = compress.Compress(graph);
+            int[] result = compress.Compress(new GraphSRC(graph));
             CollectionAssert.AreEqual(expected, result);
         }
         [TestMethod]
@@ -34,7 +35,7 @@ namespace TestsForAlgorithm
                     [3]
                 ];
             ICompress compress = new SimpleCompress();
-            int[] result = compress.Compress(graph);
+            int[] result = compress.Compress(new GraphSRC(graph));
             Assert.AreEqual(expected, compress.GetNumOfGroup());
         }
     }
