@@ -25,7 +25,8 @@ namespace ExampleGenerator
         public int[][] Generate(int n, int edges, int q, int dif = 0)
         {
 
-            if (edges > Enumerable.Range(1, n / 2 - dif).Sum() / 2) throw new Exception("Too many edges in graph generation");
+            if (n % 2 == 0 && edges > n * (n - 2) / 4.0 + q) throw new Exception("Too many edges in graph generation");
+            else if (n % 2 != 0 && edges > Math.Pow(n / 2.0, 2) + q) throw new Exception("Too many edges in graph generation");
 
             _graph = new List<int>[n];
             for (int i = 0; i < n; i++)

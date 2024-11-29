@@ -1,4 +1,4 @@
-using GraphRepresentation;
+﻿using GraphRepresentation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace GraphReduction
 {
-    public interface IGraphRestoration
+    public interface IGraphReduction
     {
-        int[] Restore(int[] partition);
+        IGraph Reduct(IGraph graph);
     }
 }

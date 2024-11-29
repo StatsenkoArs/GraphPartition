@@ -1,19 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ExampleGenerator\ExampleGenerator.csproj" />
     <ProjectReference Include="..\GraphOptimisation\GraphOptimisation.csproj" />
     <ProjectReference Include="..\GraphPartitionAccurate\GraphPartitionAccurate.csproj" />
-    <ProjectReference Include="..\GraphPartitionClass\GraphPartitionClass.csproj" />
     <ProjectReference Include="..\GraphReduction\GraphReduction.csproj" />
-    <ProjectReference Include="..\TestsForAlgorithm\TestsForAlgorithm.csproj" />
+    <ProjectReference Include="..\GraphRepresentation\GraphRepresentation.csproj" />
   </ItemGroup>
 
 </Project>
