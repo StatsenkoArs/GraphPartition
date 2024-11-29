@@ -12,8 +12,8 @@ namespace GraphReduction
         /// <summary>
         /// Восстанавливает граф каким-то образом.
         /// </summary>
-        /// <param name="partition"></param>
-        /// <returns></returns>
+        /// <param name="partition">Исходное разбиеие</param>
+        /// <returns>Разбиение большей размерности</returns>
         int[] Restore(int[] partition);
         void SetMappingStorage(Stack<int[]> mappings);
     }
