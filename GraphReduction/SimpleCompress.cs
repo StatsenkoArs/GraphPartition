@@ -25,16 +25,21 @@ namespace GraphReduction
                 graph_vertex_used[i] = false;
             }
             int group = 0;
-            bool flag = false;
+            bool flag = true;
             for (int i = 0; i < graph.Count(); i++)
             {
+                if (flag == false)
+                {
+                    group++;
+                    flag = true;
+                }
                 if (graph_vertex_used[i] == false)
                 {
                     vertex_mapping[i] = group;
                     graph_vertex_used[i] = true;
                     flag = false;
                     for (int j = 0; j < graph[i].Count(); j++)
-                    {
+                    {а
                         if (graph_vertex_used[graph[i][j]] == false)
                         {
                             vertex_mapping[graph[i][j]] = group;
@@ -44,10 +49,7 @@ namespace GraphReduction
                             break;
                         }
                     }
-                    if (flag == false)
-                    {
-                        group++;
-                    }
+
                 }
             }
             _group = group;
