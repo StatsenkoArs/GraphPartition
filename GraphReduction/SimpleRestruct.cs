@@ -15,11 +15,6 @@ namespace GraphReduction
         {
             new_graph = Array.Empty<int[]>();
         }
-        public int[][] GetGraph()
-        {
-            if (new_graph.Length != 0) return new_graph;
-            else throw new Exception("GraphIsEmptyException");
-        }
 
         public int[][] Restruct(int[][] graph, in int[] vertex_mapping, int group)
         {

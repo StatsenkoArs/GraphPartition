@@ -12,12 +12,7 @@ namespace GraphReduction
     public interface IRestruct
     {
         /// <summary>
-        /// Метод, возвращающий последний сжатый граф
-        /// </summary>
-        /// <returns>Последний сжатый граф</returns>
-        public int[][] GetGraph();
-        /// <summary>
-        /// По графу, сжиамющему отображению и кол-ву групп в отображении строит новый граф
+        /// По графу, сжимаещему отображению и кол-ву групп в отображении строит новый граф
         /// </summary>
         /// <param name="graph">Исходный граф</param>
         /// <param name="vertex_mapping">Сжиамющее отображение</param>
