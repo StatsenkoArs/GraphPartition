@@ -204,7 +204,7 @@ namespace TestsForAlgorithm
             Assert.IsTrue(x.Sum() >= graph.CountVertecies / 2 && x.Sum() <= graph.CountVertecies + 1);
         }
 
-        //[TestMethod]
+        [TestMethod]
         public void Test100Vert()
         {
             int[][] graphArray = { [],
@@ -313,7 +313,7 @@ namespace TestsForAlgorithm
             Assert.IsTrue(x.Sum() >= graph.CountVertecies / 2 && x.Sum() <= graph.CountVertecies + 1);
         }
 
-        //[TestMethod]
+        [TestMethod]
         public void Test101Vert()
         {
             int[][] graphArray = { [1],
@@ -423,7 +423,7 @@ namespace TestsForAlgorithm
             Assert.IsTrue(x.Sum() >= graph.CountVertecies / 2 && x.Sum() <= graph.CountVertecies + 1);
         }
 
-        //[TestMethod]
+        [TestMethod]
         public void Test151Vert()
         {
             int[][] graphArray = { [1],

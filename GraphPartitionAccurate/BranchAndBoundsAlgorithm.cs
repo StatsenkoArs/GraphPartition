@@ -76,7 +76,7 @@ namespace GraphPartitionAccurate
         {
             if (step == n)
             {
-                if (_allEdges - edgesFirst - edgesSecond < _q)
+                if (sum > n / 2 - 1 && sum < n / 2 + 1 && _allEdges - edgesFirst - edgesSecond < _q)
                 {
                     x.CopyTo(_x, 0);
                     _q = _allEdges - edgesFirst - edgesSecond;
