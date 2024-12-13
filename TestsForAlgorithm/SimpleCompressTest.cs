@@ -38,5 +38,25 @@ namespace TestsForAlgorithm
             int[] result = compress.Compress(new GraphSRC(graph));
             Assert.AreEqual(expected, compress.GetNumOfGroup());
         }
+        [TestMethod]
+        public void TestSimpleCompress3()
+        {
+            int[] expected = [0,1,1,2,3,2,0,4,5,3];
+            int[][] graph = [
+                    [6],
+                    [2,5],
+                    [1,6,7],
+                    [5,8],
+                    [5,9],
+                    [1,3,4,7],
+                    [0,2],
+                    [2,5],
+                    [3,9],
+                    [4,8]
+                ];
+            ICompress compress = new SimpleCompress();
+            int[] result = compress.Compress(new GraphSRC(graph));
+            CollectionAssert.AreEqual(expected, result);
+        }
     }
 }
