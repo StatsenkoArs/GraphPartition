@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\GraphOptimisation\GraphOptimisation.csproj" />
     <ProjectReference Include="..\GraphRepresentation\GraphRepresentation.csproj" />
   </ItemGroup>
 
