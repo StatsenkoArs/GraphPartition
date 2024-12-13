@@ -15,6 +15,10 @@ namespace GraphReduction
         /// <param name="partition">Исходное разбиеие</param>
         /// <returns>Разбиение большей размерности</returns>
         int[] Restore(int[] partition);
+
+        //исправление номер два
+        public void SetGraphStorage(Stack<IGraph> graph);
+
         void SetMappingStorage(Stack<int[]> mappings);
     }
 }

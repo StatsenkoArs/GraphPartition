@@ -24,12 +24,18 @@ namespace GraphPartitionClass
         {
             IGraph srcGraph = new GraphSRC(graph);
             int n = srcGraph.CountVertecies;
-            //TODO: remove magic number '30' (add some kind of config maybe)
-            while (srcGraph.CountVertecies > 30)
+            Stack<int[]> mapping = new Stack<int[]>();
+            Stack<IGraph> graphCache = new Stack<IGraph>();
+            //TODO: remove magic number '20' (add some kind of config maybe)
+            while (srcGraph.CountVertecies > 20)
             {
                 srcGraph = ReductionAlgorithm.Reduct(srcGraph);
+                graphCache.Push(srcGraph);
+                mapping.Push(ReductionAlgorithm.GetLastMapping());
             }
             int[] partition = AccuratePartition.GetPartition(srcGraph);
+            RestorationAlgorithm.SetGraphStorage(graphCache);
+            RestorationAlgorithm.SetMappingStorage(mapping);
             while (srcGraph.CountVertecies < n)
             {
                 partition = RestorationAlgorithm.Restore(partition);

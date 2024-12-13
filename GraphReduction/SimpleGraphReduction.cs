@@ -19,8 +19,8 @@ namespace GraphReduction
         }
         public IGraph Reduct(IGraph graph)
         {
-            int[] mapping = compress.Compress(graph);
-            return restruct.Restruct(graph, mapping, compress.GetNumOfGroup());
+            _mapping = compress.Compress(graph);
+            return restruct.Restruct(graph, _mapping, compress.GetNumOfGroup());
         }
         public int[] GetLastMapping()
         {

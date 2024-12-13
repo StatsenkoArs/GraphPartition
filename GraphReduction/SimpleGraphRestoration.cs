@@ -17,6 +17,8 @@ namespace GraphReduction
         public SimpleGraphRestoration(IPartitionOptimisation optimisator)
         {
             mappings = new Stack<int[]>();
+            // исправление номер раз
+            this.optimisator = optimisator;
         }
 
         public int[] Restore(int[] partition)
