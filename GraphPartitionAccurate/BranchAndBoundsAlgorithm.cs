@@ -56,8 +56,7 @@ namespace GraphPartitionAccurate
             int result = 0;
             for (int i = 0; i < _graph.GetVertexDegree(step); i++)
             {
-                if (_graph[step, i] > step) continue;
-                result += (x[step] - koef) * (x[_graph[step, i]] - koef);
+                if (_graph[step, i] < step) result += (x[step] - koef) * (x[_graph[step, i]] - koef);
             }
             return Math.Abs(result);
         }
@@ -91,7 +90,7 @@ namespace GraphPartitionAccurate
                 }
                 else if (sum > n / 2 + 1 || step - sum > n / 2 + 1) return;
 
-            if (_allEdges - edgesFirst - edgesSecond - edgesLeft > _q) return;
+            //if (_allEdges - edgesFirst - edgesSecond - edgesLeft > _q) return;
             
             x[step] = 0;
             int dif = EdgesChange(x, step);
