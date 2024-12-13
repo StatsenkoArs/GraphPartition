@@ -9,9 +9,14 @@ namespace GraphReduction
 {
     public class SimpleCompress : ICompress
     {
-        private int[]? vertex_mapping;
-        private bool[]? graph_vertex_used;  //Убрать? Учитывать это по заполненности шифра?
+        private int[] vertex_mapping;
+        private bool[] graph_vertex_used;  //Убрать? Учитывать это по заполненности шифра?
         private int _group;
+        public SimpleCompress()
+        {
+            vertex_mapping = Array.Empty<int>();
+            graph_vertex_used = Array.Empty<bool>();
+        }
         public int[] Compress(IGraph graph)
         {
             vertex_mapping = new int[graph.CountVertecies];
