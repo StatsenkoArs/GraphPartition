@@ -9,6 +9,7 @@ namespace GraphOptimisation
 {
     public interface IPartitionOptimisation
     {
-        int[] OptimisePartition(IGraph graph, int[] partition)
+        int[] OptimisePartition(IGraph graph, int[] partition, int numberOfBlockedIterations);
+            // Начальное кол-во итераций, когда вершину двигать нельзя (Обычно =1)
     }
 }
