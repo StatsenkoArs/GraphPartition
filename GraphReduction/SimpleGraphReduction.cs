@@ -11,6 +11,7 @@ namespace GraphReduction
     {
         IRestruct restruct;
         ICompress compress;
+        int[] _mapping;
         public SimpleGraphReduction(IRestruct restruct, ICompress compress)
         {
             this.restruct = restruct;
@@ -20,6 +21,10 @@ namespace GraphReduction
         {
             int[] mapping = compress.Compress(graph);
             return restruct.Restruct(graph, mapping, compress.GetNumOfGroup());
+        }
+        public int[] GetLastMapping()
+        {
+            return _mapping;
         }
     }
 }
