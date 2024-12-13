@@ -14,7 +14,7 @@ namespace GraphReduction
         {
             int[][] new_graph;
             List<int> tmp_row_graph = new List<int>();
-            new_graph = new int[group][];
+            new_graph = new int[group + 1][];
             int[,] new_graph_matrix = GetTransitionMatrix(graph, in vertex_mapping, group);
             for (int i = 0; i < new_graph_matrix.GetLength(0); i++)
             {
@@ -36,8 +36,8 @@ namespace GraphReduction
         }
         private int[,] GetTransitionMatrix(IGraph graph, in int[] vertex_mapping, int group)
         {
-            int[,] new_graph_matrix = new int[group, group];
-            for (int i = 0; i < graph.CountEdges; i++)
+            int[,] new_graph_matrix = new int[group+1, group+1];
+            for (int i = 0; i < graph.CountVertecies; i++)
             {
                 for (int j = 0; j < graph.GetVertexDegree(i); j++)
                 {
