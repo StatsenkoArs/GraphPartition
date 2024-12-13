@@ -1,4 +1,6 @@
-﻿namespace GraphOptimisation
+﻿using GraphRepresentation;
+
+namespace GraphOptimisation
 {
      public class FiducciaMattheysesMethod : IPartitionOptimisation
      {

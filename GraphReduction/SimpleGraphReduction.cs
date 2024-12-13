@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GraphReduction
 {
-    internal class SimpleGraphReduction : IGraphReduction
+    public class SimpleGraphReduction : IGraphReduction
     {
         IRestruct restruct;
         ICompress compress;

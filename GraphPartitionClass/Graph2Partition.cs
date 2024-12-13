@@ -7,10 +7,10 @@ namespace GraphPartitionClass
 {
     public class Graph2Partition : IGraphPartition
     {
-        public IGraphReduction ReductionAlgorithm { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public IAccuratePartition AccuratePartition { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public IGraphRestoration RestorationAlgorithm { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public IPartitionOptimisation OptimisationAlgorithm { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public IGraphReduction ReductionAlgorithm { get; set; }
+        public IAccuratePartition AccuratePartition { get; set; }
+        public IGraphRestoration RestorationAlgorithm { get; set    ; }
+        public IPartitionOptimisation OptimisationAlgorithm { get; set; }
 
         public Graph2Partition(IGraphReduction reductionAlgoritm, IAccuratePartition accuratePartition, IGraphRestoration restorationAlgorithm, IPartitionOptimisation optimisationAlgorithm) 
         {
@@ -24,6 +24,7 @@ namespace GraphPartitionClass
         {
             IGraph srcGraph = new GraphSRC(graph);
             int n = srcGraph.CountVertecies;
+            //TODO: remove magic number '30' (add some kind of config maybe)
             while (srcGraph.CountVertecies > 30)
             {
                 srcGraph = ReductionAlgorithm.Reduct(srcGraph);

@@ -20,7 +20,10 @@ class Program
         }
         Console.WriteLine("----------------------------------");
 
-        IGraphPartition grp = new Graph2Partition(new SimpleReduction(), new BranchAndBoundsAlgorithm(), new SimpleRestoration(), new FiducciaMattheysesMethod());
+        IGraphPartition grp = new Graph2Partition(new SimpleGraphReduction(new SimpleRestruct(), new SimpleCompress()), 
+                                                new BranchAndBoundsAlgorithm(), 
+                                                new SimpleGraphRestoration(new FiducciaMattheysesMethod()), 
+                                                new FiducciaMattheysesMethod());
 
         int[] answer = grp.GetPartition(graph);
 

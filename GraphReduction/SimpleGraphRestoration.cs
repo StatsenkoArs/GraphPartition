@@ -26,7 +26,8 @@ namespace GraphReduction
                 return partition;
             }
             int[] tmp = StretchPartition(partition);
-            tmp = optimisator.OptimisePartition(graphs.Pop(), tmp);
+            //TODO: remove magic number '5' (maybe add confid to graphpartition class & optimisation algorithm)
+            tmp = optimisator.OptimisePartition(graphs.Pop(), tmp, 5);
             return tmp;
         }
 
