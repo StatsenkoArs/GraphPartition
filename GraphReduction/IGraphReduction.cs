@@ -15,5 +15,7 @@ namespace GraphReduction
         /// <param name="graph">Старый граф</param>
         /// <returns>Новый граф меньшего размера</returns>
         IGraph Reduct(IGraph graph);
+        public int[] GetLastMapping();
+
     }
 }
