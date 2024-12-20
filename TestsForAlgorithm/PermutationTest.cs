@@ -49,5 +49,13 @@ namespace TestsForAlgorithm
             int res = ps.GetPosByNum(1);
             Assert.AreEqual(expected, res);
         }
+        [TestMethod]
+        public void ConstructorArrayTest()
+        {
+            PermutationStructure ps = new PermutationStructure([3,2,1,0]);
+            int expected = 1;
+            int res = ps.GetPosByNum(2);
+            Assert.AreEqual(expected, res);
+        }
     }
 }
