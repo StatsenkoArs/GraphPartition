@@ -25,6 +25,19 @@ namespace GraphReduction
                 reverse_permutation[i] = i;
             }
         }
+        public PermutationStructure(int[] array)
+        {
+            _divide_count = 0;
+            _length = array.Length;
+            permutation = new int[_length];
+            reverse_permutation = new int[_length];
+            for (int i = 0; i < _length; i++)
+            {
+                permutation[i] = array[i];
+                reverse_permutation[array[i]] = i;
+            }
+        }
+
         public void Change(int from, int to)
         {
             if (from >= _length) { throw new ArgumentException("from >= perm length", "from");}
