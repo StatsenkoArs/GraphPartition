@@ -17,19 +17,19 @@ namespace GraphReduction
         public SimpleGraphRestoration(IPartitionOptimisation optimisator)
         {
             mappings = new Stack<int[]>();
-            // исправление номер раз
             this.optimisator = optimisator;
         }
 
         public int[] Restore(int[] partition)
         {
-            if (mappings.Count == 0)
+            if (mappings.Count == 0) //Бросать исключение?
             {
                 return partition;
             }
             int[] tmp = StretchPartition(partition);
             //TODO: remove magic number '5' (maybe add confid to graphpartition class & optimisation algorithm)
-            tmp = optimisator.OptimisePartition(graphs.Pop(), tmp, 5);
+            IGraph graph = graphs.Pop();
+            tmp = optimisator.OptimisePartition(graph, tmp, 5);
             return tmp;
         }
 

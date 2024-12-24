@@ -36,7 +36,7 @@ namespace GraphReduction
         }
         private int[,] GetTransitionMatrix(IGraph graph, in int[] vertex_mapping, int group)
         {
-            int[,] new_graph_matrix = new int[group+1, group+1];
+            int[,] new_graph_matrix = new int[group + 1, group + 1];
             for (int i = 0; i < graph.CountVertecies; i++)
             {
                 for (int j = 0; j < graph.GetVertexDegree(i); j++)

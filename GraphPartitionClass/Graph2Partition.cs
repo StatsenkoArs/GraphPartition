@@ -26,6 +26,7 @@ namespace GraphPartitionClass
             int n = srcGraph.CountVertecies;
             Stack<int[]> mapping = new Stack<int[]>();
             Stack<IGraph> graphCache = new Stack<IGraph>();
+            graphCache.Push(srcGraph);
             //TODO: remove magic number '20' (add some kind of config maybe)
             while (srcGraph.CountVertecies > 20)
             {
@@ -36,6 +37,7 @@ namespace GraphPartitionClass
             int[] partition = AccuratePartition.GetPartition(srcGraph);
             RestorationAlgorithm.SetGraphStorage(graphCache);
             RestorationAlgorithm.SetMappingStorage(mapping);
+            graphCache.Pop();
             while (srcGraph.CountVertecies < n)
             {
                 partition = RestorationAlgorithm.Restore(partition);

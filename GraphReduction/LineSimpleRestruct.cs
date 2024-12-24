@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GraphReduction
 {
-    public class LineSimpleRestruct//: IRestruct
+    public class LineSimpleRestruct//: IRestruct Экспериментальная версия - не используется.
     {
         private int[][] new_graph;
 
