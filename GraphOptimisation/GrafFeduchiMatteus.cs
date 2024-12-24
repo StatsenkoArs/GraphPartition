@@ -43,7 +43,8 @@ namespace GraphOptimisation
               T_CountBlockingIterations = new int[graph.CountVertecies];
               isVertexMoved = new int[graph.CountVertecies];
               this.countBlockingIteration = numberOfBlockedIterations;
-              
+              iteration = 0;
+              numberPartition = 0;
               do
               {
                   UpdateData(graph);
