@@ -13,7 +13,7 @@ namespace GraphReduction
         public int[] BuildLevelStructure(IGraph graph, int start_vertex)
         {
             bool[] is_use = new bool[graph.CountVertecies]; //костыль?
-            int[] level_structure = new int[graph.CountVertecies];
+            int[] level_structure = new int[graph.CountVertecies]; 
             int[] max_vertex_in_level = new int[graph.CountVertecies];
             PermutationStructure vertex_perm = new PermutationStructure(graph.CountVertecies);
             Queue<int> vertex_queue = new Queue<int>();

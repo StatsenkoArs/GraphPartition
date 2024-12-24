@@ -12,10 +12,8 @@ namespace GraphReduction
         private int[] permutation;
         private int[] reverse_permutation;
         private int _length;
-        private int _divide_count;
         public PermutationStructure(int length)
         {
-            _divide_count = 0;
             _length = length;
             permutation = new int[length];
             reverse_permutation = new int[length];
@@ -27,7 +25,6 @@ namespace GraphReduction
         }
         public PermutationStructure(int[] array)
         {
-            _divide_count = 0;
             _length = array.Length;
             permutation = new int[_length];
             reverse_permutation = new int[_length];

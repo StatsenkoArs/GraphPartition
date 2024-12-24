@@ -15,6 +15,10 @@ namespace GraphReduction
         /// <param name="graph">Старый граф</param>
         /// <returns>Новый граф меньшего размера</returns>
         IGraph Reduct(IGraph graph);
+        /// <summary>
+        /// Возвращает последнее отображения. Костыль?
+        /// </summary>
+        /// <returns>Последнее отображение</returns>
         public int[] GetLastMapping();
 
     }
