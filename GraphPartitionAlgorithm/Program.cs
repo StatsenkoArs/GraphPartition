@@ -9,7 +9,7 @@ class Program
 {
     static void Main(string[] args)
     {
-        int n = 50;
+        int n = 100;
         
         Generator g  = new Generator();
         var graph = g.Generate(n, n * (n - 2) / 16, n / 20);
@@ -28,5 +28,6 @@ class Program
         int[] answer = grp.GetPartition(graph);
 
         Console.WriteLine(String.Join(" ", answer));
+        Console.WriteLine(answer.Sum());
     }
 }

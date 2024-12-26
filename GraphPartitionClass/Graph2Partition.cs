@@ -38,7 +38,7 @@ namespace GraphPartitionClass
             RestorationAlgorithm.SetGraphStorage(graphCache);
             RestorationAlgorithm.SetMappingStorage(mapping);
             graphCache.Pop();
-            while (srcGraph.CountVertecies < n)
+            while (partition.Length < n)
             {
                 partition = RestorationAlgorithm.Restore(partition);
             }
