@@ -9,6 +9,7 @@ namespace GraphPartitionAccurate
         private IGraph _graph;
         private int _n = 0;
         private int _allEdges = 0;
+        private int _dif = 0;
 
         /// <summary>
         /// Запускает решение точным алгоритмом
@@ -20,11 +21,15 @@ namespace GraphPartitionAccurate
         {
             Init(graph);
 
-            FindSolution(new int[_n], _n, 0, 0, 0, 0, _allEdges);
+            FindSolution(new int[_n], _n, 0, 0, 0);
 
             return _x;
         }
 
+        /// <summary>
+        /// Инит полей класса
+        /// </summary>
+        /// <param name="graph">граф для разбиения</param>
         private void Init(IGraph graph)
         {
             _graph = graph;
@@ -49,14 +54,14 @@ namespace GraphPartitionAccurate
         /// </summary>
         /// <param name="x">текущее решение</param>
         /// <param name="step"> (вершина) текущий шаг алгоритма</param>
-        /// <returns></returns>
-        private int EdgesChange(int[] x, int step)
+        /// <returns>изменение критерия при помещении вершины в подграф</returns>
+        private int QChanges(int[] x, int step)
         {
-            int koef = x[step] == 0 ? 1 : 0;
             int result = 0;
             for (int i = 0; i < _graph.GetVertexDegree(step); i++)
             {
-                if (_graph[step, i] < step) result += (x[step] - koef) * (x[_graph[step, i]] - koef);
+                if (_graph[step, i] < step)
+                    result += x[step] == x[_graph[step, i]] ? 0 : 1;
             }
             return Math.Abs(result);
         }
@@ -71,14 +76,14 @@ namespace GraphPartitionAccurate
         /// <param name="edgesFirst">внутрення связность первого подграфа('0')</param>
         /// <param name="edgesSecond">внутренная связность второго подграфа('1')</param>
         /// <param name="edgesLeft">ребра, смежные с нераспределенными вершинами</param>
-        private void FindSolution(int[] x, int n, int step, int sum, int edgesFirst, int edgesSecond, int edgesLeft)
+        private void FindSolution(int[] x, int n, int step, int sum, int currentQ)
         {
             if (step == n)
             {
-                if (sum > n / 2 - 1 && sum < n / 2 + 1 && _allEdges - edgesFirst - edgesSecond < _q)
+                if (sum > n / 2 - 1 && sum < n / 2 + 1 && currentQ < _q)
                 {
                     x.CopyTo(_x, 0);
-                    _q = _allEdges - edgesFirst - edgesSecond;
+                    _q = currentQ;
                 }
                 return;
             }
@@ -90,14 +95,14 @@ namespace GraphPartitionAccurate
                 }
                 else if (sum > n / 2 + 1 || step - sum > n / 2 + 1) return;
 
-            //if (_allEdges - edgesFirst - edgesSecond - edgesLeft > _q) return;
+            if (currentQ > _q) return;
             
             x[step] = 0;
-            int dif = EdgesChange(x, step);
-            FindSolution(x, n, step + 1, sum, edgesFirst + dif, edgesSecond, edgesLeft - dif);
+            _dif = QChanges(x, step);
+            FindSolution(x, n, step + 1, sum, currentQ + _dif);
             x[step] = 1;
-            dif = EdgesChange(x, step);
-            FindSolution(x, n, step + 1, sum + 1, edgesFirst, edgesSecond + dif, edgesLeft - dif);
+            _dif = QChanges(x, step);
+            FindSolution(x, n, step + 1, sum + 1, currentQ + _dif);
         }
     }
 }
