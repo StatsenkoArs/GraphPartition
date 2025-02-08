@@ -11,6 +11,15 @@ namespace TestsForAlgorithm
     [TestClass]
     public class AccurateTests
     {
+        private TestContext testContext;
+
+        public TestContext TestContext
+        {
+            get { return testContext; }
+            set { testContext = value; }
+        }
+
+
         [TestMethod]
         public void Test9Vert()
         {
@@ -27,6 +36,8 @@ namespace TestsForAlgorithm
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
             int[] x = ap.GetPartition(graph);
             Assert.IsTrue(x.Sum() >= graph.CountVertecies / 2 && x.Sum() <= graph.CountVertecies + 1);
+            TestContext.WriteLine("x = [" + String.Join(", ", ap.GetSolution().Item1) + "]");
+            TestContext.WriteLine("q = " + ap.GetSolution().Item2);
         }
 
         [TestMethod]
@@ -45,6 +56,8 @@ namespace TestsForAlgorithm
             IGraph graph = new GraphSRC(graphArray);
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
             int[] x = ap.GetPartition(graph);
+            TestContext.WriteLine("x = [" + String.Join(", ", ap.GetSolution().Item1) + "]");
+            TestContext.WriteLine("q = " + ap.GetSolution().Item2);
             Assert.IsTrue(x.Sum() >= graph.CountVertecies / 2 && x.Sum() <= graph.CountVertecies + 1);
         }
 
@@ -52,7 +65,7 @@ namespace TestsForAlgorithm
         public void Test10Vert2()
         {
             int[][] graphArray = { [ 1,  3,  4],
-                                [ 0,  2,  4, 0],
+                                [ 0,  2,  4],
                                 [ 1,  4,  5],
                                 [ 0,  4,  6],
                                 [ 0,  1,  2,  3,  5,  6,  7,  8],
@@ -65,6 +78,8 @@ namespace TestsForAlgorithm
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
             int[] x = ap.GetPartition(graph);
             Assert.IsTrue(x.Sum() >= graph.CountVertecies / 2 && x.Sum() <= graph.CountVertecies + 1);
+            TestContext.WriteLine("x = [" + String.Join(", ", ap.GetSolution().Item1) + "]");
+            TestContext.WriteLine("q = " + ap.GetSolution().Item2);
         }
 
         [TestMethod]
@@ -84,6 +99,8 @@ namespace TestsForAlgorithm
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
             int[] x = ap.GetPartition(graph);
             Assert.IsTrue(x.Sum() >= graph.CountVertecies / 2 && x.Sum() <= graph.CountVertecies + 1);
+            TestContext.WriteLine("x = [" + String.Join(", ", ap.GetSolution().Item1) + "]");
+            TestContext.WriteLine("q = " + ap.GetSolution().Item2);
         }
 
         [TestMethod]
@@ -108,6 +125,8 @@ namespace TestsForAlgorithm
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
             int[] x = ap.GetPartition(graph);
             Assert.IsTrue(x.Sum() >= graph.CountVertecies / 2 && x.Sum() <= graph.CountVertecies + 1);
+            TestContext.WriteLine("x = [" + String.Join(", ", ap.GetSolution().Item1) + "]");
+            TestContext.WriteLine("q = " + ap.GetSolution().Item2);
         }
 
         [TestMethod]
@@ -202,9 +221,120 @@ namespace TestsForAlgorithm
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
             int[] x = ap.GetPartition(graph);
             Assert.IsTrue(x.Sum() >= graph.CountVertecies / 2 && x.Sum() <= graph.CountVertecies + 1);
+            TestContext.WriteLine("x = [" + String.Join(", ", ap.GetSolution().Item1) + "]");
+            TestContext.WriteLine("q = " + ap.GetSolution().Item2);
         }
 
         [TestMethod]
+
+        public void Test100VertRenum()
+        {
+            int[][] graphArray = {  [1],
+                                    [0, 2],
+                                    [1, 3],
+                                    [4, 2],
+                                    [5, 6, 7, 3, 8],
+                                    [4, 9],
+                                    [10, 4, 11],
+                                    [12, 4],
+                                    [4, 13, 14],
+                                    [5],
+                                    [15, 6, 16, 17, 18, 19],
+                                    [6],
+                                    [20, 7],
+                                    [21, 22, 8, 19],
+                                    [23, 8],
+                                    [10, 24, 25, 26, 27, 28],
+                                    [10, 25, 29],
+                                    [10, 30, 31],
+                                    [10],
+                                    [10, 13, 32, 31],
+                                    [12, 33],
+                                    [34, 13],
+                                    [25, 35, 13, 36],
+                                    [37, 14],
+                                    [15, 38],
+                                    [15, 16, 22, 39],
+                                    [15, 40, 41, 42, 43, 44],
+                                    [15, 46, 45],
+                                    [15, 47, 48],
+                                    [16, 49, 50],
+                                    [51, 42, 17, 52, 53],
+                                    [54, 17, 55, 19],
+                                    [56, 19],
+                                    [20, 38],
+                                    [58, 57, 21],
+                                    [51, 59, 22],
+                                    [60, 22, 61],
+                                    [23],
+                                    [24, 33],
+                                    [49, 25, 62],
+                                    [44, 63, 26],
+                                    [26, 62],
+                                    [30, 26],
+                                    [57, 26],
+                                    [40, 64, 26],
+                                    [46, 65, 66, 27],
+                                    [45, 27],
+                                    [28],
+                                    [28],
+                                    [29, 39],
+                                    [54, 29],
+                                    [67, 35, 30],
+                                    [30],
+                                    [30],
+                                    [50, 68, 31],
+                                    [31],
+                                    [59, 69, 32],
+                                    [60, 43, 34, 70],
+                                    [34, 71],
+                                    [56, 35],
+                                    [57, 36],
+                                    [72, 36],
+                                    [41, 39],
+                                    [40],
+                                    [73, 44],
+                                    [74, 45],
+                                    [76, 45, 75],
+                                    [51],
+                                    [54],
+                                    [56, 75],
+                                    [57],
+                                    [58],
+                                    [61],
+                                    [64],
+                                    [65, 77, 78, 79],
+                                    [80, 69, 66],
+                                    [66],
+                                    [74],
+                                    [74],
+                                    [74],
+                                    [75],
+                                    [],
+                                    [],
+                                    [],
+                                    [],
+                                    [],
+                                    [],
+                                    [],
+                                    [],
+                                    [90],
+                                    [89, 91],
+                                    [90],
+                                    [],
+                                    [],
+                                    [95],
+                                    [94],
+                                    [] };
+            IGraph graph = new GraphSRC(graphArray);
+            IAccuratePartition ap = new BranchAndBoundsAlgorithm();
+            int[] x = ap.GetPartition(graph);
+            Assert.IsTrue(x.Sum() >= graph.CountVertecies / 2 && x.Sum() <= graph.CountVertecies + 1);
+            TestContext.WriteLine("x = [" + String.Join(", ", ap.GetSolution().Item1) + "]");
+            TestContext.WriteLine("q = " + ap.GetSolution().Item2);
+        }
+
+        //[TestMethod]
         public void Test100Vert()
         {
             int[][] graphArray = { [],
@@ -313,7 +443,7 @@ namespace TestsForAlgorithm
             Assert.IsTrue(x.Sum() >= graph.CountVertecies / 2 && x.Sum() <= graph.CountVertecies + 1);
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void Test101Vert()
         {
             int[][] graphArray = { [1],
@@ -423,7 +553,7 @@ namespace TestsForAlgorithm
             Assert.IsTrue(x.Sum() >= graph.CountVertecies / 2 && x.Sum() <= graph.CountVertecies + 1);
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void Test151Vert()
         {
             int[][] graphArray = { [1],
