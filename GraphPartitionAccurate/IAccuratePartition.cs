@@ -10,5 +10,7 @@ namespace GraphPartitionAccurate
     public interface IAccuratePartition
     {
         int[] GetPartition(IGraph graph);
+
+        (int[], int) GetSolution();
     }
 }

@@ -73,17 +73,26 @@ namespace GraphPartitionAccurate
         /// <param name="n">количестов вершин в графе</param>
         /// <param name="step">текущий шаг (номер обрабатываемой вершины)</param>
         /// <param name="sum">сумма элементов решения (количество вершин в одном из подграфов('1'))</param>
-        /// <param name="edgesFirst">внутрення связность первого подграфа('0')</param>
-        /// <param name="edgesSecond">внутренная связность второго подграфа('1')</param>
-        /// <param name="edgesLeft">ребра, смежные с нераспределенными вершинами</param>
+        /// <param name="currentQ">текущий критерий</param>
         private void FindSolution(int[] x, int n, int step, int sum, int currentQ)
         {
             if (step == n)
             {
-                if (sum > n / 2 - 1 && sum < n / 2 + 1 && currentQ < _q)
+                if (currentQ < _q)
                 {
-                    x.CopyTo(_x, 0);
-                    _q = currentQ;
+                    if (n % 2 == 0)
+                    {
+                        if (sum == n / 2)
+                        {
+                            x.CopyTo(_x, 0);
+                            _q = currentQ;
+                        }
+                    }
+                    else if (sum == n / 2 + 1 || step - sum == n / 2 + 1)
+                    {
+                        x.CopyTo(_x, 0);
+                        _q = currentQ;
+                    }
                 }
                 return;
             }
