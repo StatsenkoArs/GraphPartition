@@ -1,6 +1,6 @@
 ﻿namespace GraphRenumbering
 {
-    internal class LevelStructCRS
+    public class LevelStructCRS
     {
         private int[] _adjacentNums;
         private int[] _adjacentLevels;

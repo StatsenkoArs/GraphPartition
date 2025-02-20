@@ -2,7 +2,7 @@
 
 namespace GraphRenumbering
 {
-    class CuthillMcKeeAlg
+    public class CuthillMcKeeAlg
     {
         public PermutationStructure GetPermutation(IGraph graph, int s_v)
         {

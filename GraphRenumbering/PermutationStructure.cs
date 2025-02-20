@@ -53,7 +53,6 @@
         {
             return reverse_permutation[num];
         }
-
-
+        public int GetLength() { return _length; }
     }
 }
