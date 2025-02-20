@@ -1,6 +1,6 @@
 ﻿using GraphRepresentation;
 
-namespace GraphReduction
+namespace GraphRenumbering
 {
     public class GraphRenum
     {

@@ -1,10 +1,10 @@
 ﻿namespace GraphRenumbering
 {
-    internal class LevelStructSRC
+    internal class LevelStructCRS
     {
         private int[] _adjacentNums;
         private int[] _adjacentLevels;
-        public LevelStructSRC(int[] adjacentNums, int[] adjacentLevels)
+        public LevelStructCRS(int[] adjacentNums, int[] adjacentLevels)
         {
             _adjacentLevels = adjacentLevels;
             _adjacentNums = adjacentNums;
