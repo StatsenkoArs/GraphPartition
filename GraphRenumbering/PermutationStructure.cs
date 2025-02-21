@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GraphReduction
+﻿namespace GraphRenumbering
 {
     public class PermutationStructure
     {
@@ -35,18 +28,21 @@ namespace GraphReduction
             }
         }
 
-        public void Change(int from, int to)
+        public void ChangeByPos(int from, int to)
         {
-            if (from >= _length) { throw new ArgumentException("from >= perm length", "from");}
-            if (to   >= _length) { throw new ArgumentException("to >= perm length", "to");}
+            if (from >= _length) { throw new ArgumentException("from >= perm length", "from"); }
+            if (to >= _length) { throw new ArgumentException("to >= perm length", "to"); }
 
-            int tmp_perm    = permutation[from];
-            int tmp_reverse = reverse_permutation[to];
-            permutation[from] = to;
-            permutation[tmp_reverse] = tmp_perm;
+            int tmp_to = permutation[to];
+            int tmp_from = permutation[from];
 
-            reverse_permutation[to] = from;
-            reverse_permutation[tmp_perm] = tmp_reverse;
+            permutation[to] = permutation[from];
+            permutation[from] = tmp_to;
+
+            int tmp_reverse_to = reverse_permutation[tmp_to];
+
+            reverse_permutation[tmp_to] = reverse_permutation[tmp_from];
+            reverse_permutation[tmp_from] = tmp_reverse_to;
         }
 
         public int GetNumByPos(int pos)
@@ -57,7 +53,6 @@ namespace GraphReduction
         {
             return reverse_permutation[num];
         }
-
-
+        public int GetLength() { return _length; }
     }
 }

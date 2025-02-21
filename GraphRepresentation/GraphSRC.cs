@@ -34,7 +34,7 @@
         public int[] GetAdjacentVertecies(int vertexNum)
         {
             int right = _adjacentNums[vertexNum + 1];
-            int left = _adjacentVertecies[vertexNum];
+            int left = _adjacentNums[vertexNum];
             int[] slice = new int[right - left];
             Array.Copy(_adjacentVertecies, left, slice, 0, right - left);
             return slice;
