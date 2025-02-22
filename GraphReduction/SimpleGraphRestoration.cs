@@ -47,9 +47,9 @@ namespace GraphReduction
         {
             this.mappings = mappings;
         }
-        public void SetGraphStorage(Stack<IGraph> graph)
+        public void SetGraphStorage(Stack<IGraph> graphs)
         {
-            this.graphs = graph;
+            this.graphs = graphs;
         }
     }
 }

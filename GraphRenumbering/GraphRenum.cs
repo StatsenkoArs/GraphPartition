@@ -2,8 +2,17 @@
 
 namespace GraphRenumbering
 {
+    /// <summary>
+    /// Класс для перенумерации графа
+    /// </summary>
     public class GraphRenum
     {
+        /// <summary>
+        /// По графу и перестановке вершин строит новый перенумерованный граф
+        /// </summary>
+        /// <param name="graph">Исходный граф</param>
+        /// <param name="permutation">Перестановка вершин графа</param>
+        /// <returns>Граф с новой нумераией</returns>
         public IGraph RenumGraph(IGraph graph, PermutationStructure permutation)
         {
             int[][] renum_graph = new int[graph.CountVertecies][];

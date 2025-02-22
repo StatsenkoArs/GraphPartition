@@ -2,6 +2,9 @@
 
 namespace GraphReduction
 {
+    /// <summary>
+    /// Интерфейс для редукции графа
+    /// </summary>
     public interface IGraphReduction
     {
         /// <summary>
