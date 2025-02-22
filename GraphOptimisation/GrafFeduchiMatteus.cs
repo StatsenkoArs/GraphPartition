@@ -1,11 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+using GraphRepresentation;
 
 namespace GraphOptimisation
 {
@@ -23,15 +16,15 @@ namespace GraphOptimisation
         private int[] isVertexMoved; //Была ли тронута вершина
         private int numberPartition = 0; //Номер текущего подграфа
 
-        private int rightCriterion; //Лучший минимальный критерий
-        private int currentCriterion; //Текущий критерий
+        private int rightCriterion = 0; //Лучший минимальный критерий
+        private int currentCriterion = 0; //Текущий критерий
 
-        private float rightDisbalance; //Лучший дисбаланс
-        private float currentDisbalance; //Текущий дисбаланс
+        private float rightDisbalance = 0; //Лучший дисбаланс
+        private float currentDisbalance = 0; //Текущий дисбаланс
 
         private int iteration = 0;
-        private int indexMovedVertex; //Номер перемещённой вершины
-        private int countElemInFirstSubgraph; //Кол-во элементов в первом подграфе
+        private int indexMovedVertex = 0; //Номер перемещённой вершины
+        private int countElemInFirstSubgraph = 0; //Кол-во элементов в первом подграфе
 
 
         /// <summary>
@@ -55,12 +48,12 @@ namespace GraphOptimisation
             this.countBlockingIteration = numberOfBlockedIterations;
             iteration = 0;
             numberPartition = 0;
+            countElemInFirstSubgraph = 0;
 
 
             do
             {
                 UpdateVectorsEID(graph);
-
                 //Первый подграф - подграф с большим кол-вом вершин.
                 if (countElemInFirstSubgraph < currentPartition.Length - countElemInFirstSubgraph)
                 {
@@ -70,7 +63,6 @@ namespace GraphOptimisation
 
                 if (iteration == 0)
                     CriterionAndDisbalanceCheck(graph);
-
 
                 //Находим элеменет, который будет перемещён в другой подграф
                 bool flag = false; //флаг на первый элменет
@@ -106,7 +98,6 @@ namespace GraphOptimisation
 
                 MovedCheck();
                 CriterionAndDisbalanceCheck(graph);
-
                 //Сравнение дисбаланса и критерия текущего с наилучшими
                 if (rightCriterion >= currentCriterion && rightDisbalance >= currentDisbalance)
                 {
@@ -279,6 +270,13 @@ namespace GraphOptimisation
                     return true;
             }
             return false;
+        }
+
+        private void Print(string name, int[] vector)
+        {
+            Console.Write(name + ": ");
+            foreach (int i in vector) Console.Write(i + " ");
+            Console.WriteLine();
         }
 
     }
