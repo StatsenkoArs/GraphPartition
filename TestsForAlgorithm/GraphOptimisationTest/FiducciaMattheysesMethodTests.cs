@@ -1,10 +1,6 @@
-﻿using Feduchi_Matteus_method_exampl_1;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
+using GraphOptimisation;
+using GraphRepresentation;
+using ExampleGenerator;
 
 namespace UnitTestProject1
 {
