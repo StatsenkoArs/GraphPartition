@@ -272,12 +272,5 @@ namespace GraphOptimisation
             return false;
         }
 
-        private void Print(string name, int[] vector)
-        {
-            Console.Write(name + ": ");
-            foreach (int i in vector) Console.Write(i + " ");
-            Console.WriteLine();
-        }
-
     }
 }
