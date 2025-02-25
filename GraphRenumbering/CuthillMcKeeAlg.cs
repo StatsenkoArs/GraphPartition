@@ -2,8 +2,18 @@
 
 namespace GraphRenumbering
 {
+    /// <summary>
+    /// Класс, который реализует работу алгоиртма 
+    /// Катхилл - Макки и поиска начального узла
+    /// </summary>
     public class CuthillMcKeeAlg
     {
+        /// <summary>
+        /// По алгоритму Катхилл - Макки находи необходимую перенумерацию графа
+        /// </summary>
+        /// <param name="graph">Граф, для которого ищется новая нумерация</param>
+        /// <param name="s_v">Вершина, с которой алгоритм начинает свою работу</param>
+        /// <returns>Перестановка для перенумерации графа</returns>
         public PermutationStructure GetPermutation(IGraph graph, int s_v)
         {
             PermutationStructure vertex_perm = new PermutationStructure(graph.CountVertecies);
@@ -39,6 +49,13 @@ namespace GraphRenumbering
             }
             return vertex_perm;
         }
+        /// <summary>
+        /// Находит псевдопериферийную вершину-корень для связной компоненты графа, 
+        /// в которую входит вершина start_vertex
+        /// </summary>
+        /// <param name="graph">Граф, для которого нужно найти псевдопериферийную вершину</param>
+        /// <param name="start_vertex">Вершина, с которой начинается поиск</param>
+        /// <returns>Номер псевдопериферийной вершины</returns>
         public int FindRoot(IGraph graph, int start_vertex) //Модифицированный алгоритм Гиббса
         {
             LevelStructCRS root_level_struct = BuildGraphLevel(graph, start_vertex);
@@ -61,6 +78,14 @@ namespace GraphRenumbering
             }
             return x;
         }
+        /// <summary>
+        /// Строит структуру уровней смежности графа для стартовой вершины
+        /// </summary>
+        /// <param name="graph">Граф, для которого нужно построить структуру
+        /// уровней смежности
+        /// </param>
+        /// <param name="root_vertex">Корневая вершина для построения</param>
+        /// <returns>Стурктура уровней смежности графа в формате CRS</returns>
         public LevelStructCRS BuildGraphLevel(IGraph graph, int root_vertex)
         {
             int[] level = new int[graph.CountVertecies];

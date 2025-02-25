@@ -1,5 +1,9 @@
 ﻿namespace GraphRenumbering
 {
+    /// <summary>
+    /// Класс для хранения Структуры уровней смежности графа
+    /// в формате CRS
+    /// </summary>
     public class LevelStructCRS
     {
         private int[] _adjacentNums;
