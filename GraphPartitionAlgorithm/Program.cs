@@ -9,25 +9,25 @@ class Program
 {
     static void Main(string[] args)
     {
-        int n = 100;
+        int n = 500;
         
         Generator g  = new Generator();
-        var graph = g.Generate(n, n * (n - 2) / 16, n / 20);
+        var graph = g.Generate(n, 2 * n, n / 20);
 
         for (int i = 0; i < graph.Length; i++)
         {
-            Console.WriteLine(i + ": " + String.Join(" ", graph[i]));
+           Console.WriteLine(i + ": " + String.Join(" ", graph[i]));
         }
         Console.WriteLine("----------------------------------");
 
-        IGraphPartition grp = new Graph2Partition(new SimpleGraphReduction(new SimpleRestruct(), new SimpleCompress()), 
-                                                new BranchAndBoundsAlgorithm(), 
-                                                new SimpleGraphRestoration(new FiducciaMattheysesMethod()), 
-                                                new FiducciaMattheysesMethod());
+        //IGraphPartition grp = new Graph2Partition(new SimpleGraphReduction(new SimpleRestruct(), new SimpleCompress()), 
+        //                                        new BranchAndBoundsAlgorithm(), 
+        //                                        new SimpleGraphRestoration(new FiducciaMattheysesMethod()), 
+        //                                        new FiducciaMattheysesMethod());
 
-        int[] answer = grp.GetPartition(graph);
+        //int[] answer = grp.GetPartition(graph);
 
-        Console.WriteLine(String.Join(" ", answer));
-        Console.WriteLine(answer.Sum());
+        //Console.WriteLine(String.Join(" ", answer));
+        //Console.WriteLine(answer.Sum());
     }
 }
