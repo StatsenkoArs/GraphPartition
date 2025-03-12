@@ -4,6 +4,7 @@ using GraphPartitionAccurate;
 using GraphReduction;
 using GraphPartitionClass;
 using System.Diagnostics;
+using GraphRepresentation;
 
 namespace TestsForAlgorithm
 {
@@ -22,14 +23,13 @@ namespace TestsForAlgorithm
         public void EndToEnd_10000Vertex_Balance5000()
         {
             Stopwatch timer = new Stopwatch();
-            timer.Start();
             int num_of_vetex = 10000;
             int balance = 5000;
             int cut = 2;
 
             Generator g = new Generator();
             var graph = g.Generate(num_of_vetex, num_of_vetex * (num_of_vetex - 2) / 16, cut);
-
+            timer.Start();
 
             IGraphPartition grp = new Graph2Partition(new SimpleGraphReduction(new SimpleRestruct(), new SimpleCompress()),
                                                     new BranchAndBoundsAlgorithm(),
@@ -39,21 +39,22 @@ namespace TestsForAlgorithm
             int[] partition = grp.GetPartition(graph);
             timer.Stop();
             Assert.AreEqual(balance, partition.Sum());
-            testContext.WriteLine(Convert.ToString(timer.Elapsed.TotalSeconds));
+            testContext.WriteLine("TIME " + Convert.ToString(timer.Elapsed.TotalSeconds));
+            testContext.WriteLine("CUT " + Convert.ToString((new GraphSRC(graph).GetGraphCut(partition))));
         }
 
         [TestMethod]
         public void EndToEnd_5000Vertex_Balance2500()
         {
             Stopwatch timer = new Stopwatch();
-            timer.Start();
+            
             int num_of_vetex = 5000;
             int balance = 2500;
             int cut = 2;
 
             Generator g = new Generator();
             var graph = g.Generate(num_of_vetex, num_of_vetex * (num_of_vetex - 2) / 16, cut);
-
+            timer.Start();
 
             IGraphPartition grp = new Graph2Partition(new SimpleGraphReduction(new SimpleRestruct(), new SimpleCompress()),
                                                     new BranchAndBoundsAlgorithm(),
@@ -63,7 +64,8 @@ namespace TestsForAlgorithm
             int[] partition = grp.GetPartition(graph);
             timer.Stop();
             Assert.AreEqual(balance, partition.Sum());
-            testContext.WriteLine(Convert.ToString(timer.Elapsed.TotalSeconds));
+            testContext.WriteLine("TIME "+ Convert.ToString(timer.Elapsed.TotalSeconds));
+            testContext.WriteLine("CUT " + Convert.ToString((new GraphSRC(graph).GetGraphCut(partition))));
         }
     }
 }
