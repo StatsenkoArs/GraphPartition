@@ -7,6 +7,6 @@
         int CountEdges { get; }
         int GetVertexDegree(int vertexNum);
         int[] GetAdjacentVertecies(int vertexNum);
-
+        int GetGraphCut(int[] partition);
     }
 }

@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\GraphPartitionClass\GraphPartitionClass.csproj" />
     <ProjectReference Include="..\GraphReduction\GraphReduction.csproj" />
     <ProjectReference Include="..\GraphPartitionAccurate\GraphPartitionAccurate.csproj" />
     <ProjectReference Include="..\GraphRenumbering\GraphRenumbering.csproj" />

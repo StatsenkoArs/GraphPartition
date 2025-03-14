@@ -11,8 +11,7 @@ namespace TestsForAlgorithm
         {
             IGraph graph = new GraphSRC([[1], [0]]);
             PermutationStructure pstr = new PermutationStructure([1, 0]);
-            GraphRenum rgraph = new GraphRenum();
-            IGraph new_graph = rgraph.RenumGraph(graph, pstr);
+            IGraph new_graph = GraphRenum.RenumGraph(graph, pstr);
             Assert.AreEqual(0, new_graph[0,1]);
         }
     }
