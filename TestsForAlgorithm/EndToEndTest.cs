@@ -18,6 +18,7 @@ namespace TestsForAlgorithm
             get { return testContext; }
             set { testContext = value; }
         }
+        private Generator generator = new Generator();
 
         [TestMethod] 
         public void EndToEnd_10000Vertex_Balance5000()
@@ -25,10 +26,10 @@ namespace TestsForAlgorithm
             Stopwatch timer = new Stopwatch();
             int num_of_vetex = 10000;
             int balance = 5000;
-            int cut = 2;
+            int cut = 10;
+            int num_of_edges = num_of_vetex * (num_of_vetex - 2) / 16;
+            int[][] graph = generator.Generate(num_of_vetex, num_of_edges, cut);
 
-            Generator g = new Generator();
-            var graph = g.Generate(num_of_vetex, num_of_vetex * (num_of_vetex - 2) / 16, cut);
             timer.Start();
 
             IGraphPartition grp = new Graph2Partition(new SimpleGraphReduction(new SimpleRestruct(), new SimpleCompress()),
@@ -50,10 +51,10 @@ namespace TestsForAlgorithm
             
             int num_of_vetex = 5000;
             int balance = 2500;
-            int cut = 2;
+            int cut = 10;
+            int num_of_edges = num_of_vetex * (num_of_vetex - 2) / 16;
+            int[][] graph = generator.Generate(num_of_vetex, num_of_edges, cut);
 
-            Generator g = new Generator();
-            var graph = g.Generate(num_of_vetex, num_of_vetex * (num_of_vetex - 2) / 16, cut);
             timer.Start();
 
             IGraphPartition grp = new Graph2Partition(new SimpleGraphReduction(new SimpleRestruct(), new SimpleCompress()),
