@@ -14,7 +14,7 @@ namespace GraphRenumbering
         /// <param name="graph">Граф, для которого ищется новая нумерация</param>
         /// <param name="s_v">Вершина, с которой алгоритм начинает свою работу</param>
         /// <returns>Перестановка для перенумерации графа</returns>
-        public PermutationStructure GetPermutation(IGraph graph, int s_v)
+        public static PermutationStructure GetPermutation(IGraph graph, int s_v)
         {
             PermutationStructure vertex_perm = new PermutationStructure(graph.CountVertecies);
             var comp = Comparer<int>.Create((int x, int y) => Convert.ToInt32(graph.GetVertexDegree(x) < graph.GetVertexDegree(y)));
@@ -56,7 +56,7 @@ namespace GraphRenumbering
         /// <param name="graph">Граф, для которого нужно найти псевдопериферийную вершину</param>
         /// <param name="start_vertex">Вершина, с которой начинается поиск</param>
         /// <returns>Номер псевдопериферийной вершины</returns>
-        public int FindRoot(IGraph graph, int start_vertex) //Модифицированный алгоритм Гиббса
+        public static int FindRoot(IGraph graph, int start_vertex) //Модифицированный алгоритм Гиббса
         {
             LevelStructCRS root_level_struct = BuildGraphLevel(graph, start_vertex);
             int root, x = start_vertex, max_level = 0, min_degree;
@@ -86,7 +86,7 @@ namespace GraphRenumbering
         /// </param>
         /// <param name="root_vertex">Корневая вершина для построения</param>
         /// <returns>Стурктура уровней смежности графа в формате CRS</returns>
-        public LevelStructCRS BuildGraphLevel(IGraph graph, int root_vertex)
+        public static LevelStructCRS BuildGraphLevel(IGraph graph, int root_vertex)
         {
             int[] level = new int[graph.CountVertecies];
             List<int> level_pos = new List<int>();

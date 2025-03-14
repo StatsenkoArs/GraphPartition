@@ -7,7 +7,7 @@
         /// </summary>
         /// <param name="graph_size">Размер перестановки для графа</param>
         /// <returns>Перестановка для графа</returns>
-        public PermutationStructure GetPermutation(int graph_size)
+        public static PermutationStructure GetPermutation(int graph_size)
         {
             int[] perm = new int[graph_size];
             for (int i = 0; i < graph_size; i++)
