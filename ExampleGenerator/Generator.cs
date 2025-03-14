@@ -7,6 +7,7 @@ namespace ExampleGenerator
     {
         private List<int>[] _graph;
         private Random _random = new Random();
+        private int _limit;
 
         public Generator() 
         { 
@@ -22,11 +23,14 @@ namespace ExampleGenerator
         /// <param name="dif">разница между числом ребер в правом и левом подграфах</param>
         /// <returns>сгенерированный граф</returns>
         /// <exception cref="Exception">число ребер больше чем число возможных ребер для данного графа</exception>
-        public int[][] Generate(int n, int edges, int q, int dif = 0)
+        public int[][] Generate(int n, int edges, int q, int limit = 5, int dif = 0)
         {
-
+            _limit = limit;
             if (n % 2 == 0 && edges > n * (n - 2) / 4.0 + q) throw new Exception("Too many edges in graph generation");
             else if (n % 2 != 0 && edges > Math.Pow(n / 2.0, 2) + q) throw new Exception("Too many edges in graph generation");
+            else if (edges < n) throw new Exception("Too few edges in graph generation");
+            else if (_limit >= n) throw new Exception("Please... Limit can't be bigger than edges quantity...");
+            else if (_limit <= 2 * edges / n) throw new Exception("Limit is too low");
 
             _graph = new List<int>[n];
             for (int i = 0; i < n; i++)
@@ -131,7 +135,7 @@ namespace ExampleGenerator
             {
                 int leftVertex = leftVertexNums[_random.Next(0, leftVertexNums.Count)];
                 int rightVertex = rightVertexNums[_random.Next(0, rightVertexNums.Count)];
-                if (leftVertex != rightVertex && !_graph[leftVertex].Contains(rightVertex))
+                if (leftVertex != rightVertex && !_graph[leftVertex].Contains(rightVertex) && _graph[leftVertex].Count < _limit && _graph[rightVertex].Count < _limit)
                 {
                     _graph[leftVertex].Add(rightVertex);
                     _graph[rightVertex].Add(leftVertex);
@@ -147,7 +151,12 @@ namespace ExampleGenerator
         /// <param name="quantity">количество ребер</param>
         private void GenerateForVertexes(List<int> numVertexes, int quantity)
         {
-            for (int i = 0; i < quantity; i++)
+            for (int i = 1; i < numVertexes.Count; i++)
+            {
+                _graph[numVertexes[i]].Add(numVertexes[i - 1]);
+                _graph[numVertexes[i - 1]].Add(numVertexes[i]);
+            }
+            for (int i = numVertexes.Count - 1; i < quantity; i++)
             {
                 AddEdge(numVertexes, numVertexes);
             }

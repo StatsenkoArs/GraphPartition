@@ -9,14 +9,14 @@ class Program
 {
     static void Main(string[] args)
     {
-        int n = 100;
+        int n = 1000;
         
         Generator g  = new Generator();
-        var graph = g.Generate(n, n * (n - 2) / 16, n / 20);
+        var graph = g.Generate(n, 2 * n, 3);
 
         for (int i = 0; i < graph.Length; i++)
         {
-            Console.WriteLine(i + ": " + String.Join(" ", graph[i]));
+           Console.WriteLine(i + ": " + String.Join(" ", graph[i]));
         }
         Console.WriteLine("----------------------------------");
 
