@@ -13,7 +13,7 @@ namespace GraphRenumbering
         /// <param name="graph">Исходный граф</param>
         /// <param name="permutation">Перестановка вершин графа</param>
         /// <returns>Граф с новой нумераией</returns>
-        public IGraph RenumGraph(IGraph graph, PermutationStructure permutation)
+        public static IGraph RenumGraph(IGraph graph, PermutationStructure permutation)
         {
             int[][] renum_graph = new int[graph.CountVertecies][];
             for (int i = 0; i < graph.CountVertecies; i++)
