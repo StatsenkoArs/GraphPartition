@@ -1,7 +1,16 @@
 ﻿namespace ExampleGenerator
 {
+    /// <summary>
+    /// Класс для генератора графа на сетке
+    /// </summary>
     public class GridGraphGenerator
     {
+        /// <summary>
+        /// Создаёт граф на сетке
+        /// </summary>
+        /// <param name="num_of_row">Кол-во строк</param>
+        /// <param name="num_of_col">Кол-во столбцов</param>
+        /// <returns>Готовый граф</returns>
         public static int[][] Generate(int num_of_row, int num_of_col)
         {
             int[][] graph = new int[num_of_row * num_of_col][];
