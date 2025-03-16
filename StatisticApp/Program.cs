@@ -22,9 +22,8 @@ public class Program
         }
     }
 
-    public static void GenBase(string folderPath)
+    public static void GenBase(string folderPath, int[] vert)
     {
-        int[] vert = { 20, 200, 1000, 2000, 20000 };
         Generator gen = new Generator();
 
         foreach (var v in vert)
@@ -95,7 +94,7 @@ public class Program
     public static void Main()
     {
         string path = @"C:\Users\Глеб\source\repos\GraphPartition\GraphDB";
-        //GenBase(path);
+        GenBase(path,  new int[]{ });
         List<GraphData> graphs = Parse(path + @"\Json");
 
         Workbook workbook = new Workbook();
