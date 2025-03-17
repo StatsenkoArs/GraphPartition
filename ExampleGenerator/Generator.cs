@@ -26,7 +26,7 @@ namespace ExampleGenerator
         public int[][] Generate(int n, int edges, int q, int limit = 5, int dif = 0)
         {
             _limit = limit;
-            if (n % 2 == 0 && edges > n * (n - 2) / 4.0 + q) throw new Exception("Too many edges in graph generation");
+            if (n % 2 == 0 && edges > (double) n * (n - 2) / 4 + q) throw new Exception("Too many edges in graph generation");
             else if (n % 2 != 0 && edges > Math.Pow(n / 2.0, 2) + q) throw new Exception("Too many edges in graph generation");
             else if (edges < n) throw new Exception("Too few edges in graph generation");
             else if (_limit >= n) throw new Exception("Please... Limit can't be bigger than edges quantity...");
