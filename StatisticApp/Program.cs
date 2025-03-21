@@ -4,7 +4,9 @@ using GraphPartitionAccurate;
 using GraphPartitionClass;
 using GraphReduction;
 using Spire.Xls;
+using System;
 using System.Diagnostics;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Text.Json;
 
@@ -22,21 +24,22 @@ public class Program
         }
     }
 
-    public static void GenBase(string folderPath, int[] vert)
+    public static void GenBase(string folderPath, int[] numbersOfVerts, int numberOfGraphs)
     {
         Generator gen = new Generator();
 
-        foreach (var v in vert)
+        foreach (var v in numbersOfVerts)
         {
             System.IO.Directory.CreateDirectory(folderPath + @"\Json");
             System.IO.Directory.CreateDirectory(folderPath + @"\Txt");
-            for (int i = 1; i <= 2; i++)
+            System.IO.Directory.CreateDirectory(folderPath + @"\Bin");
+            for (int i = 1; i <= numberOfGraphs; i++)
             {
                 int q = i + 1;
                 var t = gen.Generate(v, 2 * v, q);
+                GraphData d = new GraphData(t, q);
                 using (FileStream fs = new FileStream(folderPath + @$"\Json\{v}.{i}.json", FileMode.OpenOrCreate))
                 {
-                    GraphData d = new GraphData(t, q);
                     string json = JsonSerializer.Serialize(d);
                     byte[] buffer = Encoding.Default.GetBytes(json);
                     fs.Write(buffer, 0, buffer.Length);
@@ -58,11 +61,35 @@ public class Program
                     buffer = Encoding.Default.GetBytes(q.ToString());
                     fs.Write(buffer, 0, buffer.Length);
                 }
+                using (FileStream fs = new FileStream(folderPath + @$"\Bin\{v}.{i}.bin", FileMode.OpenOrCreate))
+                {
+                    var json = JsonSerializer.Serialize(d);
+                    byte[] buffer = Encoding.Default.GetBytes(json);
+                    fs.Write(buffer, 0, buffer.Length);
+                }
             }
         }
     }
 
-    public static List<GraphData> Parse(string path)
+    public static List<GraphData> ParseBin(string path)
+    {
+        List<string> files = new List<string>(Directory.GetFiles(path, "*.bin"));
+        List<GraphData> result = new List<GraphData>();
+        foreach (var file in files)
+        {
+            using (FileStream fs = new FileStream(file, FileMode.Open))
+            {
+                byte[] buffer = new byte[fs.Length];
+                fs.Read(buffer, 0, (int)fs.Length);
+                string json = Encoding.Default.GetString(buffer);
+                GraphData d = JsonSerializer.Deserialize<GraphData>(json);
+                result.Add(d);
+            }
+        }
+        return result;
+    }
+
+    public static List<GraphData> ParseJson(string path)
     {
         List<string> files = new List<string>(Directory.GetFiles(path, "*.json"));
         List<GraphData> result = new List<GraphData>();
@@ -94,8 +121,8 @@ public class Program
     public static void Main()
     {
         string path = @"C:\Users\Глеб\source\repos\GraphPartition\GraphDB";
-        GenBase(path,  new int[]{ });
-        List<GraphData> graphs = Parse(path + @"\Json");
+        GenBase(path,  new int[]{ 20, 200, 2000, 20000, 50000 }, 2);
+        List<GraphData> graphs = ParseBin(path + @"\Bin");
 
         Workbook workbook = new Workbook();
 
@@ -132,7 +159,7 @@ public class Program
 
             worksheet.Range[row, 1].Value = gr.Length.ToString();
             worksheet.Range[row, 2].Value = q.ToString();
-            worksheet.Range[row, 3].Value = time.ToString() + "ms";
+            worksheet.Range[row, 3].Value = Math.Round((double)time / 1000, 2).ToString() + "s";
             worksheet.Range[row, 4].Value = Math.Round(balance, 3).ToString();
             worksheet.Range[row, 5].Value = qReal.ToString();
         }
