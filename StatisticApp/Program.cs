@@ -83,7 +83,10 @@ public class Program
                 fs.Read(buffer, 0, (int)fs.Length);
                 string json = Encoding.Default.GetString(buffer);
                 GraphData d = JsonSerializer.Deserialize<GraphData>(json);
-                result.Add(d);
+                if (d != null) 
+                {
+                    result.Add(d);
+                }
             }
         }
         return result;
