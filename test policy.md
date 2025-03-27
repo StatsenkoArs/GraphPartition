@@ -14,17 +14,17 @@
    Arrange (настройка) — в этом блоке кода мы настраиваем тестовое окружение тестируемого юнита;  
    Act — выполнение или вызов тестируемого сценария;  
    Assert — проверка того, что тестируемый вызов ведет себя определенным образом.
-   ```cs
-   class CalculatorTests
-   {
-   	public void Sum_2Plus5_7Returned()  
-   	{
-        	// arrange
+```cs
+class CalculatorTests
+{
+	public void Sum_2Plus5_7Returned()  
+	{
+		// arrange
 		var calc = new Calculator();
 		// act
 		var res = calc.Sum(2,5);
 		// assert
 		Assert.AreEqual(7, res);	
 	}
-   }
-   ```
+}
+```
