@@ -7,7 +7,8 @@ namespace ExampleGenerator
     {
         private List<int>[] _graph;
         private Random _random = new Random();
-        private int _limit;
+        private int _lowLimit;
+        private int _upLimit;
 
         public Generator() 
         { 
@@ -15,22 +16,18 @@ namespace ExampleGenerator
         }
 
         /// <summary>
-        /// метод, генерирующий граф
+        /// Генератор случайных графов
         /// </summary>
-        /// <param name="n">число вершин графа</param>
-        /// <param name="edges">число ребер графа</param>
-        /// <param name="q">критерий задачи разбиения</param>
-        /// <param name="dif">разница между числом ребер в правом и левом подграфах</param>
-        /// <returns>сгенерированный граф</returns>
-        /// <exception cref="Exception">число ребер больше чем число возможных ребер для данного графа</exception>
-        public int[][] Generate(int n, int edges, int q, int limit = 5, int dif = 0)
+        /// <param name="n">число вершин</param>
+        /// <param name="q">критерий</param>
+        /// <param name="lowerAjustLimit">минимум соседей</param>
+        /// <param name="upperAdjustLimit">максимум соседей</param>
+        /// <param name="dif">дисбаланс</param>
+        /// <returns></returns>
+        public int[][] Generate(int n, int q, int lowerAjustLimit = 1, int upperAdjustLimit = 5, int dif = 0)
         {
-            _limit = limit;
-            if (n % 2 == 0 && edges > (double) n * (n - 2) / 4 + q) throw new Exception("Too many edges in graph generation");
-            else if (n % 2 != 0 && edges > Math.Pow(n / 2.0, 2) + q) throw new Exception("Too many edges in graph generation");
-            else if (edges < n) throw new Exception("Too few edges in graph generation");
-            else if (_limit >= n) throw new Exception("Please... Limit can't be bigger than edges quantity...");
-            else if (_limit <= 2 * edges / n) throw new Exception("Limit is too low");
+            _lowLimit = lowerAjustLimit;
+            _upLimit = upperAdjustLimit;
 
             _graph = new List<int>[n];
             for (int i = 0; i < n; i++)
@@ -38,6 +35,7 @@ namespace ExampleGenerator
                 _graph[i] = new List<int>();
             }
 
+            int edges = _random.Next(n * _lowLimit / 2 + 1, n * _upLimit / 2);
             int edgesInLeft = Convert.ToInt32(Math.Ceiling((edges - q) / 2.0)) - dif;
             int edgesInRight = Convert.ToInt32(Math.Floor((edges - q) / 2.0)) + dif;
             
@@ -88,7 +86,7 @@ namespace ExampleGenerator
             {
                 int leftVertex = leftVertexNums[_random.Next(0, leftVertexNums.Count)];
                 int rightVertex = rightVertexNums[_random.Next(0, rightVertexNums.Count)];
-                if (leftVertex != rightVertex && !_graph[leftVertex].Contains(rightVertex) && _graph[leftVertex].Count < _limit && _graph[rightVertex].Count < _limit)
+                if (leftVertex != rightVertex && !_graph[leftVertex].Contains(rightVertex) && _graph[leftVertex].Count < _upLimit && _graph[rightVertex].Count < _upLimit)
                 {
                     _graph[leftVertex].Add(rightVertex);
                     _graph[rightVertex].Add(leftVertex);
@@ -106,8 +104,11 @@ namespace ExampleGenerator
         {
             for (int i = 1; i < numVertexes.Count; i++)
             {
-                _graph[numVertexes[i]].Add(numVertexes[i - 1]);
-                _graph[numVertexes[i - 1]].Add(numVertexes[i]);
+                for (int k = 0; k < _lowLimit; ++k)
+                {
+                    _graph[numVertexes[i]].Add(numVertexes[i - 1]);
+                    _graph[numVertexes[i - 1]].Add(numVertexes[i]);
+                }
             }
             for (int i = numVertexes.Count - 1; i < quantity; i++)
             {
