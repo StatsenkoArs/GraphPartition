@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using GraphRepresentation;
 
 namespace GraphReduction
 {
@@ -16,47 +12,43 @@ namespace GraphReduction
             vertex_mapping = Array.Empty<int>();
             graph_vertex_used = Array.Empty<bool>();
         }
-        public int[] Compress(in int[][] graph)
+        public int[] Compress(IGraph graph)
         {
-            vertex_mapping = new int[graph.Length];
-            graph_vertex_used = new bool[graph.Length];
-            for (int i = 0; i < graph.Length; i++)
+            vertex_mapping = new int[graph.CountVertecies];
+            graph_vertex_used = new bool[graph.CountVertecies];
+            for (int i = 0; i < graph.CountVertecies; i++)
             {
                 graph_vertex_used[i] = false;
             }
             int group = 0;
-            bool flag = false;
-            for (int i = 0; i < graph.Count(); i++)
+            bool flag = true;
+            for (int i = 0; i < graph.CountVertecies; i++)
             {
+                if (flag == false)
+                {
+                    group++;
+                    flag = true;
+                }
                 if (graph_vertex_used[i] == false)
                 {
                     vertex_mapping[i] = group;
                     graph_vertex_used[i] = true;
                     flag = false;
-                    for (int j = 0; j < graph[i].Count(); j++)
+                    for (int j = 0; j < graph.GetVertexDegree(i); j++)
                     {
-                        if (graph_vertex_used[graph[i][j]] == false)
+                        if (graph_vertex_used[graph[i,j]] == false)
                         {
-                            vertex_mapping[graph[i][j]] = group;
-                            graph_vertex_used[graph[i][j]] = true;
+                            vertex_mapping[graph[i, j]] = group;
+                            graph_vertex_used[graph[i, j]] = true;
                             group++;
                             flag = true;
                             break;
                         }
                     }
-                    if (flag == false)
-                    {
-                        group++;
-                    }
                 }
             }
             _group = group;
             return vertex_mapping;
-        }
-        public int[] GetMapping()
-        {
-            if (vertex_mapping.Length != 0) return vertex_mapping;
-            else throw new Exception("CipherIsEmptyException");
         }
 
         public int GetNumOfGroup()

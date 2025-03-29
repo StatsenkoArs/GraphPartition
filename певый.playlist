@@ -1,0 +1,54 @@
+<Playlist Version="2.0">
+  <Rule Name="Includes" Match="Any">
+    <Rule Match="All">
+      <Property Name="Solution" />
+      <Rule Match="Any">
+        <Rule Match="All">
+          <Property Name="Project" Value="TestsForAlgorithm" />
+          <Rule Match="Any">
+            <Rule Match="All">
+              <Property Name="Namespace" Value="TestsForAlgorithm" />
+              <Rule Match="Any">
+                <Rule Match="All">
+                  <Property Name="Class" Value="PermutationTest" />
+                  <Rule Match="Any">
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="AddTest1" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="AddTest1" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="AddTest2" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="AddTest2" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="AddTest3" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="AddTest3" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="ConstructorArrayTest" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="ConstructorArrayTest" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="ConstructorTest" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="ConstructorTest" />
+                      </Rule>
+                    </Rule>
+                  </Rule>
+                </Rule>
+              </Rule>
+            </Rule>
+          </Rule>
+        </Rule>
+      </Rule>
+    </Rule>
+  </Rule>
+</Playlist>
