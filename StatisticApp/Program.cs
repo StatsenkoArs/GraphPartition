@@ -3,12 +3,12 @@ using GraphOptimisation;
 using GraphPartitionAccurate;
 using GraphPartitionClass;
 using GraphReduction;
-using Spire.Xls;
 using System;
 using System.Diagnostics;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Text.Json;
+using ClosedXML.Excel;
 
 public class Program
 {
@@ -63,9 +63,17 @@ public class Program
                 }
                 using (FileStream fs = new FileStream(folderPath + @$"\Bin\{v}.{i}.bin", FileMode.OpenOrCreate))
                 {
-                    var json = JsonSerializer.Serialize(d);
-                    byte[] buffer = Encoding.Default.GetBytes(json);
-                    fs.Write(buffer, 0, buffer.Length);
+                    BinaryWriter bw = new BinaryWriter(fs);
+                    bw.Write(d.graph.Length);
+                    foreach (var row in d.graph)
+                    {
+                        bw.Write(row.Length);
+                        foreach (var elem in row)
+                        {
+                            bw.Write(elem);
+                        }
+                    }
+                    bw.Write(d.q);
                 }
             }
         }
@@ -79,10 +87,18 @@ public class Program
         {
             using (FileStream fs = new FileStream(file, FileMode.Open))
             {
-                byte[] buffer = new byte[fs.Length];
-                fs.Read(buffer, 0, (int)fs.Length);
-                string json = Encoding.Default.GetString(buffer);
-                GraphData d = JsonSerializer.Deserialize<GraphData>(json);
+                BinaryReader br = new BinaryReader(fs);
+                int[][] graph = new int[br.ReadInt32()][];
+                for (int j = 0; j < graph.Length; j++)
+                {
+                    graph[j] = new int[br.ReadInt32()];
+                    for (int u = 0; u < graph[j].Length; u++)
+                    {
+                        graph[j][u] = br.ReadInt32();
+                    }
+                }
+                int q = br.ReadInt32();
+                GraphData d = new GraphData(graph, q);
                 if (d != null) 
                 {
                     result.Add(d);
@@ -90,6 +106,7 @@ public class Program
             }
         }
         return result;
+        
     }
 
     public static List<GraphData> ParseJson(string path)
@@ -121,24 +138,37 @@ public class Program
         return q / 2;
     }
 
+    public static void NukeDirectory(string path)
+    {
+        System.IO.DirectoryInfo di = new DirectoryInfo(path);
+
+        foreach (FileInfo file in di.GetFiles())
+        {
+            file.Delete();
+        }
+        foreach (DirectoryInfo dir in di.GetDirectories())
+        {
+            dir.Delete(true);
+        }
+    }
+
     public static void Main()
     {
         string path = @"C:\Users\Глеб\source\repos\GraphPartition\GraphDB";
+        //NukeDirectory(path);
         GenBase(path,  new int[]{ 20, 200, 2000, 20000, 50000 }, 2);
         List<GraphData> graphs = ParseBin(path + @"\Bin");
 
-        Workbook workbook = new Workbook();
-
-        //Получение первой рабочей страницы
-        Worksheet worksheet = workbook.Worksheets[0];
+        var workbook = new XLWorkbook();
+        var worksheet = workbook.AddWorksheet("Результаты");
 
         int row = 1;
 
-        worksheet.Range[row, 1].Value = "Размер графа";
-        worksheet.Range[row, 2].Value = "Ожидаемый критерий";
-        worksheet.Range[row, 3].Value = "Время выполнения";
-        worksheet.Range[row, 4].Value = "Баланс";
-        worksheet.Range[row, 5].Value = "Найденный критерий";
+        worksheet.Cell(row, 1).Value = "Размер графа";
+        worksheet.Cell(row, 2).Value = "Ожидаемый критерий";
+        worksheet.Cell(row, 3).Value = "Время выполнения";
+        worksheet.Cell(row, 4).Value = "Баланс";
+        worksheet.Cell(row, 5).Value = "Найденный критерий";
         foreach (var graph in graphs)
         {
             row++;
@@ -160,18 +190,15 @@ public class Program
             var balance = (double)answer.Sum() / gr.Length;
             var qReal = Q(gr, answer);
 
-            worksheet.Range[row, 1].Value = gr.Length.ToString();
-            worksheet.Range[row, 2].Value = q.ToString();
-            worksheet.Range[row, 3].Value = Math.Round((double)time / 1000, 2).ToString() + "s";
-            worksheet.Range[row, 4].Value = Math.Round(balance, 3).ToString();
-            worksheet.Range[row, 5].Value = qReal.ToString();
+            worksheet.Cell(row, 1).Value = gr.Length;
+            worksheet.Cell(row, 2).Value = q;
+            worksheet.Cell(row, 3).Value = Math.Round((double)time / 1000, 2).ToString() + "s";
+            worksheet.Cell(row, 4).Value = Math.Round(balance, 3);
+            worksheet.Cell(row, 5).Value = qReal;
         }
-        worksheet.AllocatedRange.AutoFitColumns();
 
-        CellStyle style = workbook.Styles.Add("newStyle");
-        style.Font.IsBold = true;
-        worksheet.Range[1, 1, 1, 4].Style = style;
+        worksheet.Columns().AdjustToContents();
 
-        workbook.SaveToFile(path + @"\Results.xlsx", ExcelVersion.Version2016);
+        workbook.SaveAs(path + @"\result.xlsx");
     }
 }
