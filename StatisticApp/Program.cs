@@ -36,7 +36,7 @@ public class Program
             for (int i = 1; i <= numberOfGraphs; i++)
             {
                 int q = i + 1;
-                var t = gen.Generate(v, 2 * v, q);
+                var t = gen.Generate(v, q);
                 GraphData d = new GraphData(t, q);
                 using (FileStream fs = new FileStream(folderPath + @$"\Json\{v}.{i}.json", FileMode.OpenOrCreate))
                 {
@@ -156,7 +156,7 @@ public class Program
     {
         string path = @"C:\Users\Глеб\source\repos\GraphPartition\GraphDB";
         //NukeDirectory(path);
-        GenBase(path,  new int[]{ 20, 200, 2000, 20000, 50000 }, 2);
+        //GenBase(path,  new int[]{ 20, 200, 2000, 20000, 50000 }, 2);
         List<GraphData> graphs = ParseBin(path + @"\Bin");
 
         var workbook = new XLWorkbook();

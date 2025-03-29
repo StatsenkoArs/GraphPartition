@@ -12,7 +12,7 @@ class Program
         int n = 1000;
         
         Generator g  = new Generator();
-        var graph = g.Generate(n, 2 * n, 3);
+        var graph = g.Generate(n, 3);
 
         for (int i = 0; i < graph.Length; i++)
         {
