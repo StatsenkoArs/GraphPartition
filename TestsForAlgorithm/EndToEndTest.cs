@@ -27,8 +27,7 @@ namespace TestsForAlgorithm
             int num_of_vetex = 10000;
             int balance = 5000;
             int cut = 10;
-            int num_of_edges = num_of_vetex * (num_of_vetex - 2) / 16;
-            int[][] graph = generator.Generate(num_of_vetex, num_of_edges, cut);
+            int[][] graph = generator.Generate(num_of_vetex, cut);
 
             timer.Start();
 
@@ -52,8 +51,7 @@ namespace TestsForAlgorithm
             int num_of_vetex = 5000;
             int balance = 2500;
             int cut = 10;
-            int num_of_edges = num_of_vetex * (num_of_vetex - 2) / 16;
-            int[][] graph = generator.Generate(num_of_vetex, num_of_edges, cut);
+            int[][] graph = generator.Generate(num_of_vetex, cut);
 
             timer.Start();
 
