@@ -1,7 +1,7 @@
 ﻿using GraphReduction;
 using GraphRepresentation;
 
-namespace TestsForAlgorithm
+namespace TestsForAlgorithm.GraphReductionTest
 {
     [TestClass]
     public class SimpleCompressTest

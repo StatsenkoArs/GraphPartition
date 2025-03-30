@@ -1,7 +1,7 @@
 ﻿using GraphRenumbering;
 using GraphRepresentation;
 
-namespace TestsForAlgorithm
+namespace TestsForAlgorithm.GraphRenumberingTest
 {
     [TestClass]
     public class RenumGraphTest

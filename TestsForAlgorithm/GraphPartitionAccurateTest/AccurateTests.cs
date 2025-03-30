@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using GraphPartitionAccurate;
 using GraphRepresentation;
 
-namespace TestsForAlgorithm
+namespace TestsForAlgorithm.GraphPartitionAccurateTest
 {
     [TestClass]
     public class AccurateTests
@@ -36,7 +36,7 @@ namespace TestsForAlgorithm
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
             int[] x = ap.GetPartition(graph);
             Assert.IsTrue(x.Sum() >= graph.CountVertecies / 2 && x.Sum() <= graph.CountVertecies + 1);
-            TestContext.WriteLine("x = [" + String.Join(", ", ap.GetSolution().Item1) + "]");
+            TestContext.WriteLine("x = [" + string.Join(", ", ap.GetSolution().Item1) + "]");
             TestContext.WriteLine("q = " + ap.GetSolution().Item2);
         }
 
@@ -56,7 +56,7 @@ namespace TestsForAlgorithm
             IGraph graph = new GraphSRC(graphArray);
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
             int[] x = ap.GetPartition(graph);
-            TestContext.WriteLine("x = [" + String.Join(", ", ap.GetSolution().Item1) + "]");
+            TestContext.WriteLine("x = [" + string.Join(", ", ap.GetSolution().Item1) + "]");
             TestContext.WriteLine("q = " + ap.GetSolution().Item2);
             Assert.IsTrue(x.Sum() >= graph.CountVertecies / 2 && x.Sum() <= graph.CountVertecies + 1);
         }
@@ -78,7 +78,7 @@ namespace TestsForAlgorithm
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
             int[] x = ap.GetPartition(graph);
             Assert.IsTrue(x.Sum() >= graph.CountVertecies / 2 && x.Sum() <= graph.CountVertecies + 1);
-            TestContext.WriteLine("x = [" + String.Join(", ", ap.GetSolution().Item1) + "]");
+            TestContext.WriteLine("x = [" + string.Join(", ", ap.GetSolution().Item1) + "]");
             TestContext.WriteLine("q = " + ap.GetSolution().Item2);
         }
 
@@ -99,7 +99,7 @@ namespace TestsForAlgorithm
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
             int[] x = ap.GetPartition(graph);
             Assert.IsTrue(x.Sum() >= graph.CountVertecies / 2 && x.Sum() <= graph.CountVertecies + 1);
-            TestContext.WriteLine("x = [" + String.Join(", ", ap.GetSolution().Item1) + "]");
+            TestContext.WriteLine("x = [" + string.Join(", ", ap.GetSolution().Item1) + "]");
             TestContext.WriteLine("q = " + ap.GetSolution().Item2);
         }
 
@@ -125,7 +125,7 @@ namespace TestsForAlgorithm
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
             int[] x = ap.GetPartition(graph);
             Assert.IsTrue(x.Sum() >= graph.CountVertecies / 2 && x.Sum() <= graph.CountVertecies + 1);
-            TestContext.WriteLine("x = [" + String.Join(", ", ap.GetSolution().Item1) + "]");
+            TestContext.WriteLine("x = [" + string.Join(", ", ap.GetSolution().Item1) + "]");
             TestContext.WriteLine("q = " + ap.GetSolution().Item2);
         }
 
@@ -221,7 +221,7 @@ namespace TestsForAlgorithm
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
             int[] x = ap.GetPartition(graph);
             Assert.IsTrue(x.Sum() >= graph.CountVertecies / 2 && x.Sum() <= graph.CountVertecies + 1);
-            TestContext.WriteLine("x = [" + String.Join(", ", ap.GetSolution().Item1) + "]");
+            TestContext.WriteLine("x = [" + string.Join(", ", ap.GetSolution().Item1) + "]");
             TestContext.WriteLine("q = " + ap.GetSolution().Item2);
         }
 
@@ -330,7 +330,7 @@ namespace TestsForAlgorithm
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
             int[] x = ap.GetPartition(graph);
             Assert.IsTrue(x.Sum() >= graph.CountVertecies / 2 && x.Sum() <= graph.CountVertecies + 1);
-            TestContext.WriteLine("x = [" + String.Join(", ", ap.GetSolution().Item1) + "]");
+            TestContext.WriteLine("x = [" + string.Join(", ", ap.GetSolution().Item1) + "]");
             TestContext.WriteLine("q = " + ap.GetSolution().Item2);
         }
 
