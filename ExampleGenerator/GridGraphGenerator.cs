@@ -62,11 +62,20 @@ namespace ExampleGenerator
             }
             return graph;
         }
-
+        /// <summary>
+        /// Создаёт матрицу размерами на 2 больше для рамки
+        /// </summary>
+        /// <param name="num_of_row">Количество строк в матрице</param>
+        /// <param name="num_of_col">Количество столбцов в матрице</param>
+        /// <returns>Матрица размерами на 2 больше</returns>
         public static int[,] GetExpandedMatrix(int num_of_row, int num_of_col)
         {
             return new int[num_of_row + 2, num_of_col + 2];
         }
+        /// <summary>
+        /// Добавляет рамку из -1 по периметру матрицы
+        /// </summary>
+        /// <param name="matrix">Матрица, к которой нужно добавить рамку</param>
         public static void FillExpandedMatrixBorder(int[,] matrix)
         {
             for (int r = 0; r < matrix.GetLength(0); r++)
@@ -80,6 +89,17 @@ namespace ExampleGenerator
                 matrix[matrix.GetLength(0) - 1, c] = -1;
             }
         }
+        /// <summary>
+        /// Добавляет прямоугольные области заполненные -1
+        /// </summary>
+        /// <param name="matrix">Матрица, в которой 
+        /// нужно добавить прямоугольные области
+        /// </param>
+        /// <param name="start_rect_point">Массив для точек левого
+        /// верхнего угла прямоугольников</param>
+        /// <param name="end_rect_point">Массив для точек правого
+        /// нижнего угла прямоугольников</param>
+        /// <exception cref="Exception">Если размеры двух массивов не совпадают</exception>
         public static void AddRectangleHoleMatrix(int[,] matrix, 
                                                   Point[] start_rect_point, 
                                                   Point[] end_rect_point)
@@ -96,6 +116,10 @@ namespace ExampleGenerator
                 } 
             }
         }
+        /// <summary>
+        /// Нумерует матрицу избегая областей с -1
+        /// </summary>
+        /// <param name="matrix">Матрица, которую нужно занумеровать</param>
         public static void NumberExpandedMatrixWithHole(int [,] matrix)
         {
             int count = 0;
@@ -108,6 +132,12 @@ namespace ExampleGenerator
             }
         }
 
+        /// <summary>
+        /// Создаёт граф на основании подготовленной матрицы
+        /// </summary>
+        /// <param name="matrix">Матрица, на основании
+        /// которой создаётся граф</param>
+        /// <returns>Граф в виде списка смежности</returns>
         public static int[][] GetGraphFromMatrix(int [,] matrix)
         {
             Point[] directions = {new(-1, 0), new(0, -1), new(0, 1), new(1, 0)};
@@ -135,7 +165,12 @@ namespace ExampleGenerator
             }
             return graph;
         }
-
+        /// <summary>
+        /// По матрице вычисляет координаты вершин графа
+        /// и заносит их в массив
+        /// </summary>
+        /// <param name="matrix">Матрица, по кторой нужно вычислить координаты</param>
+        /// <returns>Массив координат</returns>
         public static Point[] GetVertexCoordFromMatrix(int[,] matrix)
         {
             Point[] vertexes_coord = new Point[matrix[matrix.GetLength(0) - 2, matrix.GetLength(1) - 2] + 1];
@@ -149,6 +184,18 @@ namespace ExampleGenerator
             }
             return vertexes_coord;
         }
+        /// <summary>
+        /// Производит всю подготовительную работу по созданию
+        /// матрицы и возвращает граф
+        /// </summary>
+        /// <param name="num_of_row">Количество строк в матрице</param>
+        /// <param name="num_of_col">Количество столбцов в матрице</param>
+        /// <param name="start_rect_point">Массив для точек левого
+        /// верхнего угла прямоугольников</param>
+        /// <param name="end_rect_point">Массив для точек правого
+        /// нижнего угла прямоугольников</param>
+        /// <param name="vertexes_coord">Массив, куда запишутся координаты</param>
+        /// <returns>Готовый сеточный граф</returns>
         public static int[][] GenerateWithHole(int num_of_row, int num_of_col, Point[] start_rect_point,
                                                                                Point[] end_rect_point,
                                                                                out Point[] vertexes_coord)
