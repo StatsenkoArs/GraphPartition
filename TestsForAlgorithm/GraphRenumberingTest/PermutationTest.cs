@@ -1,6 +1,6 @@
 ﻿using GraphRenumbering;
 
-namespace TestsForAlgorithm
+namespace TestsForAlgorithm.GraphRenumberingTest
 {
     [TestClass]
     public class PermutationTest

@@ -2,10 +2,10 @@ using GraphOptimisation;
 using GraphRepresentation;
 using ExampleGenerator;
 
-namespace UnitTestProject1
+namespace TestsForAlgorithm.GraphOptimisationTest
 {
     [TestClass]
-    public class UnitTest1
+    public class GraphOptimisationTest
     {
         [TestMethod]
         public void FiducciaMattheysesMethod_EqualDistribution10Vertex_EqualDistribution()
