@@ -2,6 +2,7 @@
 using GraphPartitionAccurate;
 using GraphReduction;
 using GraphRepresentation;
+using System.Configuration;
 
 namespace GraphPartitionClass
 {
@@ -27,8 +28,8 @@ namespace GraphPartitionClass
             Stack<int[]> mapping = new Stack<int[]>();
             Stack<IGraph> graphCache = new Stack<IGraph>();
             graphCache.Push(srcGraph);
-            //TODO: remove magic number '20' (add some kind of config maybe)
-            while (srcGraph.CountVertecies > 20)
+            int reductToVertexes = int.Parse(ConfigurationManager.AppSettings["ReductionToVertexes"] ?? "20");
+            while (srcGraph.CountVertecies > reductToVertexes)
             {
                 srcGraph = ReductionAlgorithm.Reduct(srcGraph);
                 graphCache.Push(srcGraph);
