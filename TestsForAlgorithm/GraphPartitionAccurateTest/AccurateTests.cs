@@ -21,7 +21,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
 
 
         [TestMethod]
-        public void Test9Vert()
+        public void BBAlgorithmGetPartition_9Vertexes_BalancedPartition()
         {
             int[][] graphArray = { [1, 3],
                                 [0, 2, 3, 4],
@@ -36,12 +36,13 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
             int[] x = ap.GetPartition(graph);
             Assert.IsTrue(x.Sum() >= graph.CountVertecies / 2 && x.Sum() <= graph.CountVertecies + 1);
+            
             TestContext.WriteLine("x = [" + string.Join(", ", ap.GetSolution().Item1) + "]");
             TestContext.WriteLine("q = " + ap.GetSolution().Item2);
         }
 
         [TestMethod]
-        public void Test10Vert()
+        public void BBAlgorithmGetPartition_10Vertexes_BalancedPartition()
         {
             int[][] graphArray = { [ 3,  5,  6,  7 ],
                             [ 3,  4,  5,  7,  8,  9 ],
@@ -56,13 +57,14 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
             IGraph graph = new GraphSRC(graphArray);
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
             int[] x = ap.GetPartition(graph);
+            Assert.IsTrue(x.Sum() >= graph.CountVertecies / 2 && x.Sum() <= graph.CountVertecies + 1);
+            
             TestContext.WriteLine("x = [" + string.Join(", ", ap.GetSolution().Item1) + "]");
             TestContext.WriteLine("q = " + ap.GetSolution().Item2);
-            Assert.IsTrue(x.Sum() >= graph.CountVertecies / 2 && x.Sum() <= graph.CountVertecies + 1);
         }
 
         [TestMethod]
-        public void Test10Vert2()
+        public void BBAlgorithmGetPartition_10Vertexes2_BalancedPartition()
         {
             int[][] graphArray = { [ 1,  3,  4],
                                 [ 0,  2,  4],
@@ -78,12 +80,13 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
             int[] x = ap.GetPartition(graph);
             Assert.IsTrue(x.Sum() >= graph.CountVertecies / 2 && x.Sum() <= graph.CountVertecies + 1);
+            
             TestContext.WriteLine("x = [" + string.Join(", ", ap.GetSolution().Item1) + "]");
             TestContext.WriteLine("q = " + ap.GetSolution().Item2);
         }
 
         [TestMethod]
-        public void Test10Vert3()
+        public void BBAlgorithmGetPartition_10Vertexes3_BalancedPartition()
         {
             int[][] graphArray = { [ 1,  3,  4],
                                 [ 0,  2,  4],
@@ -99,12 +102,13 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
             int[] x = ap.GetPartition(graph);
             Assert.IsTrue(x.Sum() >= graph.CountVertecies / 2 && x.Sum() <= graph.CountVertecies + 1);
+            
             TestContext.WriteLine("x = [" + string.Join(", ", ap.GetSolution().Item1) + "]");
             TestContext.WriteLine("q = " + ap.GetSolution().Item2);
         }
 
         [TestMethod]
-        public void Test15Vert()
+        public void BBAlgorithmGetPartition_15Vertexes_BalancedPartition()
         {
             int[][] graphArray = { [ 8,  9,  13 ],
                                 [ 4,  10 ],
@@ -125,12 +129,13 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
             int[] x = ap.GetPartition(graph);
             Assert.IsTrue(x.Sum() >= graph.CountVertecies / 2 && x.Sum() <= graph.CountVertecies + 1);
+            
             TestContext.WriteLine("x = [" + string.Join(", ", ap.GetSolution().Item1) + "]");
             TestContext.WriteLine("q = " + ap.GetSolution().Item2);
         }
 
         [TestMethod]
-        public void Test85Vert()
+        public void BBAlgorithmGetPartition_85Vertexes_BalancedPartition()
         {
             int[][] graphArray = { [1, 9, 10],
                                 [0, 2, 10, 11],
@@ -221,13 +226,14 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
             int[] x = ap.GetPartition(graph);
             Assert.IsTrue(x.Sum() >= graph.CountVertecies / 2 && x.Sum() <= graph.CountVertecies + 1);
+            
             TestContext.WriteLine("x = [" + string.Join(", ", ap.GetSolution().Item1) + "]");
             TestContext.WriteLine("q = " + ap.GetSolution().Item2);
         }
 
         [TestMethod]
 
-        public void Test100VertRenum()
+        public void BBAlgorithmGetPartition_100Vertexes_BalancedPartition()
         {
             int[][] graphArray = {  [1],
                                     [0, 2],
@@ -330,12 +336,13 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
             int[] x = ap.GetPartition(graph);
             Assert.IsTrue(x.Sum() >= graph.CountVertecies / 2 && x.Sum() <= graph.CountVertecies + 1);
+            
             TestContext.WriteLine("x = [" + string.Join(", ", ap.GetSolution().Item1) + "]");
             TestContext.WriteLine("q = " + ap.GetSolution().Item2);
         }
 
         //[TestMethod]
-        public void Test100Vert()
+        public void BBAlgorithmGetPartition_100Vertexes2_BalancedPartition()
         {
             int[][] graphArray = { [],
                                 [34, 86],
@@ -444,7 +451,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
         }
 
         //[TestMethod]
-        public void Test101Vert()
+        public void BBAlgorithmGetPartition_101Vertexes_BalancedPartition()
         {
             int[][] graphArray = { [1],
                                 [0, 2, 12],
@@ -554,7 +561,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
         }
 
         //[TestMethod]
-        public void Test151Vert()
+        public void BBAlgorithmGetPartition_151Vertexes_BalancedPartition()
         {
             int[][] graphArray = { [1],
                                 [0, 2, 12],

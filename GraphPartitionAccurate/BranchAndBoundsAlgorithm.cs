@@ -2,7 +2,7 @@
 
 namespace GraphPartitionAccurate
 {
-    public class BranchAndBoundsAlgorithm: IAccuratePartition
+    public class BranchAndBoundsAlgorithm : IAccuratePartition
     {
         private int[] _x = Array.Empty<int>();
         private int _q = 0;
@@ -105,7 +105,7 @@ namespace GraphPartitionAccurate
                 else if (sum > n / 2 + 1 || step - sum > n / 2 + 1) return;
 
             if (currentQ > _q) return;
-            
+
             x[step] = 0;
             _dif = QChanges(x, step);
             FindSolution(x, n, step + 1, sum, currentQ + _dif);

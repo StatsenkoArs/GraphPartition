@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\ExampleGenerator\ExampleGenerator.csproj" />
     <ProjectReference Include="..\GraphOptimisation\GraphOptimisation.csproj" />
     <ProjectReference Include="..\GraphPartitionAccurate\GraphPartitionAccurate.csproj" />
