@@ -74,16 +74,17 @@ namespace GraphDrawer
     /// <summary>
     /// Записывает в текстовый файл значения разреза и дисбаланса.
     /// </summary>
-    /// <param name="graph"></param>
-    /// <param name="partition"></param>
-    /// <param name="filename"></param>
-    public void Statistics(IGraph graph, int[] partition, string filename, bool isStart)
+    /// <param name="graph">граф</param>
+    /// <param name="partition">разбиение</param>
+    /// <param name="filename">путь до файла</param>
+    /// <param name="isStart">true - файл перезаписывается, иначе данные дозаписываются в старый файл</param>
+    public void Statistics(IGraph graph, int[] partition, string path, bool isStart)
     {
         StreamWriter writer;
         if (isStart)
-            writer = new StreamWriter(filename + ".txt", false);
+            writer = new StreamWriter(path, false);
         else
-            writer = new StreamWriter(filename + ".txt", true);
+            writer = new StreamWriter(path, true);
         int criterion = 0;
         float disbalans = 0;
         FiducciaMattheysesMethod f = new FiducciaMattheysesMethod();
