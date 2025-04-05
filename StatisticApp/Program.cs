@@ -48,7 +48,7 @@ public class Program
 
             for (int i = 1; i <= numberOfGraphs; i++)
             {
-                int q = i + 1;
+                int q = i % 5 + 1;
                 var t = gen.Generate(v, q);
                 GraphData d = new GraphData(t, q);
 
@@ -193,10 +193,12 @@ public class Program
     public static void Main()
     {
         string path = ConfigurationManager.AppSettings["DBPath"] ?? "";
+        int[] numOfVerts = (ConfigurationManager.AppSettings["NumOfVerts"] ?? "0").Split().Select(o => int.Parse(o)).ToArray();
+        int numOfGraphs = int.Parse(ConfigurationManager.AppSettings["NumOfGraphs"] ?? "0");
         if (String.IsNullOrEmpty(path))
             return;
         //NukeDirectory(path);
-        //GenBase(path,  new int[]{ 20, 200, 2000, 20000, 50000 }, 2);
+        //GenBase(path,  numOfVerts, numOfGraphs);
 
         List<GraphData> graphs = ParseBin(path + @"\Bin");
 
@@ -232,6 +234,8 @@ public class Program
             var balance = (double)answer.Sum() / gr.Length;
             var qReal = Q(gr, answer);
 
+            Console.WriteLine($"Граф из {gr.Length} вершин, разбит за {Math.Round((double)time / 1000, 2).ToString() + "с"}");
+
             worksheet.Cell(row, 1).Value = gr.Length;
             worksheet.Cell(row, 2).Value = q;
             worksheet.Cell(row, 3).Value = Math.Round((double)time / 1000, 2).ToString() + "s";
@@ -242,5 +246,14 @@ public class Program
         worksheet.Columns().AdjustToContents();
 
         workbook.SaveAs(path + @"\result.xlsx");
+
+        var processStartInfo = new ProcessStartInfo
+        {
+            FileName = "explorer.exe",
+            Arguments = path,
+            UseShellExecute = true
+        };
+
+        Process.Start(processStartInfo);
     }
 }
