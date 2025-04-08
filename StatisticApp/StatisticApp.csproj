@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ExampleGenerator\ExampleGenerator.csproj" />
+    <ProjectReference Include="..\GraphAndFiles\GraphAndFiles.csproj" />
     <ProjectReference Include="..\GraphOptimisation\GraphOptimisation.csproj" />
     <ProjectReference Include="..\GraphPartitionAccurate\GraphPartitionAccurate.csproj" />
     <ProjectReference Include="..\GraphPartitionClass\GraphPartitionClass.csproj" />

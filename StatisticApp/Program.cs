@@ -8,28 +8,11 @@ using System.Configuration;
 using System.Diagnostics;
 using System.Text;
 using System.Text.Json;
+using GraphAndFiles;
+using static System.IO.Directory;
 
 public class Program
 {
-    public class GraphData
-    {
-        /// <summary>
-        /// Граф задан в виде матрицы смежности.
-        /// </summary>
-        public int[][] graph { get; set; }
-
-        /// <summary>
-        /// Критерий Q для данного графа и его разбиения.
-        /// </summary>
-        public int q { get; set; }
-
-        public GraphData(int[][] graph, int q)
-        {
-            this.graph = graph;
-            this.q = q;
-        }
-    }
-
     /// <summary>
     /// Сгенерировать файлы данных для разного размера графов.
     /// </summary>
@@ -42,115 +25,23 @@ public class Program
 
         foreach (var v in numbersOfVerts)
         {
-            System.IO.Directory.CreateDirectory(folderPath + @"\Json");
-            System.IO.Directory.CreateDirectory(folderPath + @"\Txt");
-            System.IO.Directory.CreateDirectory(folderPath + @"\Bin");
+            CreateDirectory(folderPath + @"\Json");
+            CreateDirectory(folderPath + @"\Txt");
+            CreateDirectory(folderPath + @"\Bin");
 
             for (int i = 1; i <= numberOfGraphs; i++)
             {
                 int q = i % 5 + 1;
-                var t = gen.Generate(v, q);
-                GraphData d = new GraphData(t, q);
-
-                // Запись JSON файла
-                using (FileStream fs = new FileStream(folderPath + @$"\Json\{v}.{i}.json", FileMode.OpenOrCreate))
-                {
-                    string json = JsonSerializer.Serialize(d);
-                    byte[] buffer = Encoding.Default.GetBytes(json);
-                    fs.Write(buffer, 0, buffer.Length);
-                }
+                var temp = gen.Generate(v, q);
+                GraphData graphData = new GraphData(temp, q);
 
                 // Запись TXT файла
-                using (FileStream fs = new FileStream(folderPath + @$"\Txt\{v}.{i}.txt", FileMode.OpenOrCreate))
-                {
-                    string txt = "";
-                    for (int j = 0; j < t.Length; j++)
-                    {
-                        txt += j.ToString() + ": ";
-                        for (int u = 0; u < t[j].Length; u++)
-                        {
-                            txt += t[j][u].ToString() + " ";
-                        }
-                        txt += "\n";
-                    }
-                    byte[] buffer = Encoding.Default.GetBytes(txt);
-                    fs.Write(buffer, 0, buffer.Length);
-                    buffer = Encoding.Default.GetBytes(q.ToString());
-                    fs.Write(buffer, 0, buffer.Length);
-                }
+                GraphTxt.WriteToTxt(folderPath, graphData, $"{v}.{q}");
 
                 // Запись BIN файла
-                using (FileStream fs = new FileStream(folderPath + @$"\Bin\{v}.{i}.bin", FileMode.OpenOrCreate))
-                {
-                    BinaryWriter bw = new BinaryWriter(fs);
-                    bw.Write(d.graph.Length);
-                    foreach (var row in d.graph)
-                    {
-                        bw.Write(row.Length);
-                        foreach (var elem in row)
-                        {
-                            bw.Write(elem);
-                        }
-                    }
-                    bw.Write(d.q);
-                }
+                GraphBin.WriteToBin(folderPath, graphData, $"{v}.{q}");
             }
         }
-    }
-
-    /// <summary>
-    /// Парсить все BIN файлы из указанной папки и возвращать список данных графов.
-    /// </summary>
-    /// <param name="path">Путь к папке, содержащей BIN файлы.</param>
-    /// <returns>Список объектов GraphData с данными из BIN файлов.</returns>
-    public static List<GraphData> ParseBin(string path)
-    {
-        List<string> files = new List<string>(Directory.GetFiles(path, "*.bin"));
-        List<GraphData> result = new List<GraphData>();
-        foreach (var file in files)
-        {
-            using (FileStream fs = new FileStream(file, FileMode.Open))
-            {
-                BinaryReader br = new BinaryReader(fs);
-                int[][] graph = new int[br.ReadInt32()][];
-                for (int j = 0; j < graph.Length; j++)
-                {
-                    graph[j] = new int[br.ReadInt32()];
-                    for (int u = 0; u < graph[j].Length; u++)
-                    {
-                        graph[j][u] = br.ReadInt32();
-                    }
-                }
-                int q = br.ReadInt32();
-                GraphData d = new GraphData(graph, q);
-                if (d != null)
-                {
-                    result.Add(d);
-                }
-            }
-        }
-        return result;
-    }
-
-    /// <summary>
-    /// Парсить все JSON файлы из указанной папки и возвращать список данных графов.
-    /// </summary>
-    /// <param name="path">Путь к папке, содержащей JSON файлы.</param>
-    /// <returns>Список объектов GraphData с данными из JSON файлов.</returns>
-    public static List<GraphData> ParseJson(string path)
-    {
-        List<string> files = new List<string>(Directory.GetFiles(path, "*.json"));
-        List<GraphData> result = new List<GraphData>();
-        foreach (var file in files)
-        {
-            string jsonContent = File.ReadAllText(file);
-            GraphData data = JsonSerializer.Deserialize<GraphData>(jsonContent);
-            if (data != null)
-            {
-                result.Add(data);
-            }
-        }
-        return result;
     }
 
     /// <summary>
@@ -197,10 +88,10 @@ public class Program
         int numOfGraphs = int.Parse(ConfigurationManager.AppSettings["NumOfGraphs"] ?? "0");
         if (String.IsNullOrEmpty(path))
             return;
-        //NukeDirectory(path);
-        //GenBase(path,  numOfVerts, numOfGraphs);
+        NukeDirectory(path);
+        GenBase(path,  numOfVerts, numOfGraphs);
 
-        List<GraphData> graphs = ParseBin(path + @"\Bin");
+        List<GraphData> graphs = GraphBin.ParseBin(path + @"\Bin");
 
         var workbook = new XLWorkbook();
         var worksheet = workbook.AddWorksheet("Результаты");
