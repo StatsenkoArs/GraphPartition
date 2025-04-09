@@ -31,15 +31,17 @@ public class Program
 
             for (int i = 1; i <= numberOfGraphs; i++)
             {
-                int q = i % 5 + 1;
+                int q = i % 5 + 40;
                 var temp = gen.Generate(v, q);
                 GraphData graphData = new GraphData(temp, q);
 
                 // Запись TXT файла
-                GraphTxt.WriteToTxt(folderPath, graphData, $"{v}.{q}");
+                GraphTxt.WriteToTxt(folderPath, graphData, $"{v}.{q}.{i}");
 
                 // Запись BIN файла
-                GraphBin.WriteToBin(folderPath, graphData, $"{v}.{q}");
+                GraphBin.WriteToBin(folderPath, graphData, $"{v}.{q}.{i}");
+
+                Console.WriteLine($"Создан граф {v}.{q}.{i}; {DateTime.Now}");
             }
         }
     }
@@ -99,10 +101,11 @@ public class Program
         int row = 1;
 
         worksheet.Cell(row, 1).Value = "Размер графа";
-        worksheet.Cell(row, 2).Value = "Ожидаемый критерий";
+        worksheet.Cell(row, 2).Value = "Ожидаемое значение критерия";
         worksheet.Cell(row, 3).Value = "Время выполнения (секунды)";
         worksheet.Cell(row, 4).Value = "Баланс разбиения";
-        worksheet.Cell(row, 5).Value = "Найденный критерий";
+        worksheet.Cell(row, 5).Value = "Найденное значение критерия";
+        worksheet.Cell(row, 6).Value = "Отклонение значения критерия в %";
 
         foreach (var graph in graphs)
         {
@@ -125,13 +128,14 @@ public class Program
             var balance = (double)answer.Sum() / gr.Length;
             var qReal = Q(gr, answer);
 
-            Console.WriteLine($"Граф из {gr.Length} вершин, разбит за {Math.Round((double)time / 1000, 2).ToString() + "с"}");
+            Console.WriteLine($"{row - 1}: Граф из {gr.Length} вершин, разбит за {Math.Round((double)time / 1000, 2).ToString()}c; {DateTime.Now}");
 
             worksheet.Cell(row, 1).Value = gr.Length;
             worksheet.Cell(row, 2).Value = q;
-            worksheet.Cell(row, 3).Value = Math.Round((double)time / 1000, 2).ToString() + "s";
+            worksheet.Cell(row, 3).Value = Math.Round((double) time / 1000, 2);
             worksheet.Cell(row, 4).Value = Math.Round(balance, 3);
             worksheet.Cell(row, 5).Value = qReal;
+            worksheet.Cell(row, 6).Value = Math.Round((double) qReal / q, 4) * 100;
         }
 
         worksheet.Columns().AdjustToContents();
