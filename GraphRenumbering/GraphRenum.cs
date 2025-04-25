@@ -25,7 +25,7 @@ namespace GraphRenumbering
                     renum_graph[new_vert_i][j] = permutation.GetNumByPos(graph[i,j]); 
                 }
             }
-            return new GraphSRC(renum_graph);
+            return new GraphCRS(renum_graph);
         }
     }
 }

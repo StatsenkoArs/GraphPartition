@@ -1,11 +1,11 @@
 ﻿namespace GraphRepresentation
 {
-    public class GraphSRC : IGraph
+    public class GraphCRS : IGraph
     {
-        private int[] _adjacentNums;
-        private int[] _adjacentVertecies;
+        protected int[] _adjacentNums;
+        protected int[] _adjacentVertecies;
 
-        public GraphSRC(int[][] graph)
+        public GraphCRS(int[][] graph)
         {
             List<int> nums = new List<int>();
             List<int> vertecies = new List<int>();
@@ -31,6 +31,8 @@
 
         public int CountEdges => _adjacentVertecies.Length / 2;
 
+        public int GraphWeight => CountVertecies;
+
         public int[] GetAdjacentVertecies(int vertexNum)
         {
             int right = _adjacentNums[vertexNum + 1];
@@ -38,6 +40,14 @@
             int[] slice = new int[right - left];
             Array.Copy(_adjacentVertecies, left, slice, 0, right - left);
             return slice;
+        }
+
+        public virtual int GetEdgeWeight(int vertexNumStart, int vertexNumEnd)
+        {
+            if (this.GetAdjacentVertecies(vertexNumStart).Contains(vertexNumEnd))
+                return 1;
+
+            return 0;
         }
 
         public int GetGraphCut(int[] partition)
@@ -59,6 +69,11 @@
         public int GetVertexDegree(int vertexNum)
         {
             return _adjacentNums[vertexNum + 1] - _adjacentNums[vertexNum];
+        }
+
+        public virtual int GetVertexWeight(int vertexNum)
+        {
+            return 1;
         }
     }
 }

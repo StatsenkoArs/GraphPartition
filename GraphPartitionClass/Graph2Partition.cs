@@ -23,7 +23,7 @@ namespace GraphPartitionClass
 
         public int[] GetPartition(int[][] graph)
         {
-            IGraph srcGraph = new GraphSRC(graph);
+            IGraph srcGraph = new GraphCRS(graph);
             int n = srcGraph.CountVertecies;
             Stack<int[]> mapping = new Stack<int[]>();
             Stack<IGraph> graphCache = new Stack<IGraph>();

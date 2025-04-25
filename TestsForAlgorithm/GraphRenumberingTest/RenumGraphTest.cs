@@ -34,7 +34,7 @@ namespace TestsForAlgorithm.GraphRenumberingTest
         [TestMethod]
         public void RenumGraph_SimpleRenumGraph_RenumGraph()
         {
-            IGraph graph = new GraphSRC([[2], [2], [0, 1]]);
+            IGraph graph = new GraphCRS([[2], [2], [0, 1]]);
             PermutationStructure perm = new PermutationStructure([2, 1, 0]);
             IGraph renum_graph = GraphRenum.RenumGraph(graph, perm);
 
@@ -45,7 +45,7 @@ namespace TestsForAlgorithm.GraphRenumberingTest
         [TestMethod]
         public void RenumGraph_GridGraph9to11RndomRenum_Graph9to11WithNewNumber()
         {
-            IGraph graph = new GraphSRC(GridGraphGenerator.Generate(9, 11));
+            IGraph graph = new GraphCRS(GridGraphGenerator.Generate(9, 11));
             PermutationStructure perm = RandomPermutation.GetPermutation(graph.CountVertecies);
             IGraph renum_graph = GraphRenum.RenumGraph(graph, perm);
 
@@ -55,7 +55,7 @@ namespace TestsForAlgorithm.GraphRenumberingTest
         [TestMethod]
         public void RenumGraph_GridGraph9to11IdenticalPermutation_Graph9to11WithSameNumber()
         {
-            IGraph graph = new GraphSRC(GridGraphGenerator.Generate(9, 11));
+            IGraph graph = new GraphCRS(GridGraphGenerator.Generate(9, 11));
             PermutationStructure perm = new PermutationStructure(graph.CountVertecies);
             IGraph renum_graph = GraphRenum.RenumGraph(graph, perm);
 
