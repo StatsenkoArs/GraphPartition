@@ -40,7 +40,7 @@ namespace TestsForAlgorithm
             timer.Stop();
             Assert.AreEqual(balance, partition.Sum());
             testContext.WriteLine("TIME " + Convert.ToString(timer.Elapsed.TotalSeconds));
-            testContext.WriteLine("CUT " + Convert.ToString((new GraphCRS(graph).GetGraphCut(partition))));
+            testContext.WriteLine("CUT " + Convert.ToString((new GraphCSR(graph).GetGraphCut(partition))));
         }
 
         [TestMethod]
@@ -64,7 +64,7 @@ namespace TestsForAlgorithm
             timer.Stop();
             Assert.AreEqual(balance, partition.Sum());
             testContext.WriteLine("TIME "+ Convert.ToString(timer.Elapsed.TotalSeconds));
-            testContext.WriteLine("CUT " + Convert.ToString((new GraphCRS(graph).GetGraphCut(partition))));
+            testContext.WriteLine("CUT " + Convert.ToString((new GraphCSR(graph).GetGraphCut(partition))));
         }
     }
 }

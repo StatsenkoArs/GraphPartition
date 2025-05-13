@@ -53,7 +53,7 @@ class Program
         //                                        new SimpleGraphRestoration(new FiducciaMattheysesMethod()), 
         //                                        new FiducciaMattheysesMethod());
 
-        IGraph igraph = new GraphCRSWeights(graph, graphVertWeights, graphEdgeWeights);
+        IGraph igraph = new GraphCSRWeights(graph, graphVertWeights, graphEdgeWeights);
 
         IAccuratePartition grp = new BranchAndBoundsAlgorithm();
 

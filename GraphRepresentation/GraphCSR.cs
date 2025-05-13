@@ -1,11 +1,11 @@
 ﻿namespace GraphRepresentation
 {
-    public class GraphCRS : IGraph
+    public class GraphCSR : IGraph
     {
-        protected int[] _adjacentNums;
-        protected int[] _adjacentVertecies;
+        private int[] _adjacentNums;
+        private int[] _adjacentVertecies;
 
-        public GraphCRS(int[][] graph)
+        public GraphCSR(int[][] graph)
         {
             List<int> nums = new List<int>();
             List<int> vertecies = new List<int>();
@@ -23,8 +23,7 @@
         }
         public int this[int vertexNum, int adjacentNum] 
         { 
-            get => _adjacentVertecies[_adjacentNums[vertexNum] + adjacentNum];  
-            set => _adjacentVertecies[_adjacentNums[vertexNum] + adjacentNum] = value; 
+            get => _adjacentVertecies[_adjacentNums[vertexNum] + adjacentNum];
         }
 
         public int CountVertecies => _adjacentNums.Length - 1;
@@ -42,7 +41,7 @@
             return slice;
         }
 
-        public virtual int GetEdgeWeight(int vertexNumStart, int vertexNumEnd)
+        public int GetEdgeWeight(int vertexNumStart, int vertexNumEnd)
         {
             if (this.GetAdjacentVertecies(vertexNumStart).Contains(vertexNumEnd))
                 return 1;
@@ -71,7 +70,7 @@
             return _adjacentNums[vertexNum + 1] - _adjacentNums[vertexNum];
         }
 
-        public virtual int GetVertexWeight(int vertexNum)
+        public int GetVertexWeight(int vertexNum)
         {
             return 1;
         }

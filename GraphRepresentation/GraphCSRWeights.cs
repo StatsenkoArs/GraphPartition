@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace GraphRepresentation
 {
-    public class GraphCRSWeights : GraphCRS
+    public class GraphCSRWeights : IGraph
     {
         protected int[] _vertexWeights;
         protected int[] _edgesWeights;
-        public GraphCRSWeights(int[][] graph, int[] vertexWeights, int[][] edgesWeights) : base(graph)
+        public GraphCSRWeights(int[][] graph, int[] vertexWeights, int[][] edgesWeights) : base(graph)
         {
             this._vertexWeights = vertexWeights;
 

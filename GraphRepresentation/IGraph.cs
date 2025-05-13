@@ -2,7 +2,7 @@
 {
     public interface IGraph
     {
-        int this[int vertexNum, int adjacentNum] { get; set; }
+        int this[int vertexNum, int adjacentNum] { get; }
         int CountVertecies { get; }
         int CountEdges { get; }
         int GraphWeight { get; }
