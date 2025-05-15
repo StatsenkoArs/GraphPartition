@@ -78,16 +78,16 @@ class Program
         Console.WriteLine($"{left}:{right}");
 
         int q = 0;
-        for (int j = 0; j < answer.Length; ++j)
+        for (int i = 0; i < answer.Length; i++)
         {
-            int result = 0;
-            for (int i = 0; i < graph[j].Length; i++)
+            for (int j = 0; j < graph[i].Length; j++)
             {
-                if (graph[j][i] < j)
-                    result += answer[j] == answer[graph[j][i]] ? 0 : graphEdgeWeights[j][graph[j][i]];
+                if (answer[i] != answer[graph[i][j]])
+                {
+                    q += graphEdgeWeights[i][j];
+                }
             }
-            q += result;
         }
-        Console.WriteLine(q);
+        Console.WriteLine(q/2);
     }
 }

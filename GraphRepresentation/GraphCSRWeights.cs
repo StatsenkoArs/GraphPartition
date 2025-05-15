@@ -6,26 +6,33 @@ using System.Threading.Tasks;
 
 namespace GraphRepresentation
 {
-    public class GraphCSRWeights : IGraph
+    public class GraphCSRWeights : AGraphCSR
     {
         protected int[] _vertexWeights;
         protected int[] _edgesWeights;
         public GraphCSRWeights(int[][] graph, int[] vertexWeights, int[][] edgesWeights) : base(graph)
         {
-            this._vertexWeights = vertexWeights;
-
-            List<int> vertecies = new List<int>();
-            for (int i = 0; i < graph.Length; i++)
+            int count_edge = 0;
+            for (int vert = 0; vert < edgesWeights.Length; vert++)
             {
-                for (int j = 0; j < graph[i].Length; j++)
+                count_edge += edgesWeights[vert].Length;
+            }
+            _edgesWeights = new int[count_edge];
+
+            int count = 0;
+            for (int i = 0; i < edgesWeights.Length; i++)
+            {
+                for (int j = 0; j < edgesWeights[i].Length; j++)
                 {
-                    vertecies.Add(graph[i][j]);
+                    _edgesWeights[count] = edgesWeights[i][j];
+                    count++;
                 }
             }
-            _edgesWeights = vertecies.ToArray();
+
+            _vertexWeights = vertexWeights;
         }
 
-        public int GraphWeight
+        override public int GraphWeight
         { 
             get 
             {
@@ -40,12 +47,13 @@ namespace GraphRepresentation
 
         public override int GetEdgeWeight(int vertexNumStart, int vertexNumEnd)
         {
-            int index = Array.IndexOf(this.GetAdjacentVertecies(vertexNumStart), vertexNumEnd);
-            if (index != -1)
-                return _edgesWeights[_adjacentNums[vertexNumStart] + index];
+            int index = Array.IndexOf(GetAdjacentVertecies(vertexNumStart), vertexNumEnd);
+            if (index == -1)
+                return 0;
 
-            return 0;
+            return _edgesWeights[_adjacentNums[vertexNumStart] + index];
         }
+
         public override int GetVertexWeight(int vertexNum)
         {
             return _vertexWeights[vertexNum];
