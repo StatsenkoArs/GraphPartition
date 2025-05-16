@@ -58,24 +58,12 @@ namespace GraphRepresentation
             return _adjacentNums[vertexNum + 1] - _adjacentNums[vertexNum];
         }
 
-        public int GetGraphCut(int[] partition)
-        {
-            int count_cut = 0;
-            for (int vertex = 0; vertex < CountVertecies; vertex++)
-            {
-                for (int adj_v_ind = 0; adj_v_ind < GetVertexDegree(vertex); adj_v_ind++)
-                {
-                    if (partition[vertex] != partition[this[vertex, adj_v_ind]])
-                    {
-                        count_cut++;
-                    }
-                }
-            }
-            return count_cut / 2;
-        }
+        abstract public int GetGraphCut(int[] partition);
 
-        public abstract int GetEdgeWeight(int vertexNumStart, int vertexNumEnd);
+        abstract public int GetEdgeWeight(int vertexNumStart, int vertexNumEnd);
 
-        public abstract int GetVertexWeight(int vertexNum);
+        abstract public int GetVertexWeight(int vertexNum);
+
+        abstract public (int left, int right) GetGraphBalance(int[] partition);
     }
 }

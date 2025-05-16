@@ -11,5 +11,6 @@
         int GetEdgeWeight(int vertexNumStart, int vertexNumEnd);
         int[] GetAdjacentVertecies(int vertexNum);
         int GetGraphCut(int[] partition);
+        (int left, int right) GetGraphBalance(int[] partition);
     }
 }
