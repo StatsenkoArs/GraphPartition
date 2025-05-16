@@ -1,4 +1,4 @@
-using GraphOptimisation;
+﻿using GraphOptimisation;
 using GraphRepresentation;
 using ExampleGenerator;
 
@@ -20,7 +20,7 @@ public class FiducciaMattheysesMethodTest_TestingPrivateMethods : FiducciaMatthe
             new int[] { 6, 7 }
     };
     //private int[] partition = new int[] { 1, 0, 0, 1, 0, 1, 1, 0, 0, 1 }; //равное
-    private GraphSRC g = new GraphSRC(graph);
+    private GraphCSR g = new GraphCSR(graph);
 
 
     //имя теста [Тестируемый метод]_[Сценарий]_[Ожидаемое поведение]
@@ -241,7 +241,7 @@ public class FiducciaMattheysesMethodTest_TestingPrivateMethods : FiducciaMatthe
                 new int[]{5, 7},
                 new int[]{6, 7}
             };
-            GraphSRC graph = new GraphSRC(g);
+            GraphCSR graph = new GraphCSR(g);
             int[] r = new int[] { 1, 1, 1, 1, 1, 0, 0, 0, 0, 0 };
             FiducciaMattheysesMethod f = new FiducciaMattheysesMethod();
             int[] newR = new int[r.Length];
@@ -273,7 +273,7 @@ public class FiducciaMattheysesMethodTest_TestingPrivateMethods : FiducciaMatthe
                 new int[]{5, 7},
                 new int[]{6, 7}
             };
-            GraphSRC graph = new GraphSRC(g);
+            GraphCSR graph = new GraphCSR(g);
             int[] r = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
             FiducciaMattheysesMethod f = new FiducciaMattheysesMethod();
             int[] newR = new int[r.Length];
@@ -294,7 +294,7 @@ public class FiducciaMattheysesMethodTest_TestingPrivateMethods : FiducciaMatthe
                 new int[]{},
                 new int[]{},
             };
-            GraphSRC graph = new GraphSRC(g);
+            GraphCSR graph = new GraphCSR(g);
             int[] r = new int[] {0, 0 };
             FiducciaMattheysesMethod f = new FiducciaMattheysesMethod();
             int[] newR = new int[r.Length];
@@ -313,7 +313,7 @@ public class FiducciaMattheysesMethodTest_TestingPrivateMethods : FiducciaMatthe
                 new int[]{},
                 new int[]{},
             };
-            GraphSRC graph = new GraphSRC(g);
+            GraphCSR graph = new GraphCSR(g);
             int[] r = new int[] { 1, 0 };
             FiducciaMattheysesMethod f = new FiducciaMattheysesMethod();
             int[] newR = new int[r.Length];

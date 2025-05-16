@@ -32,7 +32,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
                                 [3, 4, 7],
                                 [4, 5, 6, 8],
                                 [5, 7] };
-            IGraph graph = new GraphSRC(graphArray);
+            IGraph graph = new GraphCSR(graphArray);
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
             int[] x = ap.GetPartition(graph);
             Assert.IsTrue(x.Sum() >= graph.CountVertecies / 2 && x.Sum() <= graph.CountVertecies + 1);
@@ -54,7 +54,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
                             [ 0,  1,  6 ],
                             [ 1,  4,  5 ],
                             [ 1,  2 ] };
-            IGraph graph = new GraphSRC(graphArray);
+            IGraph graph = new GraphCSR(graphArray);
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
             int[] x = ap.GetPartition(graph);
             Assert.IsTrue(x.Sum() >= graph.CountVertecies / 2 && x.Sum() <= graph.CountVertecies + 1);
@@ -76,7 +76,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
                                 [ 4,  6,  8],
                                 [ 4,  5,  7],
                                 [ 6,  7] };
-            IGraph graph = new GraphSRC(graphArray);
+            IGraph graph = new GraphCSR(graphArray);
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
             int[] x = ap.GetPartition(graph);
             Assert.IsTrue(x.Sum() >= graph.CountVertecies / 2 && x.Sum() <= graph.CountVertecies + 1);
@@ -98,7 +98,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
                                 [ 4,  6,  8, 9],
                                 [ 4,  5,  7],
                                 [ 6,  7] };
-            IGraph graph = new GraphSRC(graphArray);
+            IGraph graph = new GraphCSR(graphArray);
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
             int[] x = ap.GetPartition(graph);
             Assert.IsTrue(x.Sum() >= graph.CountVertecies / 2 && x.Sum() <= graph.CountVertecies + 1);
@@ -125,7 +125,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
                                 [ 2,  8 ],
                                 [ 0,  6,  9,  10 ],
                                 [ 5,  6,  9 ] };
-            IGraph graph = new GraphSRC(graphArray);
+            IGraph graph = new GraphCSR(graphArray);
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
             int[] x = ap.GetPartition(graph);
             Assert.IsTrue(x.Sum() >= graph.CountVertecies / 2 && x.Sum() <= graph.CountVertecies + 1);
@@ -222,7 +222,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
                                 [72, 73, 81, 83],
                                 [73, 74, 75, 82, 84],
                                 [75, 76, 83] };
-            IGraph graph = new GraphSRC(graphArray);
+            IGraph graph = new GraphCSR(graphArray);
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
             int[] x = ap.GetPartition(graph);
             Assert.IsTrue(x.Sum() >= graph.CountVertecies / 2 && x.Sum() <= graph.CountVertecies + 1);
@@ -332,7 +332,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
                                     [95],
                                     [94],
                                     [] };
-            IGraph graph = new GraphSRC(graphArray);
+            IGraph graph = new GraphCSR(graphArray);
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
             int[] x = ap.GetPartition(graph);
             Assert.IsTrue(x.Sum() >= graph.CountVertecies / 2 && x.Sum() <= graph.CountVertecies + 1);
@@ -444,7 +444,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
                                 [49],
                                 [22, 52, 89, 90],
                                 [29, 48, 58] };
-            IGraph graph = new GraphSRC(graphArray);
+            IGraph graph = new GraphCSR(graphArray);
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
             int[] x = ap.GetPartition(graph);
             Assert.IsTrue(x.Sum() >= graph.CountVertecies / 2 && x.Sum() <= graph.CountVertecies + 1);
@@ -554,7 +554,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
                                 [90, 97],
                                 [100],
                                 [90, 99] };
-            IGraph graph = new GraphSRC(graphArray);
+            IGraph graph = new GraphCSR(graphArray);
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
             int[] x = ap.GetPartition(graph);
             Assert.IsTrue(x.Sum() >= graph.CountVertecies / 2 && x.Sum() <= graph.CountVertecies + 1);
@@ -714,7 +714,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
                                 [147, 149],
                                 [138, 140, 148, 150],
                                 [149] };
-            IGraph graph = new GraphSRC(graphArray);
+            IGraph graph = new GraphCSR(graphArray);
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
             int[] x = ap.GetPartition(graph);
             Assert.IsTrue(x.Sum() >= graph.CountVertecies / 2 && x.Sum() <= graph.CountVertecies + 1);

@@ -10,6 +10,7 @@ namespace GraphPartitionAccurate
         private int _n = 0;
         private int _allEdges = 0;
         private int _dif = 0;
+        private int _graphWeight = 0;
 
         /// <summary>
         /// Запускает решение точным алгоритмом
@@ -21,7 +22,7 @@ namespace GraphPartitionAccurate
         {
             Init(graph);
 
-            FindSolution(new int[_n], _n, 0, 0, 0);
+            FindSolution(new int[_n], _n, 0, 0, 0, 0);
 
             return _x;
         }
@@ -37,6 +38,7 @@ namespace GraphPartitionAccurate
             _allEdges = graph.CountEdges;
             _q = _allEdges;
             _x = new int[_n];
+            _graphWeight = graph.GraphWeight;
         }
 
         /// <summary>
@@ -61,7 +63,7 @@ namespace GraphPartitionAccurate
             for (int i = 0; i < _graph.GetVertexDegree(step); i++)
             {
                 if (_graph[step, i] < step)
-                    result += x[step] == x[_graph[step, i]] ? 0 : 1;
+                    result += x[step] == x[_graph[step, i]] ? 0 : _graph.GetEdgeWeight(step, _graph[step, i]);
             }
             return Math.Abs(result);
         }
@@ -72,23 +74,23 @@ namespace GraphPartitionAccurate
         /// <param name="x">вектор-решение</param>
         /// <param name="n">количестов вершин в графе</param>
         /// <param name="step">текущий шаг (номер обрабатываемой вершины)</param>
-        /// <param name="sum">сумма элементов решения (количество вершин в одном из подграфов('1'))</param>
+        /// <param name="weightLeft">сумма элементов решения (количество вершин в одном из подграфов('1'))</param>
         /// <param name="currentQ">текущий критерий</param>
-        private void FindSolution(int[] x, int n, int step, int sum, int currentQ)
+        private void FindSolution(int[] x, int n, int step, int weightLeft, int currentQ, int weight)
         {
             if (step == n)
             {
                 if (currentQ < _q)
                 {
-                    if (n % 2 == 0)
+                    if (_graphWeight % 2 == 0)
                     {
-                        if (sum == n / 2)
+                        if (weightLeft == _graphWeight / 2)
                         {
                             x.CopyTo(_x, 0);
                             _q = currentQ;
                         }
                     }
-                    else if (sum == n / 2 + 1 || step - sum == n / 2 + 1)
+                    else if (weightLeft == _graphWeight / 2 + 1 || _graphWeight - weightLeft == _graphWeight / 2 + 1)
                     {
                         x.CopyTo(_x, 0);
                         _q = currentQ;
@@ -98,20 +100,20 @@ namespace GraphPartitionAccurate
             }
 
             if (step > n / 2)
-                if (n % 2 == 0)
+                if (_graphWeight % 2 == 0)
                 {
-                    if (sum > n / 2 || step - sum > n / 2) return;
+                    if (weightLeft > _graphWeight / 2 || weight - weightLeft > _graphWeight / 2) return;
                 }
-                else if (sum > n / 2 + 1 || step - sum > n / 2 + 1) return;
+                else if (weightLeft > _graphWeight / 2 + 1 || weight - weightLeft > _graphWeight / 2 + 1) return;
 
             if (currentQ > _q) return;
 
             x[step] = 0;
             _dif = QChanges(x, step);
-            FindSolution(x, n, step + 1, sum, currentQ + _dif);
+            FindSolution(x, n, step + 1, weightLeft + _graph.GetVertexWeight(step), currentQ + _dif, weight + _graph.GetVertexWeight(step));
             x[step] = 1;
             _dif = QChanges(x, step);
-            FindSolution(x, n, step + 1, sum + 1, currentQ + _dif);
+            FindSolution(x, n, step + 1, weightLeft, currentQ + _dif, weight + _graph.GetVertexWeight(step));
         }
     }
 }
