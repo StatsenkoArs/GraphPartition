@@ -61,33 +61,10 @@ class Program
 
         Console.WriteLine(String.Join(" ", answer));
 
-        int left = 0;
-        int right = 0;
-        for (int i = 0; i < answer.Length; ++i)
-        {
-            if (answer[i] == 0)
-            {
-                left += graphVertWeights[i];
-            }
-            else
-            {
-                right += graphVertWeights[i];
+        var balance = igraph.GetGraphBalance(answer);
+        Console.WriteLine($"{balance.left}:{balance.right}");
 
-            }
-        }
-        Console.WriteLine($"{left}:{right}");
 
-        int q = 0;
-        for (int i = 0; i < answer.Length; i++)
-        {
-            for (int j = 0; j < graph[i].Length; j++)
-            {
-                if (answer[i] != answer[graph[i][j]])
-                {
-                    q += graphEdgeWeights[i][j];
-                }
-            }
-        }
-        Console.WriteLine(q/2);
+        Console.WriteLine(igraph.GetGraphCut(answer));
     }
 }
