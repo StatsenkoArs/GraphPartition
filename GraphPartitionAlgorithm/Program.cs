@@ -53,7 +53,7 @@ class Program
         //                                        new SimpleGraphRestoration(new FiducciaMattheysesMethod()), 
         //                                        new FiducciaMattheysesMethod());
 
-        IGraph igraph = new GraphCRSWeights(graph, graphVertWeights, graphEdgeWeights);
+        IGraph igraph = new GraphCSRWeights(graph, graphVertWeights, graphEdgeWeights);
 
         IAccuratePartition grp = new BranchAndBoundsAlgorithm();
 
@@ -61,33 +61,10 @@ class Program
 
         Console.WriteLine(String.Join(" ", answer));
 
-        int left = 0;
-        int right = 0;
-        for (int i = 0; i < answer.Length; ++i)
-        {
-            if (answer[i] == 0)
-            {
-                left += graphVertWeights[i];
-            }
-            else
-            {
-                right += graphVertWeights[i];
+        var balance = igraph.GetGraphBalance(answer);
+        Console.WriteLine($"{balance.left}:{balance.right}");
 
-            }
-        }
-        Console.WriteLine($"{left}:{right}");
 
-        int q = 0;
-        for (int j = 0; j < answer.Length; ++j)
-        {
-            int result = 0;
-            for (int i = 0; i < graph[j].Length; i++)
-            {
-                if (graph[j][i] < j)
-                    result += answer[j] == answer[graph[j][i]] ? 0 : graphEdgeWeights[j][graph[j][i]];
-            }
-            q += result;
-        }
-        Console.WriteLine(q);
+        Console.WriteLine(igraph.GetGraphCut(answer));
     }
 }

@@ -26,7 +26,7 @@ namespace GraphReduction
                     new_graph[i] = tmp_row_graph.ToArray();
                 }
             }
-            return new GraphCRS(new_graph); //Не лучший момент, много переконвертаций.
+            return new GraphCSR(new_graph); //Не лучший момент, много переконвертаций.
         }
         private int[,] GetTransitionMatrix(IGraph graph, in int[] vertex_mapping, int group)
         {
