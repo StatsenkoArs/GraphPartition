@@ -41,7 +41,7 @@ class Program
 
         for (int i = 0; i < graph.Length; i++)
         {
-            Console.Write($"{i} : {graphVertWeights[i]} - ");
+            Console.Write($"{i} : {graphVertWeights[i]}\n\t");
             for (int j = 0; j < graph[i].Length; j++)
             {
                 Console.Write($"{graph[i][j]} : {graphEdgeWeights[i][j]}; ");
