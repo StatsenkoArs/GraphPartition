@@ -36,7 +36,7 @@ namespace GraphPartitionAccurate
             _graph = graph;
             _n = graph.CountVertecies;
             _allEdges = graph.CountEdges;
-            _q = _allEdges;
+            _q = int.MaxValue;
             _x = new int[_n];
             _graphWeight = graph.GraphWeight;
         }
