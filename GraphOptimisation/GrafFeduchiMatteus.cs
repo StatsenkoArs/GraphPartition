@@ -2,307 +2,309 @@ using GraphRepresentation;
 
 namespace GraphOptimisation
 {
-     public class FiducciaMattheysesMethod : IPartitionOptimisation
- {
-     /// <summary>
-     /// Метод Федуччи-Маттеуса
-     /// </summary>
-     /// <param name="graph"> граф </param>
-     /// <param name="partition"> изначальное разделение </param>
-     /// <param name="numberOfBlockedIterations"> Кол-во итераций, когда вершину двигать нельзя</param>
-     /// <param name="limitDisbalance"> Верхняя граница дисбаланса </param>
-     /// <returns>Вектор разделения на подграфы</returns>
-     public int[] OptimisePartition(IGraph graph, int[] partition, int numberOfBlockedIterations, int limitDisbalance)
-     {
-         // Объявление полей и инициализация
-         int[] currentPartition = partition; //Текущее разделение
-         int[] rightPartition = new int[currentPartition.Length]; //Лучшее разделение
-         for (int i = 0; i < currentPartition.Length; i++)
-         {
-             rightPartition[i] = currentPartition[i];
-         }
+    public class FiducciaMattheysesMethod : IPartitionOptimisation
+    {
+        static int allVertexWeight = 0; //Вес всех вершин 
 
-         int currentCriterion = 0; //Текущий критерий
-         int[] E_CountTornEdge = new int[currentPartition.Length]; // Количество разрезанных связей для каждой вершины
-         int[] I_CountWholeEdge = new int[currentPartition.Length]; //Количество неразрезанных связей для каждой вершины
-         int[] D = new int[currentPartition.Length]; ; // D = E - I;
-         int countElemInBiggerSubgraph = 0; //Кол-во элементов в первом подграфе
-         for (int i = 0; i < graph.CountVertecies; i++)
-         {
-             for (int j = 0; j < graph.GetVertexDegree(i); j++)
-             {
-                 if (currentPartition[i] != currentPartition[graph[i, j]])
-                     currentCriterion++;
+        /// <summary>
+        /// Метод Федуччи-Маттеуса
+        /// </summary>
+        /// <param name="graph"> граф </param>
+        /// <param name="partition"> изначальное разделение </param>
+        /// <param name="numberOfBlockedIterations"> Кол-во итераций, когда вершину двигать нельзя</param>
+        /// <param name="limitDisbalance"> Верхняя граница дисбаланса </param>
+        /// <returns>Вектор разделения на подграфы</returns>
+        public int[] OptimisePartition(IGraph graph, int[] partition, int numberOfBlockedIterations, int limitDisbalance)
+        {
+            // Объявление полей и инициализация
+            int[] currentPartition = partition; //Текущее разделение
+            int[] rightPartition = new int[currentPartition.Length]; //Лучшее разделение
 
-                 //Считаем вектора I и E
-                 if (currentPartition[i] == currentPartition[graph[i, j]])
-                 {
-                     I_CountWholeEdge[i]++;
-                 }
-                 else
-                 {
-                     E_CountTornEdge[i]++;
-                 }
-             }
-             D[i] = E_CountTornEdge[i] - I_CountWholeEdge[i];
+            for (int i = 0 ; i < currentPartition.Length ; i++)
+            {
+                rightPartition[i] = currentPartition[i];
+            }
 
-             //Считаем кол-во вершин в подграфе
-             if (currentPartition[i] == 0) countElemInBiggerSubgraph++;
-         }
-         currentCriterion /= 2;
-         int rightCriterion = currentCriterion; //Лучший минимальный критерий
+            int currentCriterion = 0; //Текущий критерий
+            int[] E_CountTornEdge = new int[currentPartition.Length]; // Количество разрезанных связей для каждой вершины
+            int[] I_CountWholeEdge = new int[currentPartition.Length]; //Количество неразрезанных связей для каждой вершины
+            int[] D_DifferenceEdge = new int[currentPartition.Length]; // D = E - I;
+            int weightInBiggerSubgraph = 0; //Кол-во элементов в первом подграфе
 
-         float rightDisbalance = 0; //Лучший дисбаланс
-         float currentDisbalance = 0; //Текущий дисбаланс
-         if (partition.Length - countElemInBiggerSubgraph > countElemInBiggerSubgraph)
-             currentDisbalance = graph.CountVertecies / 2 - countElemInBiggerSubgraph;
-         else
-             currentDisbalance = graph.CountVertecies / 2 - (partition.Length - countElemInBiggerSubgraph);
-         rightDisbalance = currentDisbalance;
+            for (int i = 0 ; i < graph.CountVertecies ; i++)
+            {
+                for (int j = 0 ; j < graph.GetVertexDegree(i) ; j++)
+                {
+                    if (currentPartition[i] != currentPartition[graph[i, j]])
+                    {
+                        currentCriterion += graph.GetEdgeWeight(i, graph[i, j]);
+                        E_CountTornEdge[i] += graph.GetEdgeWeight(i, graph[i, j]);
+                    }
+                    else
+                    {
+                        I_CountWholeEdge[i] += graph.GetEdgeWeight(i, graph[i, j]);
+                    }
 
-         int[] T_CountBlockingIterations = new int[graph.CountVertecies]; //Вектор кол-ва итераций для каждой вершины, когда вершину двигать нельзя
-         int[] isVertexMoved = new int[graph.CountVertecies]; //Была ли тронута вершина
-         int numberCurrentSubgraph = 0; //Номер текущего подграфа
-         int iteration = 0; //номер итерации
-         int indexMovedVertex = 0; //Номер перемещённой вершины
-         int countBlockingIteration = numberOfBlockedIterations; //Кол-во итераций, когда вершину двигать нельзя. 
+                }
+                D_DifferenceEdge[i] = E_CountTornEdge[i] - I_CountWholeEdge[i];
 
+                //Считаем вес в первом подграфе
+                if (currentPartition[i] == 0) weightInBiggerSubgraph += graph.GetVertexWeight(i);
 
-        
-         do
-         {
+                allVertexWeight += graph.GetVertexWeight(i);
+            }
 
-             if (iteration != 0)
-                 GetEID(ref E_CountTornEdge, ref I_CountWholeEdge, ref D, currentPartition, graph, indexMovedVertex);
-             GetNumberBiggerSubgraph(ref numberCurrentSubgraph, currentPartition, countElemInBiggerSubgraph);
-             MoveToAnotherSubgraph(ref indexMovedVertex, ref currentPartition, ref countElemInBiggerSubgraph, D, T_CountBlockingIterations, numberCurrentSubgraph, iteration);
-             GetCriterion(ref currentCriterion, graph, currentPartition, indexMovedVertex);
-             GetDisbalance(ref currentDisbalance, graph, currentPartition, countElemInBiggerSubgraph);
-             MovedCheck(ref isVertexMoved, ref T_CountBlockingIterations, ref countBlockingIteration, indexMovedVertex, iteration);
+            currentCriterion /= 2;
+            int rightCriterion = currentCriterion; //Лучший минимальный критерий
 
-            
+            float rightDisbalance = 0; //Лучший дисбаланс
+            float currentDisbalance = 0; //Текущий дисбаланс
 
-             //Сравнение дисбаланса и критерия текущего с наилучшими
-             if ((rightCriterion >= currentCriterion && limitDisbalance >= currentDisbalance && rightDisbalance >= currentDisbalance) || iteration == 0)
-             {
-                 rightCriterion = currentCriterion;
-                 rightDisbalance = currentDisbalance;
-                 for (int i = 0; i < currentPartition.Length; i++)
-                 {
-                     rightPartition[i] = currentPartition[i];
-                 }
-             }
+            if (allVertexWeight - weightInBiggerSubgraph > weightInBiggerSubgraph)
+            {
+                currentDisbalance = ( allVertexWeight / 2 + 1 ) - weightInBiggerSubgraph;
+            }
+            else
+            {
+                currentDisbalance = ( allVertexWeight / 2 + 1 ) - ( allVertexWeight - weightInBiggerSubgraph );
+            }
+            rightDisbalance = currentDisbalance;
 
-             GetNumberBiggerSubgraph(ref numberCurrentSubgraph, currentPartition, countElemInBiggerSubgraph);
-             iteration++;
-         } while (IsVertexMoved(T_CountBlockingIterations, currentPartition, numberCurrentSubgraph, iteration));
-         //while (IsVertexMoved(isVertexMoved, T_CountBlockingIterations, currentPartition, numberCurrentSubgraph)) ;
+            int[] T_CountBlockingIterations = new int[graph.CountVertecies]; //Вектор кол-ва итераций для каждой вершины, когда вершину двигать нельзя
+            int[] isVertexMoved = new int[graph.CountVertecies]; //Была ли тронута вершина
+            int numberCurrentSubgraph = 0; //Номер текущего подграфа
+            int iteration = 0; //номер итерации
+            int indexMovedVertex = 0; //Номер перемещённой вершины
+            int countBlockingIteration = numberOfBlockedIterations; //Кол-во итераций, когда вершину двигать нельзя. 
 
+            do
+            {
+                if (iteration != 0)
+                {
+                    GetEID(E_CountTornEdge, I_CountWholeEdge, D_DifferenceEdge, currentPartition, graph, indexMovedVertex);
+                }
+                GetNumberBiggerSubgraph(ref numberCurrentSubgraph, weightInBiggerSubgraph);
+                MoveToAnotherSubgraph(ref indexMovedVertex, currentPartition, ref weightInBiggerSubgraph, D_DifferenceEdge, T_CountBlockingIterations, numberCurrentSubgraph, iteration);
+                NegativeIndexCheck(ref weightInBiggerSubgraph, partition, indexMovedVertex, graph);
+                GetCriterion(ref currentCriterion, graph, currentPartition, indexMovedVertex);
+                GetDisbalance(ref currentDisbalance, weightInBiggerSubgraph);
+                MovedCheck(isVertexMoved, T_CountBlockingIterations, ref countBlockingIteration, indexMovedVertex, iteration);
 
-       
-         return rightPartition;
-     }
+                //if (( Math.Abs(rightCriterion - currentCriterion) > currentCriterion || Math.Abs(rightDisbalance - currentDisbalance) > currentDisbalance ) || iteration == 0)
+                if (( rightCriterion >= currentCriterion && rightDisbalance >= currentDisbalance ) || iteration == 0)
+                {
+                    (rightCriterion, rightDisbalance) = (currentCriterion, currentDisbalance);
+                    for (int i = 0 ; i < currentPartition.Length ; i++)
+                    {
+                        rightPartition[i] = currentPartition[i];
+                    }
+                }
+                
+                GetNumberBiggerSubgraph(ref numberCurrentSubgraph, weightInBiggerSubgraph);
+                iteration++;
+            } while (IsVertexMoved(T_CountBlockingIterations, currentPartition, numberCurrentSubgraph, iteration));
+            return rightPartition;
+        }
+        /// <summary>
+        /// Полностью перебирает граф, возвращая оценку критерия (разрез) и дисбаланс
+        /// </summary>
+        /// <param name="criterion">Критерий</param>
+        /// <param name="disbalance">Дисбаланс</param>
+        /// <param name="graph">Граф</param>
+        /// <param name="partition">Разбиение</param>
+        public void Statistics(ref int criterion, ref float disbalance, IGraph graph, int[] partition)
+        {
+            (disbalance, criterion, int countElemInBiggerSubgraph) = (0, 0, 0);
+            for (int i = 0 ; i < graph.CountVertecies ; i++)
+            {
+                for (int j = 0 ; j < graph.GetVertexDegree(i) ; j++)
+                {
+                    //Считаем критерий
+                    if (partition[i] != partition[graph[i, j]])
+                    {
+                        criterion++;
+                    }
+                }
+                if (partition[i] == 0)
+                {
+                    countElemInBiggerSubgraph++;
+                }
+            }
+            criterion /= 2;
+            GetDisbalance(ref disbalance, countElemInBiggerSubgraph);
+        }
 
-     /// <summary>
-     /// Полностью перебирает граф, возвращая оценку критерия (разрез) и дисбаланс
-     /// </summary>
-     /// <param name="criterion">Критерий</param>
-     /// <param name="disbalance">Дисбаланс</param>
-     /// <param name="graph">Граф</param>
-     /// <param name="partition">Разбиение</param>
-     public void Statistics(ref int criterion, ref float disbalance, IGraph graph, int[] partition)
-     {
-         disbalance = 0;
-         criterion = 0;
-         int countElemInBiggerSubgraph = 0;
-         for (int i = 0; i < graph.CountVertecies; i++)
-         {
-             for (int j = 0; j < graph.GetVertexDegree(i); j++)
-             {
-                 //Считаем критерий
-                 if (partition[i] != partition[graph[i, j]])
-                     criterion++;
-             }
-             if (partition[i] == 0) countElemInBiggerSubgraph++;
-         }
-         criterion /= 2;
+        /// <summary>
+        /// Возвращает критерий разреза
+        /// </summary>
+        /// <param name="criterion">Критерий который необходимо пересчитать</param>
+        /// <param name="graph">Граф</param>
+        /// <param name="partition">Разбиение</param>
+        /// <param name="indexMovedVertex">Индекс движимой вершины</param>
+        protected static void GetCriterion(ref int criterion, IGraph graph, int[] partition, int indexMovedVertex)
+        {
+            for (int i = 0 ; i < graph.GetVertexDegree(indexMovedVertex) ; i++)
+            {
+                criterion = ( partition[indexMovedVertex] == partition[graph[indexMovedVertex, i]] ) ?
+                    criterion -= graph.GetEdgeWeight(indexMovedVertex, graph[indexMovedVertex, i]) :
+                    criterion += graph.GetEdgeWeight(indexMovedVertex, graph[indexMovedVertex, i]);
+            }
+        }
 
-         GetDisbalance(ref disbalance, graph, partition, countElemInBiggerSubgraph);
-     }
+        /// <summary>
+        /// Возвращает дисбаланс
+        /// </summary>
+        /// <param name="disbalance">Значение дисбаланса</param>
+        /// <param name="weightInBiggerSubgraph">Количество элементов в первом подграфе</param>
+        protected static void GetDisbalance(ref float disbalance, int weightInBiggerSubgraph)
+        {
+            int division = allVertexWeight % 2 == 0 ? allVertexWeight / 2 : allVertexWeight / 2 + 1;
+            if (allVertexWeight - weightInBiggerSubgraph > weightInBiggerSubgraph)
+            {
+                disbalance = ( division) - weightInBiggerSubgraph;
+            }
+            else
+            {
+                disbalance = ( division ) - ( allVertexWeight - weightInBiggerSubgraph );
+            }
+        }
 
-     /// <summary>
-     /// Возвращает критерий разреза
-     /// </summary>
-     /// <param name="criterion">Критерий который необходимо пересчитать</param>
-     /// <param name="graph">Граф</param>
-     /// <param name="partition">Разбиение</param>
-     /// <param name="indexMovedVertex">Индекс движимой вершины</param>
-     protected void GetCriterion(ref int criterion, IGraph graph, int[] partition, int indexMovedVertex)
-     {
-         for (int i = 0; i < graph.GetVertexDegree(indexMovedVertex); i++)
-         {
-             if (partition[indexMovedVertex] == partition[graph[indexMovedVertex, i]])
-             {
-                 criterion--;
-             }
-             else
-             {
-                 criterion++;
-             }
-         }
-     }
+        /// <summary>
+        /// Обновляет массивы E_CountTornEdge, I_CountWholeEdge и D
+        /// </summary>
+        /// <param name="E_CountTornEdge">Количество разрезанных связей для каждой вершины</param>
+        /// <param name="I_CountWholeEdge">Количество целых связей для каждой вершины</param>
+        /// <param name="D_DifferenceEdge">D = E - I</param>
+        /// <param name="partition">разбиение</param>
+        /// <param name="graph">граф</param>
+        /// <param name="indexMovedVertex">Индекс движимой вершины</param>
+        protected static void GetEID(int[] E_CountTornEdge, int[] I_CountWholeEdge, int[] D_DifferenceEdge, int[] partition, IGraph graph, int indexMovedVertex)
+        {
+            //Изменяется только то, что было тронуто. Остальное остаётся прежним.
+            (E_CountTornEdge[indexMovedVertex], I_CountWholeEdge[indexMovedVertex]) = (I_CountWholeEdge[indexMovedVertex], E_CountTornEdge[indexMovedVertex]);
+            for (int i = 0 ; i < graph.GetVertexDegree(indexMovedVertex) ; i++)
+            {
+                //Считаем вектора I и E
+                if (partition[indexMovedVertex] == partition[graph[indexMovedVertex, i]])
+                {
+                    I_CountWholeEdge[graph[indexMovedVertex, i]] += graph.GetEdgeWeight(indexMovedVertex, graph[indexMovedVertex, i]);
+                    E_CountTornEdge[graph[indexMovedVertex, i]] -= graph.GetEdgeWeight(indexMovedVertex, graph[indexMovedVertex, i]);
+                }
+                else
+                {
+                    E_CountTornEdge[graph[indexMovedVertex, i]] += graph.GetEdgeWeight(indexMovedVertex, graph[indexMovedVertex, i]);
+                    I_CountWholeEdge[graph[indexMovedVertex, i]] -= graph.GetEdgeWeight(indexMovedVertex, graph[indexMovedVertex, i]);
+                }
+                //Считаем Д для соседей элемента indexMovedVertex
+                D_DifferenceEdge[graph[indexMovedVertex, i]] = E_CountTornEdge[graph[indexMovedVertex, i]] - I_CountWholeEdge[graph[indexMovedVertex, i]];
+            }
+            //Считаем Д элемента indexMovedVertex
+            D_DifferenceEdge[indexMovedVertex] = E_CountTornEdge[indexMovedVertex] - I_CountWholeEdge[indexMovedVertex];
+        }
 
-     /// <summary>
-     /// Возвращает дисбаланс
-     /// </summary>
-     /// <param name="disbalance">Значение дисбаланса</param>
-     /// <param name="graph">Граф</param>
-     /// <param name="partition">Разбиение</param>
-     /// <param name="countElemInBiggerSubgraph">Количество элементов в первом подграфе</param>
-     protected void GetDisbalance(ref float disbalance, IGraph graph, int[] partition, int countElemInBiggerSubgraph)
-     {
-         if (partition.Length - countElemInBiggerSubgraph > countElemInBiggerSubgraph)
-             disbalance = graph.CountVertecies / 2 - countElemInBiggerSubgraph;
-         else
-             disbalance = graph.CountVertecies / 2 - (partition.Length - countElemInBiggerSubgraph);
-     }
+        /// <summary>
+        /// Возвращает номер подграфа с наибольшим количеством элементов в нём
+        /// </summary>
+        /// <param name="numberPartition">номер подграфа</param>
+        /// <param name="weight">количество вершин в одном из подграфов</param>
+        protected static void GetNumberBiggerSubgraph(ref int numberPartition, int weight)
+        {
+            numberPartition = ( weight < allVertexWeight - weight ) ? 1 : 0;
+        }
 
-     /// <summary>
-     /// Обновляет массивы E_CountTornEdge, I_CountWholeEdge и D
-     /// </summary>
-     /// <param name="E_CountTornEdge">Количество разрезанных связей для каждой вершины</param>
-     /// <param name="I_CountWholeEdge">Количество целых связей для каждой вершины</param>
-     /// <param name="D">D = E - I</param>
-     /// <param name="partition">разбиение</param>
-     /// <param name="graph">граф</param>
-     /// <param name="indexMovedVertex">Индекс движимой вершины</param>
-     protected void GetEID(ref int[] E_CountTornEdge, ref int[] I_CountWholeEdge, ref int[] D, int[] partition, IGraph graph, int indexMovedVertex)
-     {
-         //Изменяется только то, что было тронуто. Остальное остаётся прежним.
-         (E_CountTornEdge[indexMovedVertex], I_CountWholeEdge[indexMovedVertex]) = (I_CountWholeEdge[indexMovedVertex], E_CountTornEdge[indexMovedVertex]);
-         for (int i = 0; i < graph.GetVertexDegree(indexMovedVertex); i++)
-         {
-             //Считаем вектора I и E
-             if (partition[indexMovedVertex] == partition[graph[indexMovedVertex, i]])
-             {
-                 I_CountWholeEdge[graph[indexMovedVertex, i]]++;
-                 E_CountTornEdge[graph[indexMovedVertex, i]]--;
-             }
-             else
-             {
-                 E_CountTornEdge[graph[indexMovedVertex, i]]++;
-                 I_CountWholeEdge[graph[indexMovedVertex, i]]--;
-             }
-             //Считаем Д для соседей элемента indexMovedVertex
-             D[graph[indexMovedVertex, i]] = E_CountTornEdge[graph[indexMovedVertex, i]] - I_CountWholeEdge[graph[indexMovedVertex, i]];
-         }
-         //Считаем Д элемента indexMovedVertex
-         D[indexMovedVertex] = E_CountTornEdge[indexMovedVertex] - I_CountWholeEdge[indexMovedVertex];
-     }
+        /// <summary>
+        /// Переносит одну вершину из одного подграфа в другой
+        /// </summary>
+        /// <param name="index">индекс движимой вершины</param>
+        /// <param name="partition">разбиение</param>
+        /// <param name="countElemInBiggerSubgraph">кол-во элементов в первом подграфе</param>
+        /// <param name="D_DifferenceEdge">D = E - I</param>
+        /// <param name="T_CountBlockingIterations">кол-во итераций для каждой вершины, когда вершину двигать нельзя</param>
+        /// <param name="numberCurrentSubgraph">номер текущего подграфа</param>
+        /// <param name="iteration">номер итерации</param>
+        protected static void MoveToAnotherSubgraph(ref int index, int[] partition, ref int countElemInBiggerSubgraph, int[] D_DifferenceEdge, int[] T_CountBlockingIterations, int numberCurrentSubgraph, int iteration)
+        {
+            //Находим элеменет, который будет перемещён в другой подграф
+            bool flag = false; //флаг на первый элменет
+            int maxInD = 0; //индекс максимального элемента в D
+            index = -1;
+            for (int i = 0 ; i < D_DifferenceEdge.Length ; i++)
+            {
+                if (!flag && partition[i] == numberCurrentSubgraph && T_CountBlockingIterations[i] <= iteration) //Находит первый элемент из нужного подграфа
+                {
+                    (maxInD, index, flag) = (D_DifferenceEdge[i], i, true);
+                }
+                if (D_DifferenceEdge[i] > maxInD && partition[i] == numberCurrentSubgraph && T_CountBlockingIterations[i] <= iteration) //Ищет максимум
+                {
+                    (maxInD, index) = (D_DifferenceEdge[i], i);
+                }
+            }
+        }
+        /// <summary>
+        ///  Меняем номер подграфа у выбранного элемента
+        /// </summary>
+        /// <param name="countElemInBiggerSubgraph">Кол-во элементов в большем подграфе</param>
+        /// <param name="partition">Разбиение</param>
+        /// <param name="index">Индекс элемента который переносим в другой граф</param>
+        protected static void NegativeIndexCheck(ref int countElemInBiggerSubgraph, int[] partition, int index, IGraph graph)
+        {
+            try
+            {
+                if (partition[index] == 1)
+                {
+                    partition[index] = 0;
+                    countElemInBiggerSubgraph += graph.GetVertexWeight(index);
+                }
+                else
+                {
+                    partition[index] = 1;
+                    countElemInBiggerSubgraph -= graph.GetVertexWeight(index);
+                }
+            }
+            catch (IndexOutOfRangeException ex)
+            {
+                Console.WriteLine(ex.Message + "Значение index не должно быть отрицательным. Значение index = " + index);
+            }
+        }
 
-     /// <summary>
-     /// Возвращает номер подграфа с наибольшим количеством элементов в нём
-     /// </summary>
-     /// <param name="numberPartition">номер подграфа</param>
-     /// <param name="partition">разбиение</param>
-     /// <param name="count">количество вершин в одном из подграфов</param>
-     protected void GetNumberBiggerSubgraph(ref int numberPartition, int[] partition, int count)
-     {
-         if (count < partition.Length - count)
-         {
-             numberPartition = 1;
-         }
-         else numberPartition = 0;
-     }
+        /// <summary>
+        /// Помечает двинутую вершину и по необходимости изменяет номер итерации, на которой вершина становится открытой для пермещения
+        /// </summary>
+        /// <param name="isVertexMoved">Массив тронутых вершин</param>
+        /// <param name="T_CountBlockingIterations">Массив итераций для передвижения</param>
+        /// <param name="countBlockingIteration">Число итераций, когда вершину двигать нельзя </param>
+        /// <param name="indexMovedVertex">индекс движимой вершины</param>
+        /// <param name="iteration">номер итерации</param>
+        protected static void MovedCheck(int[] isVertexMoved, int[] T_CountBlockingIterations, ref int countBlockingIteration, int indexMovedVertex, int iteration)
+        {
+            if (isVertexMoved[indexMovedVertex] != 0)
+            {
+                countBlockingIteration++;
+                T_CountBlockingIterations[indexMovedVertex] = iteration + countBlockingIteration;
+            }
+            else
+            {
+                T_CountBlockingIterations[indexMovedVertex] = iteration + countBlockingIteration;
+                isVertexMoved[indexMovedVertex]++;
+            }
+        }
 
-     /// <summary>
-     /// Переносит одну вершину из одного подграфа в другой
-     /// </summary>
-     /// <param name="index">индекс движимой вершины</param>
-     /// <param name="partition">разбиение</param>
-     /// <param name="countElemInBiggerSubgraph">кол-во элементов в первом подграфе</param>
-     /// <param name="D">D = E - I</param>
-     /// <param name="T_CountBlockingIterations">кол-во итераций для каждой вершины, когда вершину двигать нельзя</param>
-     /// <param name="numberCurrentSubgraph">номер текущего подграфа</param>
-     /// <param name="iteration">номер итерации</param>
-     protected void MoveToAnotherSubgraph(ref int index, ref int[] partition, ref int countElemInBiggerSubgraph, int[] D, int[] T_CountBlockingIterations, int numberCurrentSubgraph, int iteration)
-     {
-         //Находим элеменет, который будет перемещён в другой подграф
-         bool flag = false; //флаг на первый элменет
-         int maxInD = 0; //индекс максимального элемента в D
-         index = -1;
-         for (int i = 0; i < D.Length; i++)
-         {
-             if (!flag && partition[i] == numberCurrentSubgraph && T_CountBlockingIterations[i] <= iteration) //Находит первый элемент из нужного подграфа
-             {
-                 maxInD = D[i];
-                 index = i;
-                 flag = true;
-             }
-
-             if (D[i] > maxInD && partition[i] == numberCurrentSubgraph && T_CountBlockingIterations[i] <= iteration) //Ищет максимум
-             {
-                 maxInD = D[i];
-                 index = i;
-             }
-         }
-
-         if (index != -1)
-         {
-             // Меняем номер подграфа у выбранного элемента
-             if (partition[index] == 1)
-             {
-                 partition[index] = 0;
-                 countElemInBiggerSubgraph++;
-             }
-             else
-             {
-                 partition[index] = 1;
-                 countElemInBiggerSubgraph--;
-             }
-         }
-
-
-     }
-
-     /// <summary>
-     /// Помечает двинутую вершину и по необходимости изменяет номер итерации, на которой вершина становится открытой для пермещения
-     /// </summary>
-     /// <param name="isVertexMoved">Массив тронутых вершин</param>
-     /// <param name="T_CountBlockingIterations">Массив итераций для передвижения</param>
-     /// <param name="countBlockingIteration">Число итераций, когда вершину двигать нельзя </param>
-     /// <param name="indexMovedVertex">индекс движимой вершины</param>
-     /// <param name="iteration">номер итерации</param>
-     protected void MovedCheck(ref int[] isVertexMoved, ref int[] T_CountBlockingIterations, ref int countBlockingIteration, int indexMovedVertex, int iteration)
-     {
-         if (isVertexMoved[indexMovedVertex] != 0)
-         {
-             countBlockingIteration++;
-             T_CountBlockingIterations[indexMovedVertex] = iteration + countBlockingIteration;
-         }
-         else
-         {
-             T_CountBlockingIterations[indexMovedVertex] = iteration + countBlockingIteration;
-             isVertexMoved[indexMovedVertex]++;
-         }
-     }
-
-     /// <summary>
-     /// Проверка на то, возможно ли ещё взаимодействовать с вершинами графа
-     /// </summary>
-     /// <param name="isVertexMoved">индекс движимой вершины</param>
-     /// <param name="T_CountBlockingIterations">Массив итераций для передвижения</param>
-     /// <param name="partition">разбиение</param>
-     /// <param name="numberCurrentSubgraph">номер текущего подграфа</param>
-     /// <returns>Да, если ещё можно взаимодейстовать. Нет, иначе</returns>
-     protected bool IsVertexMoved(int[] T_CountBlockingIterations, int[] partition, int numberCurrentSubgraph, int iteration)
-     {
-         for (int i = 0; i < T_CountBlockingIterations.Length; i++)
-         {
-             if (T_CountBlockingIterations[i] <= iteration && partition[i] == numberCurrentSubgraph)
-                 return true;
-         }
-         return false;
-     }
- }
+        /// <summary>
+        /// Проверка на то, возможно ли ещё взаимодействовать с вершинами графа
+        /// </summary>
+        /// <param name="isVertexMoved">индекс движимой вершины</param>
+        /// <param name="T_CountBlockingIterations">Массив итераций для передвижения</param>
+        /// <param name="partition">разбиение</param>
+        /// <param name="numberCurrentSubgraph">номер текущего подграфа</param>
+        /// <returns>Да, если ещё можно взаимодейстовать. Нет, иначе</returns>
+        protected static bool IsVertexMoved(int[] T_CountBlockingIterations, int[] partition, int numberCurrentSubgraph, int iteration)
+        {
+            for (int i = 0 ; i < T_CountBlockingIterations.Length ; i++)
+            {
+                if (T_CountBlockingIterations[i] <= iteration && partition[i] == numberCurrentSubgraph)
+                    return true;
+            }
+            return false;
+        }
+    }
 }
