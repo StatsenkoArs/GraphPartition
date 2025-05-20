@@ -275,7 +275,7 @@ namespace GraphOptimisation
                 isVertexMoved[indexMovedVertex]++;
             }
         }
-
+       
         /// <summary>
         /// Проверка на то, возможно ли ещё взаимодействовать с вершинами графа
         /// </summary>
@@ -286,10 +286,10 @@ namespace GraphOptimisation
         /// <returns>Да, если ещё можно взаимодейстовать. Нет, иначе</returns>
         protected static bool IsVertexMoved(int[] T_CountBlockingIterations, int[] partition, int numberCurrentSubgraph, int iteration)
         {
-            for (int i = 0; i < T_CountBlockingIterations.Length; i++)
+            for (int i = 0 ; i < T_CountBlockingIterations.Length ; i++)
             {
                 if (T_CountBlockingIterations[i] <= iteration && partition[i] == numberCurrentSubgraph)
-                return true;
+                    return true;
             }
             return false;
         }

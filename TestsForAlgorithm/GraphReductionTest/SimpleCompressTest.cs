@@ -19,7 +19,7 @@ namespace TestsForAlgorithm.GraphReductionTest
                     [3]
                 ];
             ICompress compress = new SimpleCompress();
-            int[] result = compress.Compress(new GraphSRC(graph));
+            int[] result = compress.Compress(new GraphCSR(graph));
             CollectionAssert.AreEqual(expected, result);
         }
         [TestMethod]
@@ -35,7 +35,7 @@ namespace TestsForAlgorithm.GraphReductionTest
                     [3]
                 ];
             ICompress compress = new SimpleCompress();
-            int[] result = compress.Compress(new GraphSRC(graph));
+            int[] result = compress.Compress(new GraphCSR(graph));
             Assert.AreEqual(expected, compress.GetNumOfGroup());
         }
         [TestMethod]
@@ -55,7 +55,7 @@ namespace TestsForAlgorithm.GraphReductionTest
                     [4,8]
                 ];
             ICompress compress = new SimpleCompress();
-            int[] result = compress.Compress(new GraphSRC(graph));
+            int[] result = compress.Compress(new GraphCSR(graph));
             CollectionAssert.AreEqual(expected, result);
         }
     }

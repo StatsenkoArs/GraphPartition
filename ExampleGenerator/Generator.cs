@@ -9,6 +9,9 @@ namespace ExampleGenerator
         private Random _random = new Random();
         private int _lowLimit;
         private int _upLimit;
+        private int _edgesGenerated;
+        int edgesInLeft;
+        int edgesInRight;
 
         public Generator() 
         { 
@@ -35,9 +38,10 @@ namespace ExampleGenerator
                 _graph[i] = new List<int>();
             }
 
-            int edges = _random.Next(n * _lowLimit / 2 + 1, n * _upLimit / 2);
-            int edgesInLeft = Convert.ToInt32(Math.Ceiling((edges - q) / 2.0)) - dif;
-            int edgesInRight = Convert.ToInt32(Math.Floor((edges - q) / 2.0)) + dif;
+            _edgesGenerated = 0;
+            int edges = _random.Next(n * _lowLimit / 4 + 1, n * _upLimit / 4);
+            edgesInLeft = Convert.ToInt32(Math.Floor((edges - q) / 2.0)) - dif;
+            edgesInRight = Convert.ToInt32(Math.Floor((edges - q) / 2.0)) + dif;
             
             List<int> leftNumbers = new List<int>();
             List<int> rightNumbers = new List<int>();
@@ -86,13 +90,17 @@ namespace ExampleGenerator
             {
                 int leftVertex = leftVertexNums[_random.Next(0, leftVertexNums.Count)];
                 int rightVertex = rightVertexNums[_random.Next(0, rightVertexNums.Count)];
-                if (leftVertex != rightVertex && !_graph[leftVertex].Contains(rightVertex) && _graph[leftVertex].Count < _upLimit && _graph[rightVertex].Count < _upLimit)
+                bool v = !_graph[leftVertex].Contains(rightVertex);
+                bool v1 = _graph[leftVertex].Count < _upLimit;
+                bool v2 = _graph[rightVertex].Count < _upLimit;
+                if (leftVertex != rightVertex && v && v1 && v2)
                 {
                     _graph[leftVertex].Add(rightVertex);
                     _graph[rightVertex].Add(leftVertex);
                     hasGenerated = true;
                 }
             }
+            _edgesGenerated++;
         }
 
         /// <summary>
@@ -104,13 +112,19 @@ namespace ExampleGenerator
         {
             for (int i = 1; i < numVertexes.Count; i++)
             {
-                for (int k = 0; k < _lowLimit; ++k)
+                _graph[numVertexes[i]].Add(numVertexes[i - 1]);
+                _graph[numVertexes[i - 1]].Add(numVertexes[i]);
+            }
+
+            for (int i = 1; i < numVertexes.Count; i++)
+            {
+                while(_graph[numVertexes[i]].Count < _lowLimit)
                 {
-                    _graph[numVertexes[i]].Add(numVertexes[i - 1]);
-                    _graph[numVertexes[i - 1]].Add(numVertexes[i]);
+                    AddEdge(new List<int>{ numVertexes[i] }, numVertexes);
                 }
             }
-            for (int i = numVertexes.Count - 1; i < quantity; i++)
+
+            while(_edgesGenerated < quantity)
             {
                 AddEdge(numVertexes, numVertexes);
             }
