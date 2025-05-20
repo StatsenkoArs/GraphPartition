@@ -4,47 +4,53 @@ using System.Net.Http.Headers;
 
 namespace GraphReduction
 {
-    class WeightCompress : ICompress
+    public class WeightCompress : ICompress
     {
         private int[] vertex_mapping;
         private bool[] graph_vertex_used;  //Убрать? Учитывать это по заполненности шифра?
         private int _group;
-        private Stack<int> vertex_stack;
         public WeightCompress()
         {
             vertex_mapping = Array.Empty<int>();
             graph_vertex_used = Array.Empty<bool>();
-            vertex_stack = new Stack<int>();
         }
         public int[] Compress(IGraph graph)
         {
             vertex_mapping = new int[graph.CountVertecies];
             graph_vertex_used = new bool[graph.CountVertecies];
             int group = 0;
-            bool flag = true;
-            int current_vertex = 0;
-            for (int i = 0; i < graph.CountVertecies; i++)
+            bool is_paring = true;
+            int min_weight_vert, min_vert;
+            for (int vert = 0; vert < graph.CountVertecies; vert++)
             {
-                if (flag == false)
+                if (is_paring == false)
                 {
                     group++;
-                    flag = true;
+                    is_paring = true;
                 }
-                if (graph_vertex_used[i] == false)
+                if (graph_vertex_used[vert] == false)
                 {
-                    vertex_mapping[i] = group;
-                    graph_vertex_used[i] = true;
-                    flag = false;
-                    for (int j = 0; j < graph.GetVertexDegree(i); j++)
+                    vertex_mapping[vert] = group;
+                    graph_vertex_used[vert] = true;
+                    is_paring = false;
+                    min_vert = 0;
+                    min_weight_vert = graph.GetVertexWeight(graph[vert, min_vert]);
+                    //Поиск веришны с минимальным весом для стягивания
+                    for (int adj_vert = 0; adj_vert < graph.GetVertexDegree(vert); adj_vert++)
                     {
-                        if (graph_vertex_used[graph[i, j]] == false)
+                        if (graph_vertex_used[graph[vert, adj_vert]] == false &&
+                            graph.GetVertexWeight(graph[vert, adj_vert]) < min_weight_vert)
                         {
-                            vertex_mapping[graph[i, j]] = group;
-                            graph_vertex_used[graph[i, j]] = true;
-                            group++;
-                            flag = true;
-                            break;
+                            min_weight_vert = graph.GetVertexWeight(graph[vert, adj_vert]);
+                            min_vert = adj_vert;
                         }
+                    }
+                    if (graph_vertex_used[graph[vert, min_vert]] == false)
+                    {
+                        vertex_mapping[graph[vert, min_vert]] = group;
+                        graph_vertex_used[graph[vert, min_vert]] = true;
+                        group++;
+                        is_paring = true;
                     }
                 }
             }
