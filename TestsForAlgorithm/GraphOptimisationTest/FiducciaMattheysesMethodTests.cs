@@ -45,7 +45,7 @@ namespace TestsForAlgorithm.GraphOptimisationTest
         {
             float disbalance = 0;
             int[] partition = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-            GetDisbalance(ref disbalance, g, partition, 10);
+            GetDisbalance(ref disbalance, 10);
             Assert.AreEqual(5, disbalance);
         }
         [TestMethod]
@@ -53,7 +53,7 @@ namespace TestsForAlgorithm.GraphOptimisationTest
         {
             float disbalance = 0;
             int[] partition = new int[] { 1, 1, 1, 1, 1, 0, 0, 0, 0, 0 };
-            GetDisbalance(ref disbalance, g, partition, 5);
+            GetDisbalance(ref disbalance, 5);
             Assert.AreEqual(0, disbalance);
         }
         [TestMethod]
@@ -92,7 +92,7 @@ namespace TestsForAlgorithm.GraphOptimisationTest
             int numberPartition = 0;
             int[] partition = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
             int countElemInFirstSubgraph = 10;
-            GetNumberBiggerSubgraph(ref numberPartition, partition, countElemInFirstSubgraph);
+            GetNumberBiggerSubgraph(ref numberPartition, countElemInFirstSubgraph);
             Assert.AreEqual(0, numberPartition);
         }
         [TestMethod]
@@ -101,7 +101,7 @@ namespace TestsForAlgorithm.GraphOptimisationTest
             int numberPartition = 0;
             int[] partition = new int[] { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
             int countElemInFirstSubgraph = 0;
-            GetNumberBiggerSubgraph(ref numberPartition, partition, countElemInFirstSubgraph);
+            GetNumberBiggerSubgraph(ref numberPartition, countElemInFirstSubgraph);
             Assert.AreEqual(1, numberPartition);
         }
         [TestMethod]
@@ -110,7 +110,7 @@ namespace TestsForAlgorithm.GraphOptimisationTest
             int numberPartition = 0;
             int[] partition = new int[] { 0, 0, 0, 0, 0, 1, 1, 1, 1, 1 };
             int countElemInFirstSubgraph = 5;
-            GetNumberBiggerSubgraph(ref numberPartition, partition, countElemInFirstSubgraph);
+            GetNumberBiggerSubgraph(ref numberPartition, countElemInFirstSubgraph);
             Assert.AreEqual(0, numberPartition);
         }
         [TestMethod]
