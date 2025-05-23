@@ -11,6 +11,8 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
     [TestClass]
     public class AccurateTests
     {
+        private double eps = 0.06;
+
         private TestContext testContext;
 
         public TestContext TestContext
@@ -18,7 +20,6 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
             get { return testContext; }
             set { testContext = value; }
         }
-
 
         [TestMethod]
         public void BBAlgorithmGetPartition_9Vertexes_BalancedPartition()
@@ -34,11 +35,15 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
                                 [5, 7] };
             IGraph graph = new GraphCSR(graphArray);
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
-            int[] x = ap.GetPartition(graph);
-            Assert.IsTrue(x.Sum() >= graph.CountVertecies / 2 && x.Sum() <= graph.CountVertecies + 1);
-            
+            int[] x = ap.GetPartition(graph, eps);
+
             TestContext.WriteLine("x = [" + string.Join(", ", ap.GetSolution().Item1) + "]");
             TestContext.WriteLine("q = " + ap.GetSolution().Item2);
+            TestContext.WriteLine("balance = " + Math.Round((double)ap.GetSolution().Item1.Sum() / ap.GetSolution().Item1.Length, 2));
+
+            Assert.IsTrue(Math.Abs((double)x.Sum() / graph.GraphWeight - 1.0 / 2.0) < eps);
+            Assert.IsTrue(x.Sum() > 0);
+            Assert.IsTrue(ap.GetSolution().Item2 < int.MaxValue);
         }
 
         [TestMethod]
@@ -56,11 +61,15 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
                             [ 1,  2 ] };
             IGraph graph = new GraphCSR(graphArray);
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
-            int[] x = ap.GetPartition(graph);
-            Assert.IsTrue(x.Sum() >= graph.CountVertecies / 2 && x.Sum() <= graph.CountVertecies + 1);
-            
+            int[] x = ap.GetPartition(graph, eps);
+
             TestContext.WriteLine("x = [" + string.Join(", ", ap.GetSolution().Item1) + "]");
             TestContext.WriteLine("q = " + ap.GetSolution().Item2);
+            TestContext.WriteLine("balance = " + Math.Round((double)ap.GetSolution().Item1.Sum() / ap.GetSolution().Item1.Length, 2));
+
+            Assert.IsTrue(Math.Abs((double)x.Sum() / graph.GraphWeight - 1.0 / 2.0) < eps);
+            Assert.IsTrue(x.Sum() > 0);
+            Assert.IsTrue(ap.GetSolution().Item2 < int.MaxValue);
         }
 
         [TestMethod]
@@ -78,11 +87,15 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
                                 [ 6,  7] };
             IGraph graph = new GraphCSR(graphArray);
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
-            int[] x = ap.GetPartition(graph);
-            Assert.IsTrue(x.Sum() >= graph.CountVertecies / 2 && x.Sum() <= graph.CountVertecies + 1);
-            
+            int[] x = ap.GetPartition(graph, eps);
+
             TestContext.WriteLine("x = [" + string.Join(", ", ap.GetSolution().Item1) + "]");
             TestContext.WriteLine("q = " + ap.GetSolution().Item2);
+            TestContext.WriteLine("balance = " + Math.Round((double)ap.GetSolution().Item1.Sum() / ap.GetSolution().Item1.Length, 2));
+
+            Assert.IsTrue(Math.Abs((double)x.Sum() / graph.GraphWeight - 1.0 / 2.0) < eps);
+            Assert.IsTrue(x.Sum() > 0);
+            Assert.IsTrue(ap.GetSolution().Item2 < int.MaxValue);
         }
 
         [TestMethod]
@@ -100,11 +113,15 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
                                 [ 6,  7] };
             IGraph graph = new GraphCSR(graphArray);
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
-            int[] x = ap.GetPartition(graph);
-            Assert.IsTrue(x.Sum() >= graph.CountVertecies / 2 && x.Sum() <= graph.CountVertecies + 1);
-            
+            int[] x = ap.GetPartition(graph, eps);
+
             TestContext.WriteLine("x = [" + string.Join(", ", ap.GetSolution().Item1) + "]");
             TestContext.WriteLine("q = " + ap.GetSolution().Item2);
+            TestContext.WriteLine("balance = " + Math.Round((double)ap.GetSolution().Item1.Sum() / ap.GetSolution().Item1.Length, 2));
+
+            Assert.IsTrue(Math.Abs((double)x.Sum() / graph.GraphWeight - 1.0 / 2.0) < eps);
+            Assert.IsTrue(x.Sum() > 0);
+            Assert.IsTrue(ap.GetSolution().Item2 < int.MaxValue);
         }
 
         [TestMethod]
@@ -127,11 +144,15 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
                                 [ 5,  6,  9 ] };
             IGraph graph = new GraphCSR(graphArray);
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
-            int[] x = ap.GetPartition(graph);
-            Assert.IsTrue(x.Sum() >= graph.CountVertecies / 2 && x.Sum() <= graph.CountVertecies + 1);
-            
+            int[] x = ap.GetPartition(graph, eps);
+
             TestContext.WriteLine("x = [" + string.Join(", ", ap.GetSolution().Item1) + "]");
             TestContext.WriteLine("q = " + ap.GetSolution().Item2);
+            TestContext.WriteLine("balance = " + Math.Round((double)ap.GetSolution().Item1.Sum() / ap.GetSolution().Item1.Length, 2));
+
+            Assert.IsTrue(Math.Abs((double)x.Sum() / graph.GraphWeight - 1.0 / 2.0) < eps);
+            Assert.IsTrue(x.Sum() > 0);
+            Assert.IsTrue(ap.GetSolution().Item2 < int.MaxValue);
         }
 
         [TestMethod]
@@ -224,16 +245,19 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
                                 [75, 76, 83] };
             IGraph graph = new GraphCSR(graphArray);
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
-            int[] x = ap.GetPartition(graph);
-            Assert.IsTrue(x.Sum() >= graph.CountVertecies / 2 && x.Sum() <= graph.CountVertecies + 1);
-            
+            int[] x = ap.GetPartition(graph, eps);
+
             TestContext.WriteLine("x = [" + string.Join(", ", ap.GetSolution().Item1) + "]");
             TestContext.WriteLine("q = " + ap.GetSolution().Item2);
+            TestContext.WriteLine("balance = " + Math.Round((double)ap.GetSolution().Item1.Sum() / ap.GetSolution().Item1.Length, 2));
+
+            Assert.IsTrue(Math.Abs((double)x.Sum() / graph.GraphWeight - 1.0 / 2.0) < eps);
+            Assert.IsTrue(x.Sum() > 0);
+            Assert.IsTrue(ap.GetSolution().Item2 < int.MaxValue);
         }
 
         [TestMethod]
-
-        public void BBAlgorithmGetPartition_100Vertexes_BalancedPartition()
+        public void BBAlgorithmGetPartition_97Vertexes_BalancedPartition()
         {
             int[][] graphArray = {  [1],
                                     [0, 2],
@@ -334,11 +358,15 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
                                     [] };
             IGraph graph = new GraphCSR(graphArray);
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
-            int[] x = ap.GetPartition(graph);
-            Assert.IsTrue(x.Sum() >= graph.CountVertecies / 2 && x.Sum() <= graph.CountVertecies + 1);
-            
+            int[] x = ap.GetPartition(graph, eps);
+
             TestContext.WriteLine("x = [" + string.Join(", ", ap.GetSolution().Item1) + "]");
             TestContext.WriteLine("q = " + ap.GetSolution().Item2);
+            TestContext.WriteLine("balance = " + Math.Round((double)ap.GetSolution().Item1.Sum() / ap.GetSolution().Item1.Length, 2));
+
+            Assert.IsTrue(Math.Abs((double)x.Sum() / graph.GraphWeight - 1.0 / 2.0) < eps);
+            Assert.IsTrue(x.Sum() > 0);
+            Assert.IsTrue(ap.GetSolution().Item2 < int.MaxValue);
         }
 
         //[TestMethod]
@@ -446,8 +474,8 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
                                 [29, 48, 58] };
             IGraph graph = new GraphCSR(graphArray);
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
-            int[] x = ap.GetPartition(graph);
-            Assert.IsTrue(x.Sum() >= graph.CountVertecies / 2 && x.Sum() <= graph.CountVertecies + 1);
+            int[] x = ap.GetPartition(graph, eps);
+            Assert.IsTrue(x.Sum() >= graph.GraphWeight / 2 && x.Sum() <= graph.GraphWeight + 1);
         }
 
         //[TestMethod]
@@ -556,8 +584,8 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
                                 [90, 99] };
             IGraph graph = new GraphCSR(graphArray);
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
-            int[] x = ap.GetPartition(graph);
-            Assert.IsTrue(x.Sum() >= graph.CountVertecies / 2 && x.Sum() <= graph.CountVertecies + 1);
+            int[] x = ap.GetPartition(graph, eps);
+            Assert.IsTrue(x.Sum() >= graph.GraphWeight / 2 && x.Sum() <= graph.GraphWeight + 1);
         }
 
         //[TestMethod]
@@ -716,8 +744,55 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
                                 [149] };
             IGraph graph = new GraphCSR(graphArray);
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
-            int[] x = ap.GetPartition(graph);
-            Assert.IsTrue(x.Sum() >= graph.CountVertecies / 2 && x.Sum() <= graph.CountVertecies + 1);
+            int[] x = ap.GetPartition(graph, eps);
+            Assert.IsTrue(x.Sum() >= graph.GraphWeight / 2 && x.Sum() <= graph.GraphWeight + 1);
+        }
+
+        private int SubGraphWeight(int[] x, int[] weights)
+        {
+            int result = 0;
+            for (int i = 0; i < x.Length; ++i)
+            {
+                result += x[i] * weights[i];
+            }
+            return result;
+        }
+
+        [TestMethod]
+        public void BBAlgorithmGetPartition_10VertexesWeighted_BalancedPartition()
+        {
+            int[][] graphArray = { [ 5, 7 ],
+                            [ 3, 4, 5 ],
+                            [ 3, 4, 8 ],
+                            [ 1, 2, 4, 6, 9 ],
+                            [ 1, 2, 3 ],
+                            [ 0, 1 ],
+                            [ 3, 8 ],
+                            [ 0, 9 ],
+                            [ 2, 6 ],
+                            [ 0, 3, 7 ] };
+            int[] vertexWeights = { 3, 4, 3, 3, 4, 8, 1, 4, 3, 3 };
+            int[][] edgesWeights = { [ 8, 1 ],
+                            [ 10, 11, 3 ],
+                            [ 4, 8, 6 ],
+                            [ 10, 9, 4, 7, 2 ],
+                            [ 11, 8, 4 ],
+                            [ 8, 3 ],
+                            [ 7, 3 ],
+                            [ 1, 6 ],
+                            [ 6, 3 ],
+                            [ 7, 2, 6 ] };
+            IGraph graph = new GraphCSRWeights(graphArray, vertexWeights, edgesWeights);
+            IAccuratePartition ap = new BranchAndBoundsAlgorithm();
+            int[] x = ap.GetPartition(graph, eps);
+
+            TestContext.WriteLine("x = [" + string.Join(", ", ap.GetSolution().Item1) + "]");
+            TestContext.WriteLine("q = " + ap.GetSolution().Item2);
+            TestContext.WriteLine("balance = " + Math.Round((double)SubGraphWeight(x, vertexWeights) / graph.GraphWeight, 2));
+
+            Assert.IsTrue(Math.Abs((double)SubGraphWeight(x, vertexWeights) / graph.GraphWeight - 1.0 / 2.0) < eps);
+            Assert.IsTrue(x.Sum() > 0);
+            Assert.IsTrue(ap.GetSolution().Item2 < int.MaxValue);
         }
     }
 }

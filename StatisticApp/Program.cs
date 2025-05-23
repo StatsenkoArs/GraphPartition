@@ -83,6 +83,10 @@ public class Program
         }
     }
 
+
+    /// <summary>
+    /// Для не взвешенных графов
+    /// </summary>
     public static void Main()
     {
         string path = ConfigurationManager.AppSettings["DBPath"] ?? "";
@@ -90,8 +94,8 @@ public class Program
         int numOfGraphs = int.Parse(ConfigurationManager.AppSettings["NumOfGraphs"] ?? "0");
         if (String.IsNullOrEmpty(path))
             return;
-        NukeDirectory(path);
-        GenBase(path,  numOfVerts, numOfGraphs);
+        //NukeDirectory(path);
+        //GenBase(path,  numOfVerts, numOfGraphs);
 
         List<GraphData> graphs = GraphBin.ParseBin(path + @"\Bin");
 
@@ -125,7 +129,7 @@ public class Program
             watch.Stop();
 
             var time = watch.ElapsedMilliseconds;
-            var balance = (double)answer.Sum() / gr.Length;
+            var balance = (double)answer.Sum() / gr.Length; //без весов
             var qReal = Q(gr, answer);
 
             Console.WriteLine($"{row - 1}: Граф из {gr.Length} вершин, разбит за {Math.Round((double)time / 1000, 2).ToString()}c; {DateTime.Now}");

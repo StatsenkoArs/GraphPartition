@@ -4,25 +4,28 @@ namespace GraphPartitionAccurate
 {
     public class BranchAndBoundsAlgorithm : IAccuratePartition
     {
-        private int[] _x = Array.Empty<int>();
-        private int _q = 0;
-        private IGraph _graph;
-        private int _n = 0;
-        private int _allEdges = 0;
-        private int _dif = 0;
+        private int[] _x = Array.Empty<int>(); // бинарный вектор разбиения
+        private int _q = 0; // рекорд критерия
+        private IGraph _graph; // граф
+        private int _n = 0; // число вершин в графе
+        private int _allEdges = 0; // всего ребер в графе
+        private int _dif = 0; // разница критерия при расчете разбиения
         private int _graphWeight = 0;
+        private double _balanceCriteria = 0;
 
         /// <summary>
         /// Запускает решение точным алгоритмом
         /// </summary>
-        /// <param name="n">число вершин графа</param>
         /// <param name="graph">список смености графа</param>
-        /// <returns>бинарный вектор-решение/критерий</returns>
-        public int[] GetPartition(IGraph graph)
+        /// <param name="balanceCriteria">критерий сбалансированности решения</param>
+        /// <returns>бинарный вектор-решение</returns>
+        public int[] GetPartition(IGraph graph, double balanceCriteria)
         {
+            _balanceCriteria = balanceCriteria;
+
             Init(graph);
 
-            FindSolution(new int[_n], _n, 0, 0, 0, 0);
+            FindSolution(new int[_n], 0, 0, 0, 0);
 
             return _x;
         }
@@ -72,48 +75,35 @@ namespace GraphPartitionAccurate
         /// Рекурсивный перебор всех возможных бинарных векторов-решений
         /// </summary>
         /// <param name="x">вектор-решение</param>
-        /// <param name="n">количестов вершин в графе</param>
         /// <param name="step">текущий шаг (номер обрабатываемой вершины)</param>
-        /// <param name="weightLeft">сумма элементов решения (количество вершин в одном из подграфов('1'))</param>
+        /// <param name="weightLeft">вес подграфа '0'</param>
         /// <param name="currentQ">текущий критерий</param>
-        private void FindSolution(int[] x, int n, int step, int weightLeft, int currentQ, int weight)
+        /// <param name="weight">вес уже обработанного подграфа</param>
+        private void FindSolution(int[] x, int step, int weightLeft, int currentQ, int weight)
         {
-            if (step == n)
+            if (step == _n)
             {
-                if (currentQ < _q)
+                if (currentQ < _q && Math.Abs((double)weightLeft / _graphWeight - 1.0 / 2.0) < _balanceCriteria)
                 {
-                    if (_graphWeight % 2 == 0)
-                    {
-                        if (weightLeft == _graphWeight / 2)
-                        {
-                            x.CopyTo(_x, 0);
-                            _q = currentQ;
-                        }
-                    }
-                    else if (weightLeft == _graphWeight / 2 + 1 || _graphWeight - weightLeft == _graphWeight / 2 + 1)
-                    {
-                        x.CopyTo(_x, 0);
-                        _q = currentQ;
-                    }
+                    x.CopyTo(_x, 0);
+                    _q = currentQ;
                 }
                 return;
             }
 
-            if (step > n / 2)
-                if (_graphWeight % 2 == 0)
-                {
-                    if (weightLeft > _graphWeight / 2 || weight - weightLeft > _graphWeight / 2) return;
-                }
-                else if (weightLeft > _graphWeight / 2 + 1 || weight - weightLeft > _graphWeight / 2 + 1) return;
+            if (currentQ > _q)
+                return;
 
-            if (currentQ > _q) return;
+            if (weight > (double)_graphWeight / 2 && ((double)weightLeft / _graphWeight - 1.0 / 2.0 > _balanceCriteria || (weight - (double)weightLeft) / _graphWeight - 1.0 / 2.0 > _balanceCriteria))
+                return;
+
 
             x[step] = 0;
             _dif = QChanges(x, step);
-            FindSolution(x, n, step + 1, weightLeft + _graph.GetVertexWeight(step), currentQ + _dif, weight + _graph.GetVertexWeight(step));
+            FindSolution(x, step + 1, weightLeft + _graph.GetVertexWeight(step), currentQ + _dif, weight + _graph.GetVertexWeight(step));
             x[step] = 1;
             _dif = QChanges(x, step);
-            FindSolution(x, n, step + 1, weightLeft, currentQ + _dif, weight + _graph.GetVertexWeight(step));
+            FindSolution(x, step + 1, weightLeft, currentQ + _dif, weight + _graph.GetVertexWeight(step));
         }
     }
 }
