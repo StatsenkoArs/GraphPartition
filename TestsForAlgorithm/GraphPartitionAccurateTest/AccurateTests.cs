@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GraphPartitionAccurate;
+﻿using GraphPartitionAccurate;
 using GraphRepresentation;
 
 namespace TestsForAlgorithm.GraphPartitionAccurateTest
@@ -24,7 +19,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
         [TestMethod]
         public void BBAlgorithmGetPartition_9Vertexes_BalancedPartition()
         {
-            int[][] graphArray = { [1, 3],
+            int[][] graphArray = [ [1, 3],
                                 [0, 2, 3, 4],
                                 [1, 4, 5],
                                 [0, 1, 4, 6],
@@ -32,7 +27,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
                                 [2, 4, 7, 8],
                                 [3, 4, 7],
                                 [4, 5, 6, 8],
-                                [5, 7] };
+                                [5, 7] ];
             IGraph graph = new GraphCSR(graphArray);
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
             int[] x = ap.GetPartition(graph, eps);
@@ -49,7 +44,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
         [TestMethod]
         public void BBAlgorithmGetPartition_10Vertexes_BalancedPartition()
         {
-            int[][] graphArray = { [ 3,  5,  6,  7 ],
+            int[][] graphArray = [ [ 3,  5,  6,  7 ],
                             [ 3,  4,  5,  7,  8,  9 ],
                             [ 4,  6,  9 ],
                             [ 0,  1,  4,  5 ],
@@ -58,7 +53,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
                             [ 0,  2,  5,  7 ],
                             [ 0,  1,  6 ],
                             [ 1,  4,  5 ],
-                            [ 1,  2 ] };
+                            [ 1,  2 ] ];
             IGraph graph = new GraphCSR(graphArray);
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
             int[] x = ap.GetPartition(graph, eps);
@@ -75,7 +70,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
         [TestMethod]
         public void BBAlgorithmGetPartition_10Vertexes2_BalancedPartition()
         {
-            int[][] graphArray = { [ 1,  3,  4],
+            int[][] graphArray = [ [ 1,  3,  4],
                                 [ 0,  2,  4],
                                 [ 1,  4,  5],
                                 [ 0,  4,  6],
@@ -84,7 +79,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
                                 [ 3,  4,  7],
                                 [ 4,  6,  8],
                                 [ 4,  5,  7],
-                                [ 6,  7] };
+                                [ 6,  7] ];
             IGraph graph = new GraphCSR(graphArray);
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
             int[] x = ap.GetPartition(graph, eps);
@@ -101,7 +96,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
         [TestMethod]
         public void BBAlgorithmGetPartition_10Vertexes3_BalancedPartition()
         {
-            int[][] graphArray = { [ 1,  3,  4],
+            int[][] graphArray = [ [ 1,  3,  4],
                                 [ 0,  2,  4],
                                 [ 1,  4,  5],
                                 [ 0,  4,  6],
@@ -110,7 +105,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
                                 [ 3,  4,  7, 9],
                                 [ 4,  6,  8, 9],
                                 [ 4,  5,  7],
-                                [ 6,  7] };
+                                [ 6,  7] ];
             IGraph graph = new GraphCSR(graphArray);
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
             int[] x = ap.GetPartition(graph, eps);
@@ -127,7 +122,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
         [TestMethod]
         public void BBAlgorithmGetPartition_15Vertexes_BalancedPartition()
         {
-            int[][] graphArray = { [ 8,  9,  13 ],
+            int[][] graphArray = [ [ 8,  9,  13 ],
                                 [ 4,  10 ],
                                 [ 3,  7,  11,  12 ],
                                 [ 2,  5,  6 ],
@@ -141,7 +136,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
                                 [ 2,  4,  6,  7,  9,  10 ],
                                 [ 2,  8 ],
                                 [ 0,  6,  9,  10 ],
-                                [ 5,  6,  9 ] };
+                                [ 5,  6,  9 ] ];
             IGraph graph = new GraphCSR(graphArray);
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
             int[] x = ap.GetPartition(graph, eps);
@@ -158,7 +153,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
         [TestMethod]
         public void BBAlgorithmGetPartition_85Vertexes_BalancedPartition()
         {
-            int[][] graphArray = { [1, 9, 10],
+            int[][] graphArray = [ [1, 9, 10],
                                 [0, 2, 10, 11],
                                 [1, 3, 11],
                                 [2, 4, 11, 12, 13],
@@ -242,7 +237,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
                                 [72, 82],
                                 [72, 73, 81, 83],
                                 [73, 74, 75, 82, 84],
-                                [75, 76, 83] };
+                                [75, 76, 83] ];
             IGraph graph = new GraphCSR(graphArray);
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
             int[] x = ap.GetPartition(graph, eps);
@@ -259,7 +254,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
         [TestMethod]
         public void BBAlgorithmGetPartition_97Vertexes_BalancedPartition()
         {
-            int[][] graphArray = {  [1],
+            int[][] graphArray = [  [1],
                                     [0, 2],
                                     [1, 3],
                                     [4, 2],
@@ -355,7 +350,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
                                     [],
                                     [95],
                                     [94],
-                                    [] };
+                                    [] ];
             IGraph graph = new GraphCSR(graphArray);
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
             int[] x = ap.GetPartition(graph, eps);
@@ -372,7 +367,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
         //[TestMethod]
         public void BBAlgorithmGetPartition_100Vertexes2_BalancedPartition()
         {
-            int[][] graphArray = { [],
+            int[][] graphArray = [ [],
                                 [34, 86],
                                 [36, 44, 55],
                                 [58],
@@ -471,7 +466,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
                                 [19, 79],
                                 [49],
                                 [22, 52, 89, 90],
-                                [29, 48, 58] };
+                                [29, 48, 58] ];
             IGraph graph = new GraphCSR(graphArray);
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
             int[] x = ap.GetPartition(graph, eps);
@@ -481,7 +476,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
         //[TestMethod]
         public void BBAlgorithmGetPartition_101Vertexes_BalancedPartition()
         {
-            int[][] graphArray = { [1],
+            int[][] graphArray = [ [1],
                                 [0, 2, 12],
                                 [1, 14],
                                 [4, 14, 15],
@@ -581,7 +576,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
                                 [88, 98],
                                 [90, 97],
                                 [100],
-                                [90, 99] };
+                                [90, 99] ];
             IGraph graph = new GraphCSR(graphArray);
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
             int[] x = ap.GetPartition(graph, eps);
@@ -591,7 +586,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
         //[TestMethod]
         public void BBAlgorithmGetPartition_151Vertexes_BalancedPartition()
         {
-            int[][] graphArray = { [1],
+            int[][] graphArray = [ [1],
                                 [0, 2, 12],
                                 [1, 14],
                                 [4, 14, 15],
@@ -741,7 +736,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
                                 [137, 146, 148],
                                 [147, 149],
                                 [138, 140, 148, 150],
-                                [149] };
+                                [149] ];
             IGraph graph = new GraphCSR(graphArray);
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
             int[] x = ap.GetPartition(graph, eps);
@@ -761,7 +756,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
         [TestMethod]
         public void BBAlgorithmGetPartition_10VertexesWeighted_BalancedPartition()
         {
-            int[][] graphArray = { [ 5, 7 ],
+            int[][] graphArray = [ [ 5, 7 ],
                             [ 3, 4, 5 ],
                             [ 3, 4, 8 ],
                             [ 1, 2, 4, 6, 9 ],
@@ -770,9 +765,9 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
                             [ 3, 8 ],
                             [ 0, 9 ],
                             [ 2, 6 ],
-                            [ 0, 3, 7 ] };
-            int[] vertexWeights = { 3, 4, 3, 3, 4, 8, 1, 4, 3, 3 };
-            int[][] edgesWeights = { [ 8, 1 ],
+                            [ 0, 3, 7 ] ];
+            int[] vertexWeights = [3, 4, 3, 3, 4, 8, 1, 4, 3, 3];
+            int[][] edgesWeights = [ [ 8, 1 ],
                             [ 10, 11, 3 ],
                             [ 4, 8, 6 ],
                             [ 10, 9, 4, 7, 2 ],
@@ -781,8 +776,386 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
                             [ 7, 3 ],
                             [ 1, 6 ],
                             [ 6, 3 ],
-                            [ 7, 2, 6 ] };
+                            [ 7, 2, 6 ] ];
             IGraph graph = new GraphCSRWeights(graphArray, vertexWeights, edgesWeights);
+            IAccuratePartition ap = new BranchAndBoundsAlgorithm();
+            int[] x = ap.GetPartition(graph, eps);
+
+            TestContext.WriteLine("x = [" + string.Join(", ", ap.GetSolution().Item1) + "]");
+            TestContext.WriteLine("q = " + ap.GetSolution().Item2);
+            TestContext.WriteLine("balance = " + Math.Round((double)SubGraphWeight(x, vertexWeights) / graph.GraphWeight, 2));
+
+            Assert.IsTrue(Math.Abs((double)SubGraphWeight(x, vertexWeights) / graph.GraphWeight - 1.0 / 2.0) < eps);
+            Assert.IsTrue(x.Sum() > 0);
+            Assert.IsTrue(ap.GetSolution().Item2 < int.MaxValue);
+        }
+
+        [TestMethod]
+        public void BBAlgorithmGetPartition_50VertexesWeighted_BalancedPartition()
+        {
+            // Список смежности - jagged array
+            int[][] adjacencyList =
+            [
+                [1, 5, 12, 23], // вершина 0
+                [0, 2, 8, 15], // вершина 1
+                [1, 3, 9, 18], // вершина 2
+                [2, 4, 7, 21], // вершина 3
+                [3, 6, 11, 19], // вершина 4
+                [0, 7, 14, 25], // вершина 5
+                [4, 8, 16, 27], // вершина 6
+                [3, 5, 13, 29], // вершина 7
+                [1, 6, 17, 31], // вершина 8
+                [2, 10, 20, 33], // вершина 9
+                [9, 11, 22, 35], // вершина 10
+                [4, 10, 24, 37], // вершина 11
+                [0, 13, 26, 39], // вершина 12
+                [7, 12, 28, 41], // вершина 13
+                [5, 15, 30, 43], // вершина 14
+                [1, 14, 32, 45], // вершина 15
+                [6, 17, 34, 47], // вершина 16
+                [8, 16, 36, 49], // вершина 17
+                [2, 19, 38], // вершина 18
+                [4, 18, 40], // вершина 19
+                [9, 21, 42], // вершина 20
+                [3, 20, 44], // вершина 21
+                [10, 23, 46], // вершина 22
+                [0, 22, 48], // вершина 23
+                [11, 25], // вершина 24
+                [5, 24], // вершина 25
+                [12, 27], // вершина 26
+                [6, 26], // вершина 27
+                [13, 29], // вершина 28
+                [7, 28], // вершина 29
+                [14, 31], // вершина 30
+                [8, 30], // вершина 31
+                [15, 33], // вершина 32
+                [9, 32], // вершина 33
+                [16, 35], // вершина 34
+                [10, 34], // вершина 35
+                [17, 37], // вершина 36
+                [11, 36], // вершина 37
+                [18, 39], // вершина 38
+                [12, 38], // вершина 39
+                [19, 41], // вершина 40
+                [13, 40], // вершина 41
+                [20, 43], // вершина 42
+                [14, 42], // вершина 43
+                [21, 45], // вершина 44
+                [15, 44], // вершина 45
+                [22, 47], // вершина 46
+                [16, 46], // вершина 47
+                [23, 49], // вершина 48
+                [17, 48] // вершина 49
+            ];
+
+            // Массив весов вершин
+            int[] vertexWeights =
+            [
+                15, 23, 8, 31, 12, 19, 27, 5, 33, 17,
+                22, 9, 28, 14, 25, 11, 29, 6, 20, 16,
+                24, 13, 30, 7, 21, 18, 26, 10, 32, 4,
+                35, 1, 37, 3, 39, 2, 41, 36, 43, 38,
+                45, 40, 47, 42, 49, 44, 51, 46, 53, 48
+            ];
+
+            // Jagged array с весами рёбер (соответствует adjacencyList)
+            int[][] edgeWeights =
+            [
+                [12, 18, 25, 31], // веса рёбер для вершины 0
+                [12, 16, 22, 29], // веса рёбер для вершины 1
+                [16, 14, 20, 27], // веса рёбер для вершины 2
+                [14, 19, 23, 30], // веса рёбер для вершины 3
+                [19, 17, 24, 28], // веса рёбер для вершины 4
+                [18, 21, 26, 33], // веса рёбер для вершины 5
+                [17, 22, 25, 32], // веса рёбер для вершины 6
+                [23, 21, 24, 34], // веса рёбер для вершины 7
+                [22, 17, 27, 35], // веса рёбер для вершины 8
+                [20, 15, 26, 36], // веса рёбер для вершины 9
+                [15, 18, 28, 37], // веса рёбер для вершины 10
+                [24, 18, 29, 38], // веса рёбер для вершины 11
+                [25, 20, 30, 39], // веса рёбер для вершины 12
+                [24, 20, 31, 40], // веса рёбер для вершины 13
+                [26, 29, 32, 41], // веса рёбер для вершины 14
+                [29, 26, 33, 42], // веса рёбер для вершины 15
+                [25, 27, 34, 43], // веса рёбер для вершины 16
+                [27, 25, 35, 44], // веса рёбер для вершины 17
+                [27, 21, 36], // веса рёбер для вершины 18
+                [28, 21, 37], // веса рёбер для вершины 19
+                [26, 23, 38], // веса рёбер для вершины 20
+                [30, 23, 39], // веса рёбер для вершины 21
+                [28, 31, 40], // веса рёбер для вершины 22
+                [31, 28, 41], // веса рёбер для вершины 23
+                [29, 33], // веса рёбер для вершины 24
+                [33, 29], // веса рёбер для вершины 25
+                [30, 32], // веса рёбер для вершины 26
+                [32, 30], // веса рёбер для вершины 27
+                [31, 34], // веса рёбер для вершины 28
+                [34, 31], // веса рёбер для вершины 29
+                [32, 35], // веса рёбер для вершины 30
+                [35, 32], // веса рёбер для вершины 31
+                [33, 36], // веса рёбер для вершины 32
+                [36, 33], // веса рёбер для вершины 33
+                [34, 37], // веса рёбер для вершины 34
+                [37, 34], // веса рёбер для вершины 35
+                [35, 38], // веса рёбер для вершины 36
+                [38, 35], // веса рёбер для вершины 37
+                [36, 39], // веса рёбер для вершины 38
+                [39, 36], // веса рёбер для вершины 39
+                [37, 40], // веса рёбер для вершины 40
+                [40, 37], // веса рёбер для вершины 41
+                [38, 41], // веса рёбер для вершины 42
+                [41, 38], // веса рёбер для вершины 43
+                [39, 42], // веса рёбер для вершины 44
+                [42, 39], // веса рёбер для вершины 45
+                [40, 43], // веса рёбер для вершины 46
+                [43, 40], // веса рёбер для вершины 47
+                [41, 44], // веса рёбер для вершины 48
+                [44, 41] // веса рёбер для вершины 49
+            ];
+
+            IGraph graph = new GraphCSRWeights(adjacencyList, vertexWeights, edgeWeights);
+            IAccuratePartition ap = new BranchAndBoundsAlgorithm();
+            int[] x = ap.GetPartition(graph, eps);
+
+            TestContext.WriteLine("x = [" + string.Join(", ", ap.GetSolution().Item1) + "]");
+            TestContext.WriteLine("q = " + ap.GetSolution().Item2);
+            TestContext.WriteLine("balance = " + Math.Round((double)SubGraphWeight(x, vertexWeights) / graph.GraphWeight, 2));
+
+            Assert.IsTrue(Math.Abs((double)SubGraphWeight(x, vertexWeights) / graph.GraphWeight - 1.0 / 2.0) < eps);
+            Assert.IsTrue(x.Sum() > 0);
+            Assert.IsTrue(ap.GetSolution().Item2 < int.MaxValue);
+        }
+
+        //[TestMethod]
+        public void BBAlgorithmGetPartition_100VertexesWeighted_BalancedPartition()
+        {
+            // Список смежности - jagged array
+
+            int[][] adjacencyList =
+            [
+                [1, 5, 12, 23], // вершина 0
+                [0, 2, 8, 15], // вершина 1
+                [1, 3, 9, 18], // вершина 2
+                [2, 4, 7, 21], // вершина 3
+                [3, 6, 11, 19], // вершина 4
+                [0, 7, 14, 25], // вершина 5
+                [4, 8, 16, 27], // вершина 6
+                [3, 5, 13, 29], // вершина 7
+                [1, 6, 17, 31], // вершина 8
+                [2, 10, 20, 33], // вершина 9
+                [9, 11, 22, 35], // вершина 10
+                [4, 10, 24, 37], // вершина 11
+                [0, 13, 26, 39], // вершина 12
+                [7, 12, 28, 41], // вершина 13
+                [5, 15, 30, 43], // вершина 14
+                [1, 14, 32, 45], // вершина 15
+                [6, 17, 34, 47], // вершина 16
+                [8, 16, 36, 49], // вершина 17
+                [2, 19, 38, 51], // вершина 18
+                [4, 18, 40, 53], // вершина 19
+                [9, 21, 42, 55], // вершина 20
+                [3, 20, 44, 57], // вершина 21
+                [10, 23, 46, 59], // вершина 22
+                [0, 22, 48, 61], // вершина 23
+                [11, 25, 50, 63], // вершина 24
+                [5, 24, 52, 65], // вершина 25
+                [12, 27, 54, 67], // вершина 26
+                [6, 26, 56, 69], // вершина 27
+                [13, 29, 58, 71], // вершина 28
+                [7, 28, 60, 73], // вершина 29
+                [14, 31, 62, 75], // вершина 30
+                [8, 30, 64, 77], // вершина 31
+                [15, 33, 66, 79], // вершина 32
+                [9, 32, 68, 81], // вершина 33
+                [16, 35, 70, 83], // вершина 34
+                [10, 34, 72, 85], // вершина 35
+                [17, 37, 74, 87], // вершина 36
+                [11, 36, 76, 89], // вершина 37
+                [18, 39, 78, 91], // вершина 38
+                [12, 38, 80, 93], // вершина 39
+                [19, 41, 82, 95], // вершина 40
+                [13, 40, 84, 97], // вершина 41
+                [20, 43, 86, 99], // вершина 42
+                [14, 42, 88], // вершина 43
+                [21, 45, 90], // вершина 44
+                [15, 44, 92], // вершина 45
+                [22, 47, 94], // вершина 46
+                [16, 46, 96], // вершина 47
+                [23, 49, 98], // вершина 48
+                [17, 48], // вершина 49
+                [24, 51], // вершина 50
+                [18, 50], // вершина 51
+                [25, 53], // вершина 52
+                [19, 52], // вершина 53
+                [26, 55], // вершина 54
+                [20, 54], // вершина 55
+                [27, 57], // вершина 56
+                [21, 56], // вершина 57
+                [28, 59], // вершина 58
+                [22, 58], // вершина 59
+                [29, 61], // вершина 60
+                [23, 60], // вершина 61
+                [30, 63], // вершина 62
+                [24, 62], // вершина 63
+                [31, 65], // вершина 64
+                [25, 64], // вершина 65
+                [32, 67], // вершина 66
+                [26, 66], // вершина 67
+                [33, 69], // вершина 68
+                [27, 68], // вершина 69
+                [34, 71], // вершина 70
+                [28, 70], // вершина 71
+                [35, 73], // вершина 72
+                [29, 72], // вершина 73
+                [36, 75], // вершина 74
+                [30, 74], // вершина 75
+                [37, 77], // вершина 76
+                [31, 76], // вершина 77
+                [38, 79], // вершина 78
+                [32, 78], // вершина 79
+                [39, 81], // вершина 80
+                [33, 80], // вершина 81
+                [40, 83], // вершина 82
+                [34, 82], // вершина 83
+                [41, 85], // вершина 84
+                [35, 84], // вершина 85
+                [42, 87], // вершина 86
+                [36, 86], // вершина 87
+                [43, 89], // вершина 88
+                [37, 88], // вершина 89
+                [44, 91], // вершина 90
+                [38, 90], // вершина 91
+                [45, 93], // вершина 92
+                [39, 92], // вершина 93
+                [46, 95], // вершина 94
+                [40, 94], // вершина 95
+                [47, 97], // вершина 96
+                [41, 96], // вершина 97
+                [48, 99], // вершина 98
+                [42, 98] // вершина 99
+            ];
+
+            // Массив весов вершин
+            int[] vertexWeights =
+            [
+                15, 23, 8, 31, 12, 19, 27, 5, 33, 17,
+                22, 9, 28, 14, 25, 11, 29, 6, 20, 16,
+                24, 13, 30, 7, 21, 18, 26, 10, 32, 4,
+                35, 1, 37, 3, 39, 2, 41, 36, 43, 38,
+                45, 40, 47, 42, 49, 44, 51, 46, 53, 48,
+                55, 50, 57, 52, 59, 54, 61, 56, 63, 58,
+                65, 60, 67, 62, 69, 64, 71, 66, 73, 68,
+                75, 70, 77, 72, 79, 74, 81, 76, 83, 78,
+                85, 80, 87, 82, 89, 84, 91, 86, 93, 88,
+                95, 90, 97, 92, 99, 94, 101, 96, 103, 98
+            ];
+
+            // Jagged array с весами рёбер (соответствует adjacencyList)
+            int[][] edgeWeights =
+            [
+                [12, 18, 25, 31], // веса рёбер для вершины 0
+                [12, 16, 22, 29], // веса рёбер для вершины 1
+                [16, 14, 20, 27], // веса рёбер для вершины 2
+                [14, 19, 23, 30], // веса рёбер для вершины 3
+                [19, 17, 24, 28], // веса рёбер для вершины 4
+                [18, 21, 26, 33], // веса рёбер для вершины 5
+                [17, 22, 25, 32], // веса рёбер для вершины 6
+                [23, 21, 24, 34], // веса рёбер для вершины 7
+                [22, 17, 27, 35], // веса рёбер для вершины 8
+                [20, 15, 26, 36], // веса рёбер для вершины 9
+                [15, 18, 28, 37], // веса рёбер для вершины 10
+                [24, 18, 29, 38], // веса рёбер для вершины 11
+                [25, 20, 30, 39], // веса рёбер для вершины 12
+                [24, 20, 31, 40], // веса рёбер для вершины 13
+                [26, 29, 32, 41], // веса рёбер для вершины 14
+                [29, 26, 33, 42], // веса рёбер для вершины 15
+                [25, 27, 34, 43], // веса рёбер для вершины 16
+                [27, 25, 35, 44], // веса рёбер для вершины 17
+                [27, 21, 36, 45], // веса рёбер для вершины 18
+                [28, 21, 37, 46], // веса рёбер для вершины 19
+                [26, 23, 38, 47], // веса рёбер для вершины 20
+                [30, 23, 39, 48], // веса рёбер для вершины 21
+                [28, 31, 40, 49], // веса рёбер для вершины 22
+                [31, 28, 41, 50], // веса рёбер для вершины 23
+                [29, 33, 42, 51], // веса рёбер для вершины 24
+                [33, 29, 43, 52], // веса рёбер для вершины 25
+                [30, 32, 44, 53], // веса рёбер для вершины 26
+                [32, 30, 45, 54], // веса рёбер для вершины 27
+                [31, 34, 46, 55], // веса рёбер для вершины 28
+                [34, 31, 47, 56], // веса рёбер для вершины 29
+                [32, 35, 48, 57], // веса рёбер для вершины 30
+                [35, 32, 49, 58], // веса рёбер для вершины 31
+                [33, 36, 50, 59], // веса рёбер для вершины 32
+                [36, 33, 51, 60], // веса рёбер для вершины 33
+                [34, 37, 52, 61], // веса рёбер для вершины 34
+                [37, 34, 53, 62], // веса рёбер для вершины 35
+                [35, 38, 54, 63], // веса рёбер для вершины 36
+                [38, 35, 55, 64], // веса рёбер для вершины 37
+                [36, 39, 56, 65], // веса рёбер для вершины 38
+                [39, 36, 57, 66], // веса рёбер для вершины 39
+                [37, 40, 58, 67], // веса рёбер для вершины 40
+                [40, 37, 59, 68], // веса рёбер для вершины 41
+                [38, 41, 60, 69], // веса рёбер для вершины 42
+                [41, 38, 61], // веса рёбер для вершины 43
+                [39, 42, 62], // веса рёбер для вершины 44
+                [42, 39, 63], // веса рёбер для вершины 45
+                [40, 43, 64], // веса рёбер для вершины 46
+                [43, 40, 65], // веса рёбер для вершины 47
+                [41, 44, 66], // веса рёбер для вершины 48
+                [44, 41], // веса рёбер для вершины 49
+                [42, 45], // веса рёбер для вершины 50
+                [45, 42], // веса рёбер для вершины 51
+                [43, 46], // веса рёбер для вершины 52
+                [46, 43], // веса рёбер для вершины 53
+                [44, 47], // веса рёбер для вершины 54
+                [47, 44], // веса рёбер для вершины 55
+                [45, 48], // веса рёбер для вершины 56
+                [48, 45], // веса рёбер для вершины 57
+                [46, 49], // веса рёбер для вершины 58
+                [49, 46], // веса рёбер для вершины 59
+                [47, 50], // веса рёбер для вершины 60
+                [50, 47], // веса рёбер для вершины 61
+                [48, 51], // веса рёбер для вершины 62
+                [51, 48], // веса рёбер для вершины 63
+                [49, 52], // веса рёбер для вершины 64
+                [52, 49], // веса рёбер для вершины 65
+                [50, 53], // веса рёбер для вершины 66
+                [53, 50], // веса рёбер для вершины 67
+                [51, 54], // веса рёбер для вершины 68
+                [54, 51], // веса рёбер для вершины 69
+                [52, 55], // веса рёбер для вершины 70
+                [55, 52], // веса рёбер для вершины 71
+                [53, 56], // веса рёбер для вершины 72
+                [56, 53], // веса рёбер для вершины 73
+                [54, 57], // веса рёбер для вершины 74
+                [57, 54], // веса рёбер для вершины 75
+                [55, 58], // веса рёбер для вершины 76
+                [58, 55], // веса рёбер для вершины 77
+                [56, 59], // веса рёбер для вершины 78
+                [59, 56], // веса рёбер для вершины 79
+                [57, 60], // веса рёбер для вершины 80
+                [60, 57], // веса рёбер для вершины 81
+                [58, 61], // веса рёбер для вершины 82
+                [61, 58], // веса рёбер для вершины 83
+                [59, 62], // веса рёбер для вершины 84
+                [62, 59], // веса рёбер для вершины 85
+                [60, 63], // веса рёбер для вершины 86
+                [63, 60], // веса рёбер для вершины 87
+                [61, 64], // веса рёбер для вершины 88
+                [64, 61], // веса рёбер для вершины 89
+                [62, 65], // веса рёбер для вершины 90
+                [65, 62], // веса рёбер для вершины 91
+                [63, 66], // веса рёбер для вершины 92
+                [66, 63], // веса рёбер для вершины 93
+                [64, 67], // веса рёбер для вершины 94
+                [67, 64], // веса рёбер для вершины 95
+                [65, 68], // веса рёбер для вершины 96
+                [68, 65], // веса рёбер для вершины 97
+                [66, 69], // веса рёбер для вершины 98
+                [69, 66] // веса рёбер для вершины 99
+            ];
+
+            IGraph graph = new GraphCSRWeights(adjacencyList, vertexWeights, edgeWeights);
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
             int[] x = ap.GetPartition(graph, eps);
 
