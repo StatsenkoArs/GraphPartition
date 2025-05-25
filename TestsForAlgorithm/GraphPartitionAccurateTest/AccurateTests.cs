@@ -8,7 +8,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
     {
         private double eps = 0.06;
 
-        private TestContext testContext;
+        private TestContext testContext = null!;
 
         public TestContext TestContext
         {
@@ -17,6 +17,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
         }
 
         [TestMethod]
+        [Timeout(600000)] // 10 мин
         public void BBAlgorithmGetPartition_9Vertexes_BalancedPartition()
         {
             int[][] graphArray = [ [1, 3],
@@ -42,6 +43,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
         }
 
         [TestMethod]
+        [Timeout(600000)] // 10 мин
         public void BBAlgorithmGetPartition_10Vertexes_BalancedPartition()
         {
             int[][] graphArray = [ [ 3,  5,  6,  7 ],
@@ -68,6 +70,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
         }
 
         [TestMethod]
+        [Timeout(600000)] // 10 мин
         public void BBAlgorithmGetPartition_10Vertexes2_BalancedPartition()
         {
             int[][] graphArray = [ [ 1,  3,  4],
@@ -94,6 +97,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
         }
 
         [TestMethod]
+        [Timeout(600000)] // 10 мин
         public void BBAlgorithmGetPartition_10Vertexes3_BalancedPartition()
         {
             int[][] graphArray = [ [ 1,  3,  4],
@@ -120,6 +124,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
         }
 
         [TestMethod]
+        [Timeout(600000)] // 10 мин
         public void BBAlgorithmGetPartition_15Vertexes_BalancedPartition()
         {
             int[][] graphArray = [ [ 8,  9,  13 ],
@@ -151,6 +156,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
         }
 
         [TestMethod]
+        [Timeout(600000)] // 10 мин
         public void BBAlgorithmGetPartition_85Vertexes_BalancedPartition()
         {
             int[][] graphArray = [ [1, 9, 10],
@@ -252,6 +258,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
         }
 
         [TestMethod]
+        [Timeout(600000)] // 10 мин
         public void BBAlgorithmGetPartition_97Vertexes_BalancedPartition()
         {
             int[][] graphArray = [  [1],
@@ -364,7 +371,8 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
             Assert.IsTrue(ap.GetSolution().Item2 < int.MaxValue);
         }
 
-        //[TestMethod]
+        [TestMethod]
+        [Timeout(600000)] // 10 мин
         public void BBAlgorithmGetPartition_100Vertexes2_BalancedPartition()
         {
             int[][] graphArray = [ [],
@@ -470,10 +478,18 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
             IGraph graph = new GraphCSR(graphArray);
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
             int[] x = ap.GetPartition(graph, eps);
-            Assert.IsTrue(x.Sum() >= graph.GraphWeight / 2 && x.Sum() <= graph.GraphWeight + 1);
+
+            TestContext.WriteLine("x = [" + string.Join(", ", ap.GetSolution().Item1) + "]");
+            TestContext.WriteLine("q = " + ap.GetSolution().Item2);
+            TestContext.WriteLine("balance = " + Math.Round((double)ap.GetSolution().Item1.Sum() / ap.GetSolution().Item1.Length, 2));
+
+            Assert.IsTrue(Math.Abs((double)x.Sum() / graph.GraphWeight - 1.0 / 2.0) < eps);
+            Assert.IsTrue(x.Sum() > 0);
+            Assert.IsTrue(ap.GetSolution().Item2 < int.MaxValue);
         }
 
-        //[TestMethod]
+        [TestMethod]
+        [Timeout(600000)] // 10 мин
         public void BBAlgorithmGetPartition_101Vertexes_BalancedPartition()
         {
             int[][] graphArray = [ [1],
@@ -580,10 +596,18 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
             IGraph graph = new GraphCSR(graphArray);
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
             int[] x = ap.GetPartition(graph, eps);
-            Assert.IsTrue(x.Sum() >= graph.GraphWeight / 2 && x.Sum() <= graph.GraphWeight + 1);
+
+            TestContext.WriteLine("x = [" + string.Join(", ", ap.GetSolution().Item1) + "]");
+            TestContext.WriteLine("q = " + ap.GetSolution().Item2);
+            TestContext.WriteLine("balance = " + Math.Round((double)ap.GetSolution().Item1.Sum() / ap.GetSolution().Item1.Length, 2));
+
+            Assert.IsTrue(Math.Abs((double)x.Sum() / graph.GraphWeight - 1.0 / 2.0) < eps);
+            Assert.IsTrue(x.Sum() > 0);
+            Assert.IsTrue(ap.GetSolution().Item2 < int.MaxValue);
         }
 
-        //[TestMethod]
+        [TestMethod]
+        [Timeout(600000)] // 10 мин
         public void BBAlgorithmGetPartition_151Vertexes_BalancedPartition()
         {
             int[][] graphArray = [ [1],
@@ -740,7 +764,14 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
             IGraph graph = new GraphCSR(graphArray);
             IAccuratePartition ap = new BranchAndBoundsAlgorithm();
             int[] x = ap.GetPartition(graph, eps);
-            Assert.IsTrue(x.Sum() >= graph.GraphWeight / 2 && x.Sum() <= graph.GraphWeight + 1);
+
+            TestContext.WriteLine("x = [" + string.Join(", ", ap.GetSolution().Item1) + "]");
+            TestContext.WriteLine("q = " + ap.GetSolution().Item2);
+            TestContext.WriteLine("balance = " + Math.Round((double)ap.GetSolution().Item1.Sum() / ap.GetSolution().Item1.Length, 2));
+
+            Assert.IsTrue(Math.Abs((double)x.Sum() / graph.GraphWeight - 1.0 / 2.0) < eps);
+            Assert.IsTrue(x.Sum() > 0);
+            Assert.IsTrue(ap.GetSolution().Item2 < int.MaxValue);
         }
 
         private int SubGraphWeight(int[] x, int[] weights)
@@ -754,6 +785,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
         }
 
         [TestMethod]
+        [Timeout(600000)] // 10 мин
         public void BBAlgorithmGetPartition_10VertexesWeighted_BalancedPartition()
         {
             int[][] graphArray = [ [ 5, 7 ],
@@ -791,6 +823,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
         }
 
         [TestMethod]
+        [Timeout(600000)] // 10 мин
         public void BBAlgorithmGetPartition_50VertexesWeighted_BalancedPartition()
         {
             // Список смежности - jagged array
@@ -926,7 +959,8 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
             Assert.IsTrue(ap.GetSolution().Item2 < int.MaxValue);
         }
 
-        //[TestMethod]
+        [TestMethod]
+        [Timeout(600000)] // 10 мин
         public void BBAlgorithmGetPartition_100VertexesWeighted_BalancedPartition()
         {
             // Список смежности - jagged array
