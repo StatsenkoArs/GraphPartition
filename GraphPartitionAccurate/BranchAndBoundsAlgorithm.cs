@@ -2,16 +2,23 @@
 
 namespace GraphPartitionAccurate
 {
+    /// <summary>
+    /// Алгоритм точного разбиения графа методом ветвей и границ
+    /// </summary>
     public class BranchAndBoundsAlgorithm : IAccuratePartition
     {
-        private int[] _x = Array.Empty<int>(); // бинарный вектор разбиения
-        private int _q = 0; // рекорд критерия
-        private IGraph _graph; // граф
+        // Решение задачи
+        private int[] _bestPartition = Array.Empty<int>(); // бинарный вектор разбиения
+        private int _bestCriterion = 0; // рекорд критерия
+
+        // Параметры задачи
+        private IGraph _graph = null!; // граф
+        private double _balanceCriteria = 0; // критерий баланса разбиения
+        
+        // Кэш параметров графа
         private int _n = 0; // число вершин в графе
-        private int _allEdges = 0; // всего ребер в графе
-        private int _dif = 0; // разница критерия при расчете разбиения
-        private int _graphWeight = 0;
-        private double _balanceCriteria = 0;
+        private int _criterionDelta = 0; // разница критерия при расчете разбиения
+        private int _graphWeight = 0; // вес всего графа
 
         /// <summary>
         /// Запускает решение точным алгоритмом
@@ -21,26 +28,40 @@ namespace GraphPartitionAccurate
         /// <returns>бинарный вектор-решение</returns>
         public int[] GetPartition(IGraph graph, double balanceCriteria)
         {
-            _balanceCriteria = balanceCriteria;
-
-            Init(graph);
+            ValidateInput(graph, balanceCriteria);
+            Init(graph, balanceCriteria);
 
             FindSolution(new int[_n], 0, 0, 0, 0);
 
-            return _x;
+            return _bestPartition;
+        }
+
+        /// <summary>
+        /// Проверка корректности ввода данных
+        /// </summary>
+        /// <param name="graph">граф</param>
+        /// <param name="balanceCriteria">критерий сбалансированности разбинеие (0; 0.5)</param>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        private void ValidateInput(IGraph graph, double balanceCriteria)
+        {
+            ArgumentNullException.ThrowIfNull(graph);
+
+            if (balanceCriteria < 0 || balanceCriteria > 0.5)
+                throw new ArgumentOutOfRangeException(nameof(balanceCriteria),
+                    "Критерий сбалансированности должен быть между 0 и 0.5");
         }
 
         /// <summary>
         /// Инит полей класса
         /// </summary>
         /// <param name="graph">граф для разбиения</param>
-        private void Init(IGraph graph)
+        private void Init(IGraph graph, double balanceCriteria)
         {
             _graph = graph;
+            _balanceCriteria = balanceCriteria;
             _n = graph.CountVertecies;
-            _allEdges = graph.CountEdges;
-            _q = int.MaxValue;
-            _x = new int[_n];
+            _bestCriterion = int.MaxValue;
+            _bestPartition = new int[_n];
             _graphWeight = graph.GraphWeight;
         }
 
@@ -48,25 +69,25 @@ namespace GraphPartitionAccurate
         /// Возвращает уже вычсиленное решение
         /// </summary>
         /// <returns>бинарный вектор-решение/критерий</returns>
-        public (int[], int) GetSolution()
+        public (int[] partition, int criterion) GetSolution()
         {
-            return (_x, _q);
+            return (_bestPartition, _bestCriterion);
         }
 
         /// <summary>
-        /// Считает изменение внутренней связности графа, при помещенее туда вершины под номером step
+        /// Считает изменение внутренней связности графа, при помещенее туда вершины под номером index
         /// complexity O(m) (m - max edges of vertex in graph)
         /// </summary>
-        /// <param name="x">текущее решение</param>
-        /// <param name="step"> (вершина) текущий шаг алгоритма</param>
+        /// <param name="partiton">текущее решение</param>
+        /// <param name="index"> (вершина) текущий шаг алгоритма</param>
         /// <returns>изменение критерия при помещении вершины в подграф</returns>
-        private int QChanges(int[] x, int step)
+        private int QChanges(int[] partiton, int index)
         {
             int result = 0;
-            for (int i = 0; i < _graph.GetVertexDegree(step); i++)
+            for (int i = 0; i < _graph.GetVertexDegree(index); i++)
             {
-                if (_graph[step, i] < step)
-                    result += x[step] == x[_graph[step, i]] ? 0 : _graph.GetEdgeWeight(step, _graph[step, i]);
+                if (_graph[index, i] < index)
+                    result += partiton[index] == partiton[_graph[index, i]] ? 0 : _graph.GetEdgeWeight(index, _graph[index, i]);
             }
             return Math.Abs(result);
         }
@@ -74,36 +95,36 @@ namespace GraphPartitionAccurate
         /// <summary>
         /// Рекурсивный перебор всех возможных бинарных векторов-решений
         /// </summary>
-        /// <param name="x">вектор-решение</param>
-        /// <param name="step">текущий шаг (номер обрабатываемой вершины)</param>
+        /// <param name="partition">бинарный вектор решение '0' для одного подграфа, '1' для другого</param>
+        /// <param name="index">текущий шаг (номер обрабатываемой вершины)</param>
         /// <param name="weightLeft">вес подграфа '0'</param>
-        /// <param name="currentQ">текущий критерий</param>
-        /// <param name="weight">вес уже обработанного подграфа</param>
-        private void FindSolution(int[] x, int step, int weightLeft, int currentQ, int weight)
+        /// <param name="currentCriterion">текущий критерий</param>
+        /// <param name="accumulatedWeight">вес уже обработанного подграфа</param>
+        private void FindSolution(int[] partition, int index, int weightLeft, int accumulatedWeight, int currentCriterion)
         {
-            if (step == _n)
+            if (index == _n)
             {
-                if (currentQ < _q && Math.Abs((double)weightLeft / _graphWeight - 1.0 / 2.0) < _balanceCriteria)
+                if (currentCriterion < _bestCriterion && Math.Abs((double)weightLeft / _graphWeight - 0.5) < _balanceCriteria)
                 {
-                    x.CopyTo(_x, 0);
-                    _q = currentQ;
+                    partition.CopyTo(_bestPartition, 0);
+                    _bestCriterion = currentCriterion;
                 }
                 return;
             }
 
-            if (currentQ > _q)
+            if (currentCriterion > _bestCriterion)
                 return;
 
-            if (weight > (double)_graphWeight / 2 && ((double)weightLeft / _graphWeight - 1.0 / 2.0 > _balanceCriteria || (weight - (double)weightLeft) / _graphWeight - 1.0 / 2.0 > _balanceCriteria))
+            if (accumulatedWeight > (double)_graphWeight / 2 && ((double)weightLeft / _graphWeight - 0.5 > _balanceCriteria || (accumulatedWeight - (double)weightLeft) / _graphWeight - 0.5 > _balanceCriteria))
                 return;
 
-
-            x[step] = 0;
-            _dif = QChanges(x, step);
-            FindSolution(x, step + 1, weightLeft + _graph.GetVertexWeight(step), currentQ + _dif, weight + _graph.GetVertexWeight(step));
-            x[step] = 1;
-            _dif = QChanges(x, step);
-            FindSolution(x, step + 1, weightLeft, currentQ + _dif, weight + _graph.GetVertexWeight(step));
+            
+            partition[index] = 0;
+            _criterionDelta = QChanges(partition, index);
+            FindSolution(partition, index + 1, weightLeft + _graph.GetVertexWeight(index), accumulatedWeight + _graph.GetVertexWeight(index), currentCriterion + _criterionDelta);
+            partition[index] = 1;
+            _criterionDelta = QChanges(partition, index);
+            FindSolution(partition, index + 1, weightLeft, accumulatedWeight + _graph.GetVertexWeight(index), currentCriterion + _criterionDelta);
         }
     }
 }

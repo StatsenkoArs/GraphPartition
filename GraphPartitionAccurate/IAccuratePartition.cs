@@ -21,6 +21,6 @@ namespace GraphPartitionAccurate
         /// Получить уже вычисленное разбиение
         /// </summary>
         /// <returns>пара разбиение-критерий</returns>
-        (int[], int) GetSolution();
+        (int[] partition, int criterion) GetSolution();
     }
 }
