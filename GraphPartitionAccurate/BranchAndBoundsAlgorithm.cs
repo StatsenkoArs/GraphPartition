@@ -118,13 +118,15 @@ namespace GraphPartitionAccurate
             if (accumulatedWeight > (double)_graphWeight / 2 && ((double)weightLeft / _graphWeight - 0.5 > _balanceCriteria || (accumulatedWeight - (double)weightLeft) / _graphWeight - 0.5 > _balanceCriteria))
                 return;
 
-            
+
+            int currentVertexWeight = _graph.GetVertexWeight(index);
+
             partition[index] = 0;
             _criterionDelta = QChanges(partition, index);
-            FindSolution(partition, index + 1, weightLeft + _graph.GetVertexWeight(index), accumulatedWeight + _graph.GetVertexWeight(index), currentCriterion + _criterionDelta);
+            FindSolution(partition, index + 1, weightLeft + currentVertexWeight, accumulatedWeight + currentVertexWeight, currentCriterion + _criterionDelta);
             partition[index] = 1;
             _criterionDelta = QChanges(partition, index);
-            FindSolution(partition, index + 1, weightLeft, accumulatedWeight + _graph.GetVertexWeight(index), currentCriterion + _criterionDelta);
+            FindSolution(partition, index + 1, weightLeft, accumulatedWeight + currentVertexWeight, currentCriterion + _criterionDelta);
         }
     }
 }
