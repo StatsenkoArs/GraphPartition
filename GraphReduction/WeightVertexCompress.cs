@@ -4,12 +4,12 @@ using System.Net.Http.Headers;
 
 namespace GraphReduction
 {
-    public class WeightCompress : ICompress
+    public class WeightVertexCompress : ICompress
     {
         private int[] vertex_mapping;
         private bool[] graph_vertex_used;  //Убрать? Учитывать это по заполненности шифра?
         private int _group;
-        public WeightCompress()
+        public WeightVertexCompress()
         {
             vertex_mapping = Array.Empty<int>();
             graph_vertex_used = Array.Empty<bool>();
