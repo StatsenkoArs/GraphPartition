@@ -17,19 +17,20 @@ namespace GraphOptimisation
         public int[] OptimisePartition(IGraph graph, int[] partition, int numberOfBlockedIterations, int limitDisbalance)
         {
             // Объявление полей и инициализация
-            int[] currentPartition = partition; //Текущее разделение
-            int[] rightPartition = new int[currentPartition.Length]; //Лучшее разделение
-
+            allVertexWeight = 0;
+            int[] currentPartition = new int[partition.Length]; //Текущее разделение
+            int[] rightPartition = new int[partition.Length]; //Лучшее разделение
             for (int i = 0 ; i < currentPartition.Length ; i++)
             {
-                rightPartition[i] = currentPartition[i];
+                rightPartition[i] = partition[i];
+                currentPartition[i] = partition[i];
             }
 
             int currentCriterion = 0; //Текущий критерий
             int[] E_CountTornEdge = new int[currentPartition.Length]; // Количество разрезанных связей для каждой вершины
             int[] I_CountWholeEdge = new int[currentPartition.Length]; //Количество неразрезанных связей для каждой вершины
             int[] D_DifferenceEdge = new int[currentPartition.Length]; // D = E - I;
-            int weightInBiggerSubgraph = 0; //Кол-во элементов в первом подграфе
+            int weightInFirstSubgraph = 0; //Вес в первом подграфе
 
             for (int i = 0 ; i < graph.CountVertecies ; i++)
             {
@@ -49,7 +50,7 @@ namespace GraphOptimisation
                 D_DifferenceEdge[i] = E_CountTornEdge[i] - I_CountWholeEdge[i];
 
                 //Считаем вес в первом подграфе
-                if (currentPartition[i] == 0) weightInBiggerSubgraph += graph.GetVertexWeight(i);
+                if (currentPartition[i] == 0) weightInFirstSubgraph += graph.GetVertexWeight(i);
 
                 allVertexWeight += graph.GetVertexWeight(i);
             }
@@ -60,14 +61,7 @@ namespace GraphOptimisation
             float rightDisbalance = 0; //Лучший дисбаланс
             float currentDisbalance = 0; //Текущий дисбаланс
 
-            if (allVertexWeight - weightInBiggerSubgraph > weightInBiggerSubgraph)
-            {
-                currentDisbalance = ( allVertexWeight / 2 + 1 ) - weightInBiggerSubgraph;
-            }
-            else
-            {
-                currentDisbalance = ( allVertexWeight / 2 + 1 ) - ( allVertexWeight - weightInBiggerSubgraph );
-            }
+            GetDisbalance(ref currentDisbalance, weightInFirstSubgraph);
             rightDisbalance = currentDisbalance;
 
             int[] T_CountBlockingIterations = new int[graph.CountVertecies]; //Вектор кол-ва итераций для каждой вершины, когда вершину двигать нельзя
@@ -83,11 +77,11 @@ namespace GraphOptimisation
                 {
                     GetEID(E_CountTornEdge, I_CountWholeEdge, D_DifferenceEdge, currentPartition, graph, indexMovedVertex);
                 }
-                GetNumberBiggerSubgraph(ref numberCurrentSubgraph, weightInBiggerSubgraph);
-                MoveToAnotherSubgraph(ref indexMovedVertex, currentPartition, ref weightInBiggerSubgraph, D_DifferenceEdge, T_CountBlockingIterations, numberCurrentSubgraph, iteration);
-                NegativeIndexCheck(ref weightInBiggerSubgraph, partition, indexMovedVertex, graph);
+                GetNumberBiggerSubgraph(ref numberCurrentSubgraph, weightInFirstSubgraph);
+                MoveToAnotherSubgraph(ref indexMovedVertex, currentPartition, ref weightInFirstSubgraph, D_DifferenceEdge, T_CountBlockingIterations, numberCurrentSubgraph, iteration);
+                NegativeIndexCheck(ref weightInFirstSubgraph, currentPartition, indexMovedVertex, graph);
                 GetCriterion(ref currentCriterion, graph, currentPartition, indexMovedVertex);
-                GetDisbalance(ref currentDisbalance, weightInBiggerSubgraph);
+                GetDisbalance(ref currentDisbalance, weightInFirstSubgraph);
                 MovedCheck(isVertexMoved, T_CountBlockingIterations, ref countBlockingIteration, indexMovedVertex, iteration);
 
                 //if (( Math.Abs(rightCriterion - currentCriterion) > currentCriterion || Math.Abs(rightDisbalance - currentDisbalance) > currentDisbalance ) || iteration == 0)
@@ -100,7 +94,7 @@ namespace GraphOptimisation
                     }
                 }
                 
-                GetNumberBiggerSubgraph(ref numberCurrentSubgraph, weightInBiggerSubgraph);
+                GetNumberBiggerSubgraph(ref numberCurrentSubgraph, weightInFirstSubgraph);
                 iteration++;
             } while (IsVertexMoved(T_CountBlockingIterations, currentPartition, numberCurrentSubgraph, iteration));
             return rightPartition;
@@ -206,10 +200,10 @@ namespace GraphOptimisation
         /// Возвращает номер подграфа с наибольшим количеством элементов в нём
         /// </summary>
         /// <param name="numberPartition">номер подграфа</param>
-        /// <param name="weight">количество вершин в одном из подграфов</param>
-        protected static void GetNumberBiggerSubgraph(ref int numberPartition, int weight)
+        /// <param name="weightInFirstSubgraph">количество вершин в первом подграфе</param>
+        protected static void GetNumberBiggerSubgraph(ref int numberPartition, int weightInFirstSubgraph)
         {
-            numberPartition = ( weight < allVertexWeight - weight ) ? 1 : 0;
+            numberPartition = ( weightInFirstSubgraph < allVertexWeight - weightInFirstSubgraph ) ? 1 : 0;
         }
 
         /// <summary>
@@ -243,22 +237,22 @@ namespace GraphOptimisation
         /// <summary>
         ///  Меняем номер подграфа у выбранного элемента
         /// </summary>
-        /// <param name="countElemInBiggerSubgraph">Кол-во элементов в большем подграфе</param>
+        /// <param name="weightInFirstSubgraph">Вес элементов в большем подграфе</param>
         /// <param name="partition">Разбиение</param>
         /// <param name="index">Индекс элемента который переносим в другой граф</param>
-        protected static void NegativeIndexCheck(ref int countElemInBiggerSubgraph, int[] partition, int index, IGraph graph)
+        protected static void NegativeIndexCheck(ref int weightInFirstSubgraph, int[] partition, int index, IGraph graph)
         {
             try
             {
                 if (partition[index] == 1)
                 {
                     partition[index] = 0;
-                    countElemInBiggerSubgraph += graph.GetVertexWeight(index);
+                    weightInFirstSubgraph += graph.GetVertexWeight(index);
                 }
                 else
                 {
                     partition[index] = 1;
-                    countElemInBiggerSubgraph -= graph.GetVertexWeight(index);
+                    weightInFirstSubgraph -= graph.GetVertexWeight(index);
                 }
             }
             catch (IndexOutOfRangeException ex)
