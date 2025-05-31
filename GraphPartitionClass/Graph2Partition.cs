@@ -35,7 +35,8 @@ namespace GraphPartitionClass
                 graphCache.Push(srcGraph);
                 mapping.Push(ReductionAlgorithm.GetLastMapping());
             }
-            int[] partition = AccuratePartition.GetPartition(srcGraph);
+            double balanceCriteria = double.Parse(ConfigurationManager.AppSettings["BalanceCriteria"] ?? "0,06");
+            int[] partition = AccuratePartition.GetPartition(srcGraph, balanceCriteria);
             RestorationAlgorithm.SetGraphStorage(graphCache);
             RestorationAlgorithm.SetMappingStorage(mapping);
             graphCache.Pop();

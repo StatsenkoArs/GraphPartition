@@ -9,8 +9,18 @@ namespace GraphPartitionAccurate
 {
     public interface IAccuratePartition
     {
-        int[] GetPartition(IGraph graph);
+        /// <summary>
+        /// Получить разбиение
+        /// </summary>
+        /// <param name="graph">Граф</param>
+        /// <param name="balanceCriteria">Баланс разбиения</param>
+        /// <returns>вектор x - разбиение графа</returns>
+        int[] GetPartition(IGraph graph, double balanceCriteria = 0);
 
-        (int[], int) GetSolution();
+        /// <summary>
+        /// Получить уже вычисленное разбиение
+        /// </summary>
+        /// <returns>пара разбиение-критерий</returns>
+        (int[] partition, int criterion) GetSolution();
     }
 }
