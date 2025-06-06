@@ -1,12 +1,12 @@
 ﻿using GraphRepresentation;
-using System.Runtime.ExceptionServices;
+using System.Numerics;
 
 namespace GraphReduction
 {
     public class EdgeWeightCompress : ICompress
     {
         int _group;
-        public int[] Compress(IGraph graph)
+        public int[] Compress(IGraph graph, int ads)
         {
             int[] rand_vert_traversal = new int[graph.CountVertecies];
             bool[] is_visited_vert = new bool[graph.CountVertecies];
@@ -17,7 +17,6 @@ namespace GraphReduction
                 rand_vert_traversal[i] = i;
             }
             Random.Shared.Shuffle(rand_vert_traversal);
-            //rand_vert_traversal = [0, 1, 2, 3];
 
             int group_count = 0;
             for (int i = 0; i < rand_vert_traversal.Length; i++)
@@ -64,7 +63,6 @@ namespace GraphReduction
                                 find_vert = adj_vert;
                             }
                         }
-
                     }
                 }
                 
