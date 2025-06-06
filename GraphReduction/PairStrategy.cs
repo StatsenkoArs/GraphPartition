@@ -57,7 +57,7 @@ namespace GraphReduction
         }
     }
 
-    public class HeavyVertexPair : PairStrategy
+    public class LightVertexPair : PairStrategy
     {
         public override int PairVertex(IGraph graph, int curr_v, bool[] is_visited_vert)
         {
@@ -74,7 +74,7 @@ namespace GraphReduction
                 int adj_vert = graph[curr_v, i_adj_v];
                 if (is_visited_vert[adj_vert] == true) continue;
 
-                int vert_weight = graph.GetVertexWeight(curr_v);
+                int vert_weight = graph.GetVertexWeight(adj_vert);
                 int adj_vert_degree = graph.GetVertexDegree(adj_vert);
                 //Ищем незанятую вершину с минимальной степенью и минимальным весом
                 if (vert_weight < min_vert_weight ||
