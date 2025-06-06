@@ -4,56 +4,49 @@ namespace GraphReduction
 {
     public class SimpleCompress : ICompress
     {
-        private int[] vertex_mapping;
-        private bool[] graph_vertex_used;  //Убрать? Учитывать это по заполненности шифра?
-        private int _group;
-        public SimpleCompress()
+        private int _count_group;
+        public int[] Compress(IGraph graph, int ratio)
         {
-            vertex_mapping = Array.Empty<int>();
-            graph_vertex_used = Array.Empty<bool>();
-        }
-        public int[] Compress(IGraph graph)
-        {
-            vertex_mapping = new int[graph.CountVertecies];
-            graph_vertex_used = new bool[graph.CountVertecies];
+            int[] vertex_mapping = new int[graph.CountVertecies];
+            bool[] graph_vertex_used = new bool[graph.CountVertecies];
+
+            int[] rand_vert_traversal = new int[graph.CountVertecies];
             for (int i = 0; i < graph.CountVertecies; i++)
             {
-                graph_vertex_used[i] = false;
+                rand_vert_traversal[i] = i;
             }
-            int group = 0;
-            bool flag = true;
-            for (int i = 0; i < graph.CountVertecies; i++)
+            Random.Shared.Shuffle(rand_vert_traversal);
+            int count_group = 0;
+            for (int i = 0; i < rand_vert_traversal.Length; i++)
             {
-                if (flag == false)
+                int vert = rand_vert_traversal[i];
+                if (graph_vertex_used[vert] == true) continue;
+                graph_vertex_used[vert] = true;
+                vertex_mapping[vert] = count_group;
+                int find_vert = -1;
+                for (int i_adj_v = 0; i_adj_v < graph.GetVertexDegree(vert); i_adj_v++)
                 {
-                    group++;
-                    flag = true;
-                }
-                if (graph_vertex_used[i] == false)
-                {
-                    vertex_mapping[i] = group;
-                    graph_vertex_used[i] = true;
-                    flag = false;
-                    for (int j = 0; j < graph.GetVertexDegree(i); j++)
+                    int adj_vert = graph[vert, i_adj_v];
+                    if (graph_vertex_used[adj_vert] == false)
                     {
-                        if (graph_vertex_used[graph[i,j]] == false)
-                        {
-                            vertex_mapping[graph[i, j]] = group;
-                            graph_vertex_used[graph[i, j]] = true;
-                            group++;
-                            flag = true;
-                            break;
-                        }
+                        find_vert = adj_vert;
+                        break;
                     }
                 }
+                if (find_vert != -1)
+                {
+                    vertex_mapping[find_vert] = count_group;
+                    graph_vertex_used[find_vert] = true;
+                }
+                count_group++;
             }
-            _group = group;
+            _count_group = count_group - 1;
             return vertex_mapping;
         }
 
         public int GetNumOfGroup()
         {
-            return _group;
+            return _count_group;
         }
     }
 }
