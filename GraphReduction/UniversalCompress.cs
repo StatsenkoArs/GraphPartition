@@ -22,9 +22,9 @@ namespace GraphReduction
             int[] vert_mapping = new int[graph.CountVertecies];
             bool[] is_visited_vert = new bool[graph.CountVertecies];
 
-            int vert_pair_needed = (int)Math.Floor(graph.CountVertecies*((double)compress_ratio/(100 + compress_ratio)));
+            int vert_pair_needed = (int)Math.Ceiling(graph.CountVertecies*((double)compress_ratio/(100 + compress_ratio)));
             int group_count = 0;
-            for (int i = 0; i < traversal.Length && vert_pair_needed > 0; i++)
+            for (int i = 0; i < traversal.Length; i++)
             {
                 int curr_v = traversal[i];
                 if (is_visited_vert[curr_v] == true) continue;
@@ -33,7 +33,7 @@ namespace GraphReduction
                 vert_mapping[curr_v] = group_count;
 
                 int find_vert = _strateg.PairVertex(graph, curr_v, is_visited_vert);
-                if (find_vert != -1)
+                if (find_vert != -1 && vert_pair_needed > 0)
                 {
                     is_visited_vert[find_vert] = true;
                     vert_mapping[find_vert] = group_count;
