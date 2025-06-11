@@ -57,7 +57,7 @@ class Program
 
         IGraph igraph = new GraphCSRWeights(graph, graphVertWeights, graphEdgeWeights);
 
-        IAccuratePartition grp = new BranchAndBoundsAlgorithm();
+        IAccuratePartition grp = new AccuratePartition();
 
         int[] answer = grp.GetPartition(igraph);
 

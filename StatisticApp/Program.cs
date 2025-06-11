@@ -10,6 +10,8 @@ using System.Text;
 using System.Text.Json;
 using GraphAndFiles;
 using static System.IO.Directory;
+using GraphRepresentation;
+using GraphRenumbering;
 
 public class Program
 {
@@ -31,8 +33,8 @@ public class Program
 
             for (int i = 1; i <= numberOfGraphs; i++)
             {
-                int q = i % 5 + 40;
-                var temp = gen.Generate(v, q);
+                int q = i % 5 + 2;
+                var temp = gen.Generate(v, q, 3, 7);
                 GraphData graphData = new GraphData(temp, q);
 
                 // Запись TXT файла
@@ -117,14 +119,15 @@ public class Program
             var gr = graph.graph;
             var q = graph.q;
 
+            double balanceCriteria = double.Parse(ConfigurationManager.AppSettings["BalanceCriteria"] ?? "0,06");
+
+            IGraph graphObj = new GraphCSR(gr);
+
+
             var watch = Stopwatch.StartNew();
 
-            IGraphPartition grp = new Graph2Partition(new SimpleGraphReduction(new SimpleRestruct(), new SimpleCompress()),
-                                                new BranchAndBoundsAlgorithm(),
-                                                new SimpleGraphRestoration(new FiducciaMattheysesMethod()),
-                                                new FiducciaMattheysesMethod());
-
-            int[] answer = grp.GetPartition(gr);
+            IAccuratePartition grp = new AccuratePartition();
+            int[] answer = grp.GetPartition(graphObj, balanceCriteria);
 
             watch.Stop();
 
@@ -132,7 +135,7 @@ public class Program
             var balance = (double)answer.Sum() / gr.Length; //без весов
             var qReal = Q(gr, answer);
 
-            Console.WriteLine($"{row - 1}: Граф из {gr.Length} вершин, разбит за {Math.Round((double)time / 1000, 2).ToString()}c; {DateTime.Now}");
+            Console.WriteLine($"{row - 1}: Граф из {gr.Length} вершин, разбит за {Math.Round((double)time / 1000, 5).ToString()}c; {DateTime.Now}");
 
             worksheet.Cell(row, 1).Value = gr.Length;
             worksheet.Cell(row, 2).Value = q;

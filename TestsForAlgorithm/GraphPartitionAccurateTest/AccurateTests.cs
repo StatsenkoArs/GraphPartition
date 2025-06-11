@@ -30,7 +30,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
                                 [4, 5, 6, 8],
                                 [5, 7] ];
             IGraph graph = new GraphCSR(graphArray);
-            IAccuratePartition ap = new BranchAndBoundsAlgorithm();
+            IAccuratePartition ap = new AccuratePartition();
             int[] x = ap.GetPartition(graph, eps);
 
             TestContext.WriteLine("x = [" + string.Join(", ", ap.GetSolution().Item1) + "]");
@@ -57,7 +57,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
                             [ 1,  4,  5 ],
                             [ 1,  2 ] ];
             IGraph graph = new GraphCSR(graphArray);
-            IAccuratePartition ap = new BranchAndBoundsAlgorithm();
+            IAccuratePartition ap = new AccuratePartition();
             int[] x = ap.GetPartition(graph, eps);
 
             TestContext.WriteLine("x = [" + string.Join(", ", ap.GetSolution().Item1) + "]");
@@ -84,7 +84,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
                                 [ 4,  5,  7],
                                 [ 6,  7] ];
             IGraph graph = new GraphCSR(graphArray);
-            IAccuratePartition ap = new BranchAndBoundsAlgorithm();
+            IAccuratePartition ap = new AccuratePartition();
             int[] x = ap.GetPartition(graph, eps);
 
             TestContext.WriteLine("x = [" + string.Join(", ", ap.GetSolution().Item1) + "]");
@@ -111,7 +111,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
                                 [ 4,  5,  7],
                                 [ 6,  7] ];
             IGraph graph = new GraphCSR(graphArray);
-            IAccuratePartition ap = new BranchAndBoundsAlgorithm();
+            IAccuratePartition ap = new AccuratePartition();
             int[] x = ap.GetPartition(graph, eps);
 
             TestContext.WriteLine("x = [" + string.Join(", ", ap.GetSolution().Item1) + "]");
@@ -143,7 +143,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
                                 [ 0,  6,  9,  10 ],
                                 [ 5,  6,  9 ] ];
             IGraph graph = new GraphCSR(graphArray);
-            IAccuratePartition ap = new BranchAndBoundsAlgorithm();
+            IAccuratePartition ap = new AccuratePartition();
             int[] x = ap.GetPartition(graph, eps);
 
             TestContext.WriteLine("x = [" + string.Join(", ", ap.GetSolution().Item1) + "]");
@@ -245,7 +245,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
                                 [73, 74, 75, 82, 84],
                                 [75, 76, 83] ];
             IGraph graph = new GraphCSR(graphArray);
-            IAccuratePartition ap = new BranchAndBoundsAlgorithm();
+            IAccuratePartition ap = new AccuratePartition();
             int[] x = ap.GetPartition(graph, eps);
 
             TestContext.WriteLine("x = [" + string.Join(", ", ap.GetSolution().Item1) + "]");
@@ -359,7 +359,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
                                     [94],
                                     [] ];
             IGraph graph = new GraphCSR(graphArray);
-            IAccuratePartition ap = new BranchAndBoundsAlgorithm();
+            IAccuratePartition ap = new AccuratePartition();
             int[] x = ap.GetPartition(graph, eps);
 
             TestContext.WriteLine("x = [" + string.Join(", ", ap.GetSolution().Item1) + "]");
@@ -476,7 +476,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
                                 [22, 52, 89, 90],
                                 [29, 48, 58] ];
             IGraph graph = new GraphCSR(graphArray);
-            IAccuratePartition ap = new BranchAndBoundsAlgorithm();
+            IAccuratePartition ap = new AccuratePartition();
             int[] x = ap.GetPartition(graph, eps);
 
             TestContext.WriteLine("x = [" + string.Join(", ", ap.GetSolution().Item1) + "]");
@@ -594,7 +594,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
                                 [100],
                                 [90, 99] ];
             IGraph graph = new GraphCSR(graphArray);
-            IAccuratePartition ap = new BranchAndBoundsAlgorithm();
+            IAccuratePartition ap = new AccuratePartition();
             int[] x = ap.GetPartition(graph, eps);
 
             TestContext.WriteLine("x = [" + string.Join(", ", ap.GetSolution().Item1) + "]");
@@ -762,7 +762,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
                                 [138, 140, 148, 150],
                                 [149] ];
             IGraph graph = new GraphCSR(graphArray);
-            IAccuratePartition ap = new BranchAndBoundsAlgorithm();
+            IAccuratePartition ap = new AccuratePartition();
             int[] x = ap.GetPartition(graph, eps);
 
             TestContext.WriteLine("x = [" + string.Join(", ", ap.GetSolution().Item1) + "]");
@@ -810,7 +810,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
                             [ 6, 3 ],
                             [ 7, 2, 6 ] ];
             IGraph graph = new GraphCSRWeights(graphArray, vertexWeights, edgesWeights);
-            IAccuratePartition ap = new BranchAndBoundsAlgorithm();
+            IAccuratePartition ap = new AccuratePartition();
             int[] x = ap.GetPartition(graph, eps);
 
             TestContext.WriteLine("x = [" + string.Join(", ", ap.GetSolution().Item1) + "]");
@@ -947,7 +947,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
             ];
 
             IGraph graph = new GraphCSRWeights(adjacencyList, vertexWeights, edgeWeights);
-            IAccuratePartition ap = new BranchAndBoundsAlgorithm();
+            IAccuratePartition ap = new AccuratePartition();
             int[] x = ap.GetPartition(graph, eps);
 
             TestContext.WriteLine("x = [" + string.Join(", ", ap.GetSolution().Item1) + "]");
@@ -1190,7 +1190,7 @@ namespace TestsForAlgorithm.GraphPartitionAccurateTest
             ];
 
             IGraph graph = new GraphCSRWeights(adjacencyList, vertexWeights, edgeWeights);
-            IAccuratePartition ap = new BranchAndBoundsAlgorithm();
+            IAccuratePartition ap = new AccuratePartition();
             int[] x = ap.GetPartition(graph, eps);
 
             TestContext.WriteLine("x = [" + string.Join(", ", ap.GetSolution().Item1) + "]");
