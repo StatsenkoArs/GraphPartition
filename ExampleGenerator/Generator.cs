@@ -1,7 +1,4 @@
-﻿using System.Text;
-using System.Text.Json;
-
-namespace ExampleGenerator
+﻿namespace ExampleGenerator
 {
     public class Generator
     {

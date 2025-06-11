@@ -1,11 +1,4 @@
 ﻿using GraphRepresentation;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GraphReduction
 {
@@ -39,7 +32,7 @@ namespace GraphReduction
                 new_graph[i] = tmp_row_graph.ToArray();
                 new_edge_weight[i] = tmp_row_edge_weight.ToArray();
             }
-            return new GraphCSRWeights(new_graph, new_vert_weight, new_edge_weight); //Не лучший момент, много переконвертаций.
+            return new GraphCSRWeights(new_graph, new_vert_weight, new_edge_weight);
         }
         private int[,] GetTransitionMatrix(IGraph graph, in int[] vertex_mapping, int group)
         {
@@ -56,8 +49,6 @@ namespace GraphReduction
                     {
                         new_graph_matrix[m1, m2] += graph.GetEdgeWeight(vert, adj_vert);
                     }
-                    
-
                 }
             }
             return new_graph_matrix;
